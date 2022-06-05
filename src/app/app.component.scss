@@ -1,0 +1,18 @@
+@import "./shared/style/variables.scss";
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Roboto;
+  font-weight: 400px;
+}
+
+body {
+  background-color: $primary-background-color;
+}
+
+.container {
+  width: 350px;
+  margin: 50px auto;
+}

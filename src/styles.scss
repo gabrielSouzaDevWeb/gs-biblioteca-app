@@ -1,0 +1,32 @@
+/* You can add global styles to this file, and also import other style files */
+@import "./app/shared/style/variables.scss";
+
+$primary-color: #af7eeb;
+$secondary-color: #939cbd;
+$tertiary-color: #ffffff;
+
+$primary-background-color: #e3e9ff;
+$secondary-background-color: $tertiary-color;
+$tertiary-background-color: $primary-color;
+
+$primary-text-color: $secondary-color;
+$secondary-text-color: $tertiary-color;
+
+$danger-color: #ff002e;
+$succes-color: rgb(5, 200, 5);
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Roboto;
+  font-weight: 400px;
+}
+
+body {
+  background-color: $primary-background-color;
+}
+
+.container {
+  width: 350px;
+  margin: 50px auto;
+}
