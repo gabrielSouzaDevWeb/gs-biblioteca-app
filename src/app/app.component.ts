@@ -8,4 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class AppComponent {
   isCollapsed = false;
+  loading: boolean = true;
+
+  constructor() {}
 }

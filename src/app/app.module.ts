@@ -2,6 +2,7 @@ import { SharedModule } from './shared/shared.module';
 import { ApplicationModule } from './application/application.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,12 +16,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { IconsProviderModule } from './icons-provider.module';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
+// import { UserGuard } from './user.guard';
+import { Routes, RouterModule } from '@angular/router';
 
 registerLocaleData(en);
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
+    NzSpinModule,
     SharedModule,
     BrowserModule,
     AppRoutingModule,
