@@ -2,6 +2,7 @@ import { SharedModule } from './shared/shared.module';
 import { ApplicationModule } from './application/application.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,6 +23,7 @@ registerLocaleData(en);
 @NgModule({
   declarations: [AppComponent],
   imports: [
+    NzSpinModule,
     NzSpinModule,
     SharedModule,
     BrowserModule,
