@@ -1,29 +1,24 @@
-import { AuthGuard } from './application/auth/guards/auth.guard';
-import { WelcomeComponent } from './application/pages/main/welcome.component';
 import { AppComponent } from './app.component';
+import { AuthGuard } from './application/auth/guards/auth.guard';
+import { DashboardComponent } from './application/pages/dashboard/dashboard.component';
+import { MainComponent } from './application/layouts/main/main.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {
     path: '',
-    pathMatch: 'prefix',
-    redirectTo: 'session',
-
+    pathMatch: 'full',
+    redirectTo: 'auth',
     // canActivate: [AuthGuard],
   },
-  // { path: 'session', component: WelcomeComponent },
+  { path: 'auth', component: AppComponent },
   {
     path: 'session',
     canActivate: [AuthGuard],
-    children: [
-      // { path: '', redirectTo: 'session/welcome', pathMatch: 'full' },
-      {
-        // canActivate: [UsuarioAutenticadoGuard],
-        path: 'welcome',
-        component: WelcomeComponent,
-      },
-    ],
+    // component: WelcomeComponent,
+
+    children: [{ path: 'dashboard', component: DashboardComponent }],
   },
 ];
 

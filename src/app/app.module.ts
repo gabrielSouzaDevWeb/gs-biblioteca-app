@@ -16,8 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { IconsProviderModule } from './icons-provider.module';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
-// import { UserGuard } from './user.guard';
-import { Routes, RouterModule } from '@angular/router';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 registerLocaleData(en);
 
@@ -27,14 +26,12 @@ registerLocaleData(en);
     NzSpinModule,
     SharedModule,
     BrowserModule,
-    AppRoutingModule,
+    // AppRoutingModule,
     ApplicationModule,
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
     IconsProviderModule,
-    NzLayoutModule,
-    NzMenuModule,
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],

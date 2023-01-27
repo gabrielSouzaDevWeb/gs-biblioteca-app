@@ -1,10 +1,8 @@
 import { AuthService } from './../../../shared/service/auth.service';
 import { Injectable } from '@angular/core';
 import {
-  ActivatedRoute,
   ActivatedRouteSnapshot,
   CanActivate,
-  Router,
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
@@ -15,7 +13,6 @@ import { Observable } from 'rxjs';
 })
 export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService) {}
-
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -24,19 +21,17 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    const token = this.authService.getToken();
-    console.log(!!token);
+    console.log(this.authService.getToken());
 
-    if (token) {
-      console.log('entrou');
+    if (this.authService.getToken()) {
+      console.log('entrou aqui');
 
       return true;
     }
-    const linkAcesso = `http://localhost:5500`;
+    console.log('passou direto');
+
+    const linkAcesso = `http://localhost:5500/`;
     window.open(linkAcesso.toString(), '_self');
-
     return false;
-
-    // this.router.navigateByUrl(linkAcesso);
   }
 }
