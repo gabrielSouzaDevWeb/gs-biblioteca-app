@@ -1,3 +1,4 @@
+import { AuthService } from './shared/service/auth.service';
 import { AppComponent } from './app.component';
 import { AuthGuard } from './application/auth/guards/auth.guard';
 import { DashboardComponent } from './application/pages/dashboard/dashboard.component';
@@ -8,17 +9,24 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    pathMatch: 'full',
-    redirectTo: 'auth',
-    // canActivate: [AuthGuard],
+    pathMatch: 'prefix',
+    redirectTo: 'session',
+    // canActivate: [AuthService],
+    // canLoad: [AuthService],
   },
-  { path: 'auth', component: AppComponent },
+  // { path: 'auth', component: AppComponent },
   {
     path: 'session',
     canActivate: [AuthGuard],
-    // component: WelcomeComponent,
+    // component: AppComponent,
 
-    children: [{ path: 'dashboard', component: DashboardComponent }],
+    children: [
+      {
+        path: 'dashboard',
+        // canActivate: [AuthService],
+        component: DashboardComponent,
+      },
+    ],
   },
 ];
 

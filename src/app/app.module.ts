@@ -16,18 +16,16 @@ import { HttpClientModule } from '@angular/common/http';
 import { IconsProviderModule } from './icons-provider.module';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
-import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 registerLocaleData(en);
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    NzSpinModule,
+    AppRoutingModule,
     NzSpinModule,
     SharedModule,
     BrowserModule,
-    // AppRoutingModule,
     ApplicationModule,
     BrowserAnimationsModule,
     FormsModule,
