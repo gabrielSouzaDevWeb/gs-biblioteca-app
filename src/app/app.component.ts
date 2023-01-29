@@ -15,7 +15,6 @@ export class AppComponent {
     private router: Router
   ) {
     this.route.queryParams.subscribe((params: any) => {
-      console.log(this.authService.getToken(), 'app');
       if (this.authService.getToken()) {
         this.router.navigate(['/session/dashboard']);
         this.loading = false;

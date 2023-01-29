@@ -1,35 +1,43 @@
-import {
-  ActivatedRoute,
-  ActivatedRouteSnapshot,
-  CanActivate,
-  RouterStateSnapshot,
-  UrlTree,
-} from '@angular/router';
 import { Injectable } from '@angular/core';
-import * as jwt_decode from 'jwt-decode';
+import jwt_decode from 'jwt-decode';
+import * as moment from 'moment';
 
 // import { Observable } from 'rxjs/internal/Observable';
 
 @Injectable()
 export class AuthService {
-  constructor() {
-    // console.log(jwt_decode(this.getToken()));
-    // this.route.queryParams.subscribe(async (params: any) => {
-    //   console.log(params);
-    //   await this.setToken(params.token);
-    //   // console.log(this.getToken());
-    // });
+  constructor() {}
+
+  getToken(): string {
+    return window.sessionStorage.getItem('token') ?? '';
   }
 
-  getToken(): string | null {
-    // console.log(window.sessionStorage.getItem('token'));
-
-    return window.sessionStorage.getItem('token');
+  isTokenValid(): boolean | any {
+    return moment(this.getTokenExpiration()).isAfter(new Date());
   }
+
+  getTokenExpiration(
+    formated: boolean = false,
+    format?: string
+  ): Date | string {
+    // const decode: any = jwt_decode(this.getToken());
+    return formated
+      ? moment(new Date(this.getTokenDecoded().exp * 1000)).format(
+          format ?? 'DD-MM-YYYY HH:mm:ss'
+        )
+      : new Date(this.getTokenDecoded().exp * 1000);
+  }
+
+  getTokenDecoded(): { [key: string]: any; exp: number } {
+    return jwt_decode(this.getToken() ?? '');
+  }
+
+  getInfoToken(): { [key: string]: any } {
+    const { iat, exp, ...keys } = this.getTokenDecoded();
+    return keys;
+  }
+
   setToken(token: string): void {
-    console.log(token, token === 'undefined', token === undefined);
-
-    // this.clearToken();
     if (token === 'undefined' || token === undefined) {
       return;
     }

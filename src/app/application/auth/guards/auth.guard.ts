@@ -23,28 +23,16 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    console.log(route.queryParams['token']);
+    // this.authService.clearToken();
 
     this.authService.setToken(route.queryParams['token']);
-    console.log(this.authService.getToken() === 'undefined');
 
-    console.log(this.authService.getToken());
-    if (this.authService.getToken()) {
+    if (this.authService.getToken() && this.authService.isTokenValid()) {
       return true;
     }
 
     const linkAcesso = `http://localhost:5500/`;
     window.open(linkAcesso.toString(), '_self');
     return false;
-    // if (this.authService.getToken()) {
-    //   // console.log('entrou aqui');
-
-    //   return true;
-    // }
-    // // console.log('passou direto');
-
-    // const linkAcesso = `http://localhost:5500/`;
-    // window.open(linkAcesso.toString(), '_self');
-    // return false;
   }
 }
