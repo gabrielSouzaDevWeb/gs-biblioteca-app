@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { GsTableComponent } from './application/components/gs-table/gs-table.component';
+import { AlunoComponent } from './application/pages/aluno/aluno.component';
 import { DashboardComponent } from './application/pages/dashboard/dashboard.component';
 
 const routes: Routes = [
@@ -32,6 +33,11 @@ const routes: Routes = [
             path: 'consultar',
             // canActivate: [AuthService],
             component: GsTableComponent,
+          },
+          {
+            path: 'aluno',
+            // canActivate: [AuthService],
+            component: AlunoComponent,
           },
         ],
       },

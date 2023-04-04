@@ -1,6 +1,12 @@
 
-      form nz-form-item {
-        margin-right: 16px;
-        margin-bottom: 8px;
-      }
-    
+form nz-form-item {
+  margin-right: 16px;
+  margin-bottom: 8px;
+}
+/* thead> tr> th{
+  background-color: #fec7d3;
+} */
+
+.table_head--bgcolor {
+  background-color:  #ffeaef; /* substitua pela cor desejada */
+}

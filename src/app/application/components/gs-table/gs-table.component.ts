@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 
 import {
@@ -39,6 +39,19 @@ interface Setting {
   paginationType: NzTablePaginationType;
 }
 
+interface IColumn {
+  label: string;
+  columnName: string;
+  visible: boolean;
+  type: ColumnTypes.NUMBER | ColumnTypes.STRING | ColumnTypes.ACTION;
+  // compare: (a: any, b: any) => any;
+}
+const enum ColumnTypes {
+  'ACTION' = 0,
+  'STRING' = 1,
+  'NUMBER' = 2,
+}
+
 @Component({
   selector: 'gs-table',
   templateUrl: './gs-table.component.html',
@@ -47,77 +60,44 @@ interface Setting {
 export class GsTableComponent implements OnInit {
   settingForm?: UntypedFormGroup;
   listOfData: readonly ItemData[] = [];
-  displayData: readonly ItemData[] = [];
+  @Input() displayData: readonly ItemData[] = [];
+  @Input() columns: any[] = [];
   allChecked = false;
   indeterminate = false;
   fixedColumn = false;
   scrollX: string | null = null;
   scrollY: string | null = null;
   settingValue!: Setting;
-  listOfSwitch = [
-    { name: 'Bordered', formControlName: 'bordered' },
-    { name: 'Loading', formControlName: 'loading' },
-    { name: 'Pagination', formControlName: 'pagination' },
-    { name: 'PageSizeChanger', formControlName: 'sizeChanger' },
-    { name: 'Title', formControlName: 'title' },
-    { name: 'Column Header', formControlName: 'header' },
-    { name: 'Footer', formControlName: 'footer' },
-    { name: 'Expandable', formControlName: 'expandable' },
-    { name: 'Checkbox', formControlName: 'checkbox' },
-    { name: 'Fixed Header', formControlName: 'fixHeader' },
-    { name: 'No Result', formControlName: 'noResult' },
-    { name: 'Ellipsis', formControlName: 'ellipsis' },
-    { name: 'Simple Pagination', formControlName: 'simple' },
-  ];
-  listOfRadio = [
-    {
-      name: 'Size',
-      formControlName: 'size',
-      listOfOption: [
-        { value: 'default', label: 'Default' },
-        { value: 'middle', label: 'Middle' },
-        { value: 'small', label: 'Small' },
-      ],
-    },
-    {
-      name: 'Table Scroll',
-      formControlName: 'tableScroll',
-      listOfOption: [
-        { value: 'unset', label: 'Unset' },
-        { value: 'scroll', label: 'Scroll' },
-        { value: 'fixed', label: 'Fixed' },
-      ],
-    },
-    {
-      name: 'Table Layout',
-      formControlName: 'tableLayout',
-      listOfOption: [
-        { value: 'auto', label: 'Auto' },
-        { value: 'fixed', label: 'Fixed' },
-      ],
-    },
-    {
-      name: 'Pagination Position',
-      formControlName: 'position',
-      listOfOption: [
-        { value: 'top', label: 'Top' },
-        { value: 'bottom', label: 'Bottom' },
-        { value: 'both', label: 'Both' },
-      ],
-    },
-    {
-      name: 'Pagination Type',
-      formControlName: 'paginationType',
-      listOfOption: [
-        { value: 'default', label: 'Default' },
-        { value: 'small', label: 'Small' },
-      ],
-    },
-  ];
-
   currentPageDataChange($event: readonly ItemData[]): void {
     this.displayData = $event;
     this.refreshStatus();
+  }
+
+  setOrdenator() {
+    this.columns = this.columns.map((column) => {
+      const ordenatorTypes: {
+        [key: number]: ((a: any, b: any) => any) | null;
+      } = {
+        [ColumnTypes.STRING]: (a: any, b: any) =>
+          a[column.columnName].localeCompare(b[column.columnName]),
+        [ColumnTypes.NUMBER]: (a: any, b: any) =>
+          a[column.columnName] - b[column.columnName],
+        [ColumnTypes.ACTION]: null,
+      };
+      console.log({
+        ...column,
+        ordenator: ordenatorTypes[column.type],
+      });
+      return {
+        ...column,
+        ordenator:
+          column.type === ColumnTypes.STRING
+            ? (a: any, b: any) =>
+                a[column.columnName].localeCompare(b[column.columnName])
+            : (a: any, b: any) => a[column.columnName] - b[column.columnName],
+      };
+    });
+    console.log(this.columns);
   }
 
   refreshStatus(): void {
@@ -139,62 +119,16 @@ export class GsTableComponent implements OnInit {
     this.refreshStatus();
   }
 
-  generateData(): readonly ItemData[] {
-    const data = [];
-    for (let i = 1; i <= 100; i++) {
-      data.push({
-        name: 'John Brown',
-        age: `${i}2`,
-        address: `New York No. ${i} Lake Park`,
-        description: `My name is John Brown, I am ${i}2 years old, living in New York No. ${i} Lake Park.`,
-        checked: false,
-        expand: false,
-      });
-    }
-    return data;
+  constructor(private formBuilder: UntypedFormBuilder) {
+    this.setOrdenator();
   }
 
-  constructor(private formBuilder: UntypedFormBuilder) {}
+  getCell(column: any, data: any) {
+    return data[column.columnName];
+  }
 
   ngOnInit(): void {
-    this.settingForm = this.formBuilder.group({
-      bordered: false,
-      loading: false,
-      pagination: true,
-      sizeChanger: false,
-      title: true,
-      header: true,
-      footer: true,
-      expandable: true,
-      checkbox: true,
-      fixHeader: false,
-      noResult: false,
-      ellipsis: false,
-      simple: false,
-      size: 'small',
-      paginationType: 'default',
-      tableScroll: 'unset',
-      tableLayout: 'auto',
-      position: 'bottom',
-    });
-    this.settingValue = this.settingForm.value;
-    this.settingForm.valueChanges.subscribe(
-      (value) => (this.settingValue = value)
-    );
-    this.settingForm.get('tableScroll')!.valueChanges.subscribe((scroll) => {
-      this.fixedColumn = scroll === 'fixed';
-      this.scrollX = scroll === 'scroll' || scroll === 'fixed' ? '100vw' : null;
-    });
-    this.settingForm.get('fixHeader')!.valueChanges.subscribe((fixed) => {
-      this.scrollY = fixed ? '240px' : null;
-    });
-    this.settingForm.get('noResult')!.valueChanges.subscribe((empty) => {
-      if (empty) {
-        this.listOfData = [];
-      } else {
-        this.listOfData = this.generateData();
-      }
-    });
-    this.listOfData = this.generateData();
+    this.setOrdenator();
+    console.log(this.columns);
   }
 }

@@ -9,9 +9,10 @@ import { NzAffixModule } from 'ng-zorro-antd/affix';
 import { GsComponentsModule } from './components/gs-components.module';
 import { MainComponent } from './layouts/main/main.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { AlunoComponent } from './pages/aluno/aluno.component';
 
 @NgModule({
-  declarations: [MainComponent, DashboardComponent],
+  declarations: [MainComponent, DashboardComponent, AlunoComponent],
   imports: [
     NzAffixModule,
     GsComponentsModule,

@@ -24,9 +24,15 @@ export class MainComponent implements OnInit {
       title: 'Alunos',
       icon: 'usergroup-add',
       children: [
+        // {
+        //   title: 'Consultar Alunos',
+        //   router: 'session/aluno/consultar',
+        //   icon: 'user',
+        //   children: [],
+        // },
         {
-          title: 'Consultar Alunos',
-          router: 'session/aluno/consultar',
+          title: 'aluno',
+          router: 'session/aluno/aluno',
           icon: 'user',
           children: [],
         },
