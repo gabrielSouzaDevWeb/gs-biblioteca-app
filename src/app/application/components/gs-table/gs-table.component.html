@@ -1,15 +1,19 @@
 <nz-table #dynamicTable [nzScroll]="{ x: scrollX, y: scrollY }" [nzData]="displayData" [nzTableLayout]="'fixed'"
   [nzSimple]="false" [nzLoading]="false" [nzPaginationType]="'default'" [nzPaginationPosition]="'bottom'"
   [nzShowSizeChanger]="true" [nzFrontPagination]="true" [nzShowPagination]="true" [nzFooter]="'Gabriel souza'"
-  [nzTitle]="'Tabela teste'" [nzSize]="'default'">
+  [nzTitle]="'Tabela teste'" [nzSize]="'small'">
   <!-- (nzCurrentPageDataChange)="currentPageDataChange($event)" -->
   <thead>
     <tr *ngIf="true">
-      <th nzWidth="40px" class="table_head--bgcolor" *ngIf="true" [nzLeft]="true"></th>
-      <th *ngIf="true" nzWidth="60px" class="table_head--bgcolor" [(nzChecked)]="allChecked" [nzLeft]="true"
-        [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"></th>
+      <th nzWidth="40px" class="table_head " style="padding-top:1.2em;padding-bottom: 1.2em;" *ngIf="true"
+        [nzLeft]="true">
+      </th>
+      <th *ngIf="true" nzWidth="60px" class="table_head" style="padding-top:1.2em;padding-bottom: 1.2em;"
+        [(nzChecked)]="allChecked" [nzLeft]="true" [nzIndeterminate]="indeterminate"
+        (nzCheckedChange)="checkAll($event)"></th>
       <ng-container *ngFor="let column of columns">
-        <th [nzSortFn]="column.ordenator" *ngIf="column.visible" class="table_head--bgcolor">
+        <th [nzSortFn]="column.ordenator" *ngIf="column.visible" style="padding-top:1.2em;padding-bottom: 1.2em;"
+          class="table_head  ">
           <!--TODO: ordenadores,column checklist-->
           {{column.label}}
         </th>

@@ -1,4 +1,3 @@
-
 form nz-form-item {
   margin-right: 16px;
   margin-bottom: 8px;
@@ -7,6 +6,11 @@ form nz-form-item {
   background-color: #fec7d3;
 } */
 
-.table_head--bgcolor {
-  background-color:  #ffeaef; /* substitua pela cor desejada */
+.table_head {
+  padding:1em 0;
+  background-color: #ffeaef;
+   /* substitua pela cor desejada */
+  /* padding-top: 5em;
+  padding-bottom: 5em; */
+
 }
