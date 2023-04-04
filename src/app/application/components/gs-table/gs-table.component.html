@@ -1,0 +1,77 @@
+<nz-table #dynamicTable [nzScroll]="{ x: scrollX, y: scrollY }" [nzData]="listOfData"
+  [nzTableLayout]="settingValue.tableLayout" [nzBordered]="settingValue.bordered" [nzSimple]="settingValue.simple"
+  [nzLoading]="settingValue.loading" [nzPaginationType]="settingValue.paginationType"
+  [nzPaginationPosition]="settingValue.position" [nzShowSizeChanger]="settingValue.sizeChanger"
+  [nzFrontPagination]="settingValue.pagination" [nzShowPagination]="settingValue.pagination"
+  [nzFooter]="settingValue.footer ? 'Here is Footer' : null" [nzTitle]="settingValue.title ? 'Here is Title' : null"
+  [nzSize]="settingValue.size" (nzCurrentPageDataChange)="currentPageDataChange($event)">
+  <thead>
+    <tr *ngIf="settingValue.header">
+      <th nzWidth="40px" *ngIf="settingValue.expandable" [nzLeft]="fixedColumn"></th>
+      <th *ngIf="settingValue.checkbox" nzWidth="60px" [(nzChecked)]="allChecked" [nzLeft]="fixedColumn"
+        [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"></th>
+      <th [nzLeft]="fixedColumn">Name</th>
+      <th>Age</th>
+      <th>Address</th>
+      <th [nzRight]="fixedColumn">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let data of dynamicTable.data">
+      <tr>
+        <td [nzLeft]="fixedColumn" *ngIf="settingValue.expandable" [(nzExpand)]="data.expand"></td>
+        <td [nzLeft]="fixedColumn" *ngIf="settingValue.checkbox" [(nzChecked)]="data.checked"
+          (nzCheckedChange)="refreshStatus()"></td>
+        <td [nzLeft]="fixedColumn">{{ data.name }}</td>
+        <td>{{ data.age }}</td>
+        <td [nzEllipsis]="settingValue.ellipsis">{{ data.address }}</td>
+        <td [nzRight]="fixedColumn" [nzEllipsis]="settingValue.ellipsis">
+          <a href="#">Delete</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a href="#">More action</a>
+        </td>
+      </tr>
+      <tr *ngIf="settingValue.expandable" [nzExpand]="data.expand">
+        <span>{{ data.description }}</span>
+      </tr>
+    </ng-container>
+  </tbody>
+</nz-table><nz-table #dynamicTable [nzScroll]="{ x: scrollX, y: scrollY }" [nzData]="listOfData"
+  [nzTableLayout]="settingValue.tableLayout" [nzBordered]="settingValue.bordered" [nzSimple]="settingValue.simple"
+  [nzLoading]="settingValue.loading" [nzPaginationType]="settingValue.paginationType"
+  [nzPaginationPosition]="settingValue.position" [nzShowSizeChanger]="settingValue.sizeChanger"
+  [nzFrontPagination]="settingValue.pagination" [nzShowPagination]="settingValue.pagination"
+  [nzFooter]="settingValue.footer ? 'Here is Footer' : null" [nzTitle]="settingValue.title ? 'Here is Title' : null"
+  [nzSize]="settingValue.size" (nzCurrentPageDataChange)="currentPageDataChange($event)">
+  <thead>
+    <tr *ngIf="settingValue.header">
+      <th nzWidth="40px" *ngIf="settingValue.expandable" [nzLeft]="fixedColumn"></th>
+      <th *ngIf="settingValue.checkbox" nzWidth="60px" [(nzChecked)]="allChecked" [nzLeft]="fixedColumn"
+        [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"></th>
+      <th [nzLeft]="fixedColumn">Name</th>
+      <th>Age</th>
+      <th>Address</th>
+      <th [nzRight]="fixedColumn">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let data of dynamicTable.data">
+      <tr>
+        <td [nzLeft]="fixedColumn" *ngIf="settingValue.expandable" [(nzExpand)]="data.expand"></td>
+        <td [nzLeft]="fixedColumn" *ngIf="settingValue.checkbox" [(nzChecked)]="data.checked"
+          (nzCheckedChange)="refreshStatus()"></td>
+        <td [nzLeft]="fixedColumn">{{ data.name }}</td>
+        <td>{{ data.age }}</td>
+        <td [nzEllipsis]="settingValue.ellipsis">{{ data.address }}</td>
+        <td [nzRight]="fixedColumn" [nzEllipsis]="settingValue.ellipsis">
+          <a href="#">Delete</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a href="#">More action</a>
+        </td>
+      </tr>
+      <tr *ngIf="settingValue.expandable" [nzExpand]="data.expand">
+        <span>{{ data.description }}</span>
+      </tr>
+    </ng-container>
+  </tbody>
+</nz-table>

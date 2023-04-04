@@ -1,10 +1,7 @@
-import { AuthService } from './shared/service/auth.service';
-import { AppComponent } from './app.component';
-import { AuthGuard } from './application/auth/guards/auth.guard';
-import { DashboardComponent } from './application/pages/dashboard/dashboard.component';
-import { MainComponent } from './application/layouts/main/main.component';
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+import { GsTableComponent } from './application/components/gs-table/gs-table.component';
+import { DashboardComponent } from './application/pages/dashboard/dashboard.component';
 
 const routes: Routes = [
   {
@@ -25,6 +22,18 @@ const routes: Routes = [
         path: 'dashboard',
         // canActivate: [AuthService],
         component: DashboardComponent,
+      },
+      {
+        path: 'aluno',
+        // canActivate: [AuthService],
+        // component: DashboardComponent,
+        children: [
+          {
+            path: 'consultar',
+            // canActivate: [AuthService],
+            component: GsTableComponent,
+          },
+        ],
       },
     ],
   },
