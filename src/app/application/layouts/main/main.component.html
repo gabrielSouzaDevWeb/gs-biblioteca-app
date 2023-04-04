@@ -1,4 +1,5 @@
 <nz-layout class="app-layout">
+
   <nz-sider class="menu-sidebar" nzCollapsible nzWidth="256px" nzBreakpoint="md" [(nzCollapsed)]="isCollapsed"
     [nzTrigger]="null">
     <div class="sidebar-logo">
@@ -27,17 +28,21 @@
     </ul>
   </nz-sider>
   <nz-layout>
-    <nz-header>
-      <div class="app-header">
-        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
-          <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></i>
-        </span>
-      </div>
-    </nz-header>
-    <nz-content>
+    <nz-affix [nzOffsetTop]="0">
+      <nz-header>
+        <div class="app-header" [ngClass]="{'header--grow':isCollapsed,'header--shrink':!isCollapsed}">
+          <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+            <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></i>
+          </span>
+        </div>
+      </nz-header>
+    </nz-affix>
+    <nz-content [ngClass]="{'colapse':isCollapsed,'uncolapse':!isCollapsed}">
       <div class="inner-content">
         <router-outlet></router-outlet>
       </div>
+
+      <div class="m-t-10 p-t-20">&nbsp;</div>
     </nz-content>
   </nz-layout>
 </nz-layout>

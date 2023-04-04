@@ -10,9 +10,10 @@
 }
 
 .menu-sidebar {
-  position: relative;
+  position: fixed;
   z-index: 10;
   min-height: 100vh;
+  // height: 121vh;
   box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
 }
 
@@ -56,9 +57,45 @@
 }
 
 nz-header {
+  margin-left: 18.26em;
   padding: 0;
-  width: 100%;
+  width: 150%;
   z-index: 2;
+}
+
+.header {
+  &--shrink {
+    animation-name: shrink;
+    animation-duration: 0.2s;
+    animation-fill-mode: forwards;
+  }
+  &--grow {
+    animation-name: grow;
+    animation-duration: 0.2s;
+    animation-fill-mode: forwards;
+  }
+}
+
+@keyframes grow {
+  from {
+    margin-left: 0em;
+    width: 120%;
+  }
+  to {
+    margin-left: -12.55em;
+    width: 120%;
+  }
+}
+
+@keyframes shrink {
+  from {
+    margin-left: -12.55em;
+    width: 120%;
+  }
+  to {
+    margin-left: 0em;
+    width: 100%;
+  }
 }
 
 .app-header {
@@ -70,11 +107,30 @@ nz-header {
 }
 
 nz-content {
-  margin: 24px;
+  &.colapse {
+    margin: {
+      top: 4.8em;
+      left: 7.5em;
+      right: 2em;
+      bottom: 2em;
+    }
+  }
+  &.uncolapse {
+    margin: {
+      top: 4.8em;
+      left: 20em;
+      right: 2em;
+      bottom: 2em;
+    }
+  }
 }
 
 .inner-content {
+  position: relative;
+
+  // overflow-x: hidden;
+  // overflow-y: scroll;
   padding: 24px;
+  margin-bottom: 2em;
   background: #fff;
-  height: 100%;
 }

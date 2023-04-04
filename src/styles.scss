@@ -23,7 +23,7 @@ $succes-color: rgb(5, 200, 5);
 }
 
 body {
-  background-color: $primary-background-color;
+  background-color: #f0f2f5;
 }
 
 .container {
@@ -31,5 +31,11 @@ body {
   margin: 50px auto;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
