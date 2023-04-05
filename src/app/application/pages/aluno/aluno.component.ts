@@ -46,12 +46,12 @@ export class AlunoComponent {
       type: ColumnTypes.STRING,
       visible: true,
     },
-    // {
-    //   label: 'Ações',
-    //   columnName: 'action',
-    //   type: ColumnTypes.ACTION,
-    //   visible: true,
-    // },
+    {
+      label: 'Ações',
+      columnName: 'action',
+      type: ColumnTypes.ACTION,
+      visible: false,
+    },
   ];
   constructor() {
     this.displayData = this.generateData();
@@ -65,6 +65,16 @@ export class AlunoComponent {
         age: `${i}2`,
         address: `New York No. ${i} Lake Park`,
         description: `My name is John Brown, I am ${i}2 years old, living in New York No. ${i} Lake Park.`,
+        children: [
+          {
+            name: `${alp[i % 2]} John Brown`,
+            age: `${i}2`,
+            address: `New York No. ${i} Lake Park`,
+            description: `My name is John Brown, I am ${i}2 years old, living in New York No. ${i} Lake Park.`,
+            checked: false,
+            expand: false,
+          },
+        ],
         checked: false,
         expand: false,
       });

@@ -3,16 +3,17 @@
   [nzSimple]="false" [nzLoading]="false" [nzPaginationType]="'default'" [nzPaginationPosition]="'bottom'"
   [nzShowSizeChanger]="true" [nzFrontPagination]="true" [nzShowPagination]="true" [nzFooter]="'Gabriel souza'"
   [nzTitle]="'Tabela teste'" [nzSize]="'default'">
-  <!-- (nzCurrentPageDataChange)="currentPageDataChange($event)" -->
+
   <thead class="table_head ant-table-header ">
     <tr *ngIf="true" class="table_head ">
       <th nzWidth="40px" class="table_head" class="p-t-20 p-b-20 table_head" *ngIf="true" [nzLeft]="true">
+        <!--expand detalhe-->
       </th>
       <th *ngIf="true" nzWidth="60px" class="p-t-20 p-b-20 table_head" [(nzChecked)]="allChecked" [nzLeft]="true"
         [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"></th>
       <ng-container *ngFor="let column of columns">
         <th [nzSortFn]="column.ordenator" *ngIf="column.visible" class="p-t-20 p-b-20 table_head">
-          <!--TODO: ordenadores,column checklist-->
+
           {{column.label}}
         </th>
       </ng-container>
@@ -22,11 +23,11 @@
   <tbody class="ant-table-body">
     <ng-container *ngFor="let data of dynamicTable.data">
       <tr>
-        <td [nzLeft]="true" *ngIf="true" [(nzExpand)]="data.expand"></td>
+        <td [nzLeft]="true" *ngIf="true" [(nzExpand)]="data.expand" (click)="expandTableRow(data)"></td>
         <td [nzLeft]="true" *ngIf="true" [(nzChecked)]="data.checked" (nzCheckedChange)="refreshStatus()"></td>
         <ng-container *ngFor="let column of columns">
           <td *ngIf="column.columnName  !== 'action' ">{{ getCell(column,data) }}</td>
-          <td *ngIf="column.columnName  === 'action' "> <a href="#">Delete</a>
+          <td *ngIf="column.columnName  === 'action' && column.visible"> <a href="#">Delete</a>
             <nz-divider nzType="vertical"></nz-divider>
             <a href="#">More action</a>
           </td>
@@ -36,10 +37,10 @@
       </tr>
       <tr *ngIf="true" [nzExpand]="data.expand">
         <div>
-          <nz-table class="m-t-10" #dynamicTable class="overlay" [nzScroll]="{y: '420px' }" [nzData]="displayData"
+          <nz-table class="m-t-10" #dynamicTableExpand class="overlay" [nzScroll]="{ }" [nzData]="data.children"
             [nzTableLayout]="'fixed'" [nzSimple]="false" [nzLoading]="false" [nzPaginationType]="'default'"
             [nzPaginationPosition]="'bottom'" [nzShowSizeChanger]="true" [nzFrontPagination]="true"
-            [nzShowPagination]="false" [nzSize]="'middle'">
+            [nzShowPagination]="false" [nzSize]="'small'">
             <!-- (nzCurrentPageDataChange)="currentPageDataChange($event)" -->
             <thead class="table_head ant-table-header ">
               <tr *ngIf="true" class="table_head ">
@@ -57,13 +58,13 @@
               </tr>
             </thead>
   <tbody class="ant-table-body">
-    <ng-container *ngFor="let data of dynamicTable.data">
+    <ng-container *ngFor="let data of dynamicTableExpand.data">
       <tr>
         <!-- <td [nzLeft]="false" *ngIf="true" [(nzExpand)]="data.expand"></td> -->
         <td [nzLeft]="true" *ngIf="true" [(nzChecked)]="data.checked" (nzCheckedChange)="refreshStatus()"></td>
         <ng-container *ngFor="let column of columns">
           <td *ngIf="column.columnName  !== 'action' ">{{ getCell(column,data) }}</td>
-          <td *ngIf="column.columnName  === 'action' "> <a href="#">Delete</a>
+          <td *ngIf="column.columnName  === 'action' && column.visible"> <a href="#">Delete</a>
             <nz-divider nzType="vertical"></nz-divider>
             <a href="#">More action</a>
           </td>

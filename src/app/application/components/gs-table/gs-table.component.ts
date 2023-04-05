@@ -42,14 +42,56 @@ export class GsTableComponent implements OnInit {
       {
         label: 'Deletar',
         icon: 'delete',
+        condition: true,
+        color: 'red',
+        func: this.log,
+      },
+      {
+        label: 'Salvar',
+        icon: 'save',
         condition: false,
+        color: 'red',
+        func: this.log,
+      },
+      {
+        label: 'Deletar',
+        icon: 'delete',
+        condition: true,
+        color: 'red',
+        func: this.log,
+      },
+      {
+        label: 'Salvar',
+        icon: 'save',
+        condition: false,
+        color: 'red',
+        func: this.log,
+      },
+      {
+        label: 'Deletar',
+        icon: 'delete',
+        condition: true,
+        color: 'red',
+        func: this.log,
+      },
+      {
+        label: 'Salvar',
+        icon: 'save',
+        condition: false,
+        color: 'red',
+        func: this.log,
+      },
+      {
+        label: 'Deletar',
+        icon: 'delete',
+        condition: true,
         color: 'red',
         func: this.log,
       },
       {
         label: 'Editar',
         icon: 'edit',
-        condition: false,
+        condition: true,
         color: 'red',
         func: this.log,
       },
@@ -63,7 +105,7 @@ export class GsTableComponent implements OnInit {
       {
         label: 'Editar',
         icon: 'edit',
-        condition: false,
+        condition: true,
         color: 'red',
         func: this.log,
       },
@@ -74,6 +116,10 @@ export class GsTableComponent implements OnInit {
   log = () => {
     console.log('color');
   };
+
+  expandTableRow(data: any) {
+    console.log(data);
+  }
   // settingValue!: Setting;
   currentPageDataChange($event: readonly IColumnProp[]): void {
     this.displayData = $event;
@@ -122,7 +168,7 @@ export class GsTableComponent implements OnInit {
   }
 
   getCell(column: any, data: any) {
-    return data[column.columnName];
+    return column.visible ? data[column.columnName] : null;
   }
 
   ngOnInit(): void {

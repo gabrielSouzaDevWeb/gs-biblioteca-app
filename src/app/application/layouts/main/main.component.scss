@@ -143,7 +143,23 @@ nz-header {
 //   // margin-bottom: 2em;
 //   background: #fff;
 // }
+@keyframes colapse {
+  from {
+    margin-left: 20em;
+  }
+  to {
+    margin-left: 7.5em;
+  }
+}
 
+@keyframes uncolapse {
+  from {
+    margin-left: 7.5em;
+  }
+  to {
+    margin-left: 20em;
+  }
+}
 nz-content {
   // margin: 24px 16px 0;
   overflow: initial;
@@ -152,17 +168,23 @@ nz-content {
   // transform: scale(0.9);
 
   &.colapse {
+    animation-name: colapse;
+    animation-duration: 0.2s;
+    animation-fill-mode: forwards;
     margin: {
       top: 4.8em;
-      left: 7.5em;
+
       right: 2em;
       bottom: 2em;
     }
   }
   &.uncolapse {
+    animation-name: uncolapse;
+    animation-duration: 0.2s;
+    animation-fill-mode: forwards;
     margin: {
       top: 4.8em;
-      left: 20em;
+
       right: 2em;
       bottom: 2em;
     }
