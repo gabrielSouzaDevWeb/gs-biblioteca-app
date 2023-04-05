@@ -1,0 +1,83 @@
+$button-count: 500;
+$button-margin: 55px;
+@keyframes rotateBtn {
+  from {
+    transform: rotate(0deg) scale(1.4);
+  }
+  to {
+    transform: rotate(135deg) scale(1.4);
+  }
+}
+@keyframes desRotateBtn {
+  from {
+    transform: rotate(135deg) scale(1.4);
+  }
+  to {
+    transform: rotate(0deg) scale(1.4);
+  }
+}
+.fab {
+  transform: scale(1.4);
+  position: fixed;
+
+  z-index: 999;
+  &__principal {
+    animation-name: desRotateBtn;
+    animation-duration: 0.4s;
+    animation-fill-mode: forwards;
+
+    bottom: 48px;
+    right: 48px;
+  }
+
+  &__principal--clicked {
+    animation-name: rotateBtn;
+    animation-duration: 0.4s;
+    animation-fill-mode: forwards;
+
+    bottom: 48px;
+    right: 48px;
+  }
+
+  @for $i from 1 through $button-count {
+    @keyframes grow-#{$i} {
+      from {
+        display: block;
+        bottom: 48px;
+      }
+      to {
+        display: none;
+        bottom: ($i + 0.1) * $button-margin;
+      }
+    }
+    @keyframes shrink-#{$i} {
+      from {
+        display: none;
+        bottom: ($i + 0.1) * $button-margin;
+      }
+      to {
+        display: block;
+        bottom: 48px;
+      }
+    }
+
+    &__filho:nth-child(#{$i}) {
+      animation-name: grow-#{$i};
+      animation-duration: 0.4s;
+      animation-fill-mode: forwards;
+      transform: scale(1);
+      // display: none;
+      right: 48px;
+    }
+
+    &__filho--behiden:nth-child(#{$i}) {
+      animation-name: shrink-#{$i};
+      animation-duration: 0.4s;
+      animation-fill-mode: forwards;
+      transform: scale(1);
+      // display: block;
+      right: 48px;
+      z-index: 500;
+    }
+  }
+}
