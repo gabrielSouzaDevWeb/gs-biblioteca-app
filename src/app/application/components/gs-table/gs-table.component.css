@@ -14,3 +14,32 @@ form nz-form-item {
   padding-bottom: 5em; */
 
 }
+
+/* ::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: red;
+  border-radius: 4px;
+} */
+
+/* ::ng-deep .ant-table-body::-webkit-scrollbar {
+  width: 10px;
+  scroll-behavior: smooth;
+}
+
+::ng-deep .ant-table-body::-webkit-scrollbar-thumb {
+  background-color: red;
+  border-radius: 10px;
+  border: 2px solid blue;
+  scroll-behavior: smooth;
+}
+
+::ng-deep .ant-table-body::-webkit-scrollbar-track {
+  background-color: yellow;
+  scroll-behavior: smooth;
+} */
+
+
+

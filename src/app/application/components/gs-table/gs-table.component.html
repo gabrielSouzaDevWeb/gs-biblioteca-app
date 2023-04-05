@@ -1,10 +1,11 @@
-<nz-table #dynamicTable [nzScroll]="{ x: scrollX, y: scrollY }" [nzData]="displayData" [nzTableLayout]="'fixed'"
-  [nzSimple]="false" [nzLoading]="false" [nzPaginationType]="'default'" [nzPaginationPosition]="'bottom'"
-  [nzShowSizeChanger]="true" [nzFrontPagination]="true" [nzShowPagination]="true" [nzFooter]="'Gabriel souza'"
-  [nzTitle]="'Tabela teste'" [nzSize]="'small'">
+<gs-fab></gs-fab>
+<nz-table #dynamicTable class="nz-table-scroll" [nzScroll]="{x:null,  y: '50vh' }" [nzData]="displayData"
+  [nzTableLayout]="'fixed'" [nzSimple]="false" [nzLoading]="false" [nzPaginationType]="'default'"
+  [nzPaginationPosition]="'bottom'" [nzShowSizeChanger]="true" [nzFrontPagination]="true" [nzShowPagination]="true"
+  [nzFooter]="'Gabriel souza'" [nzTitle]="'Tabela teste'" [nzSize]="'default'">
   <!-- (nzCurrentPageDataChange)="currentPageDataChange($event)" -->
-  <thead>
-    <tr *ngIf="true">
+  <thead class="table_head ant-table-header">
+    <tr *ngIf="true" class="table_head ">
       <th nzWidth="40px" class="table_head " style="padding-top:1.2em;padding-bottom: 1.2em;" *ngIf="true"
         [nzLeft]="true">
       </th>
@@ -24,7 +25,7 @@
       <th>Action</th> -->
     </tr>
   </thead>
-  <tbody>
+  <tbody class="ant-table-body">
     <ng-container *ngFor="let data of dynamicTable.data">
       <tr>
         <td [nzLeft]="true" *ngIf="true" [(nzExpand)]="data.expand"></td>
