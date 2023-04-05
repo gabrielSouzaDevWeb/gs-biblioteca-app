@@ -26,6 +26,10 @@ body {
   background-color: #f0f2f5;
 }
 
+.overlay {
+  overflow-y: overlay !important;
+}
+
 .container {
   width: 350px;
   margin: 50px auto;

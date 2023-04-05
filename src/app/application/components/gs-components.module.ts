@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { NzOverlayModule } from 'ng-zorro-antd/core/overlay';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -14,6 +15,7 @@ import { GsTableComponent } from './gs-table/gs-table.component';
 @NgModule({
   declarations: [GsTableComponent, GsFabComponent],
   imports: [
+    NzOverlayModule,
     NzToolTipModule,
     NzButtonModule,
     NzIconModule,

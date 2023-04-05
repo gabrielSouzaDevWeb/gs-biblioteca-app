@@ -46,12 +46,12 @@ export class AlunoComponent {
       type: ColumnTypes.STRING,
       visible: true,
     },
-    {
-      label: 'Ações',
-      columnName: 'action',
-      type: ColumnTypes.ACTION,
-      visible: true,
-    },
+    // {
+    //   label: 'Ações',
+    //   columnName: 'action',
+    //   type: ColumnTypes.ACTION,
+    //   visible: true,
+    // },
   ];
   constructor() {
     this.displayData = this.generateData();

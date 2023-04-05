@@ -1,14 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { ColumnTypes } from '../../lib/enum/table.enum';
+import { IGsfabButton } from '../../lib/interface/fab.interface';
 
-import {
-  NzTableLayout,
-  NzTablePaginationPosition,
-  NzTablePaginationType,
-  NzTableSize,
-} from 'ng-zorro-antd/table';
-
-interface ItemData {
+interface IColumnProp {
   name: string;
   age: number | string;
   address: string;
@@ -18,40 +13,6 @@ interface ItemData {
   disabled?: boolean;
 }
 
-interface Setting {
-  bordered: boolean;
-  loading: boolean;
-  pagination: boolean;
-  sizeChanger: boolean;
-  title: boolean;
-  header: boolean;
-  footer: boolean;
-  expandable: boolean;
-  checkbox: boolean;
-  fixHeader: boolean;
-  noResult: boolean;
-  ellipsis: boolean;
-  simple: boolean;
-  size: NzTableSize;
-  tableScroll: string;
-  tableLayout: NzTableLayout;
-  position: NzTablePaginationPosition;
-  paginationType: NzTablePaginationType;
-}
-
-interface IColumn {
-  label: string;
-  columnName: string;
-  visible: boolean;
-  type: ColumnTypes.NUMBER | ColumnTypes.STRING | ColumnTypes.ACTION;
-  // compare: (a: any, b: any) => any;
-}
-const enum ColumnTypes {
-  'ACTION' = 0,
-  'STRING' = 1,
-  'NUMBER' = 2,
-}
-
 @Component({
   selector: 'gs-table',
   templateUrl: './gs-table.component.html',
@@ -59,16 +20,62 @@ const enum ColumnTypes {
 })
 export class GsTableComponent implements OnInit {
   settingForm?: UntypedFormGroup;
-  listOfData: readonly ItemData[] = [];
-  @Input() displayData: readonly ItemData[] = [];
+  listOfData: readonly IColumnProp[] = [];
+  actions: IGsfabButton[] = [];
+  @Input() displayData: readonly any[] = [];
   @Input() columns: any[] = [];
   allChecked = false;
   indeterminate = false;
   fixedColumn = false;
   scrollX: string | null = null;
   scrollY: string | null = null;
-  settingValue!: Setting;
-  currentPageDataChange($event: readonly ItemData[]): void {
+
+  constructor(private formBuilder: UntypedFormBuilder) {
+    this.actions = [
+      {
+        label: 'Salvar',
+        icon: 'save',
+        condition: false,
+        color: 'red',
+        func: this.log,
+      },
+      {
+        label: 'Deletar',
+        icon: 'delete',
+        condition: false,
+        color: 'red',
+        func: this.log,
+      },
+      {
+        label: 'Editar',
+        icon: 'edit',
+        condition: false,
+        color: 'red',
+        func: this.log,
+      },
+      {
+        label: 'Editar',
+        icon: 'reload',
+        condition: true,
+        color: 'red',
+        func: this.log,
+      },
+      {
+        label: 'Editar',
+        icon: 'edit',
+        condition: false,
+        color: 'red',
+        func: this.log,
+      },
+    ];
+    this.setOrdenator();
+  }
+
+  log = () => {
+    console.log('color');
+  };
+  // settingValue!: Setting;
+  currentPageDataChange($event: readonly IColumnProp[]): void {
     this.displayData = $event;
     this.refreshStatus();
   }
@@ -84,10 +91,6 @@ export class GsTableComponent implements OnInit {
           a[column.columnName] - b[column.columnName],
         [ColumnTypes.ACTION]: null,
       };
-      console.log({
-        ...column,
-        ordenator: ordenatorTypes[column.type],
-      });
       return {
         ...column,
         ordenator:
@@ -97,7 +100,6 @@ export class GsTableComponent implements OnInit {
             : (a: any, b: any) => a[column.columnName] - b[column.columnName],
       };
     });
-    console.log(this.columns);
   }
 
   refreshStatus(): void {
@@ -117,10 +119,6 @@ export class GsTableComponent implements OnInit {
       }
     });
     this.refreshStatus();
-  }
-
-  constructor(private formBuilder: UntypedFormBuilder) {
-    this.setOrdenator();
   }
 
   getCell(column: any, data: any) {
