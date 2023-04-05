@@ -1,15 +1,15 @@
-<ng-container *ngIf="actions.length === 1">
-  <button [nzTooltipTitle]="actions[0].label" [nzTooltipPlacement]="'left'" nz-tooltip class="fab" nz-button
-    nzType="primary" (click)="actions[0].func()" [nzSize]="'large'" nzShape="circle"><span nz-icon
-      [nzType]="actions[0].icon"></span></button>
+<ng-container *ngIf="isSigleBtn()">
+  <button [nzTooltipTitle]="actionValid().label" [nzTooltipPlacement]="'left'" nz-tooltip class="fab fab__principal"
+    nz-button nzType="primary" (click)="actionValid().func()" [nzSize]="'large'" nzShape="circle"><span nz-icon
+      [nzType]="actionValid().icon"></span></button>
 </ng-container>
 
-<ng-container *ngIf="actions.length >1">
+<ng-container *ngIf="!isSigleBtn()">
   <button [ngClass]="{'fab__principal--clicked':isExpand,'__principal':!isExpand}" class="fab fab__principal"
     (click)="isExpand = !isExpand" [nzTooltipTitle]="" [nzTooltipPlacement]="'left'" nz-tooltip nz-button
     nzType="primary" [nzSize]="'large'" nzShape="circle"><span nz-icon [nzType]="'plus'"></span></button>
   <ng-container *ngFor="let action of actions">
-    <button class="fab" [ngClass]="{'fab__filho--behiden':!isExpand,'fab__filho':isExpand}"
+    <button class="fab" *ngIf="action.condition" [ngClass]="{'fab__filho--behiden':!isExpand,'fab__filho':isExpand}"
       [nzTooltipTitle]="action.label" [nzTooltipPlacement]="'left'" nz-tooltip nz-button nzType="default"
       (click)="action.func()" [nzSize]="'large'" nzShape="circle"><span nz-icon [nzType]="action.icon"></span></button>
   </ng-container>

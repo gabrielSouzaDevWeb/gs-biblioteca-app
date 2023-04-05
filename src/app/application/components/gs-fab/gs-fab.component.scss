@@ -1,16 +1,16 @@
-$button-count: 500;
+$button-count: 20;
 $button-margin: 55px;
 @keyframes rotateBtn {
   from {
     transform: rotate(0deg) scale(1.4);
   }
   to {
-    transform: rotate(135deg) scale(1.4);
+    transform: rotate(225deg) scale(1.4);
   }
 }
 @keyframes desRotateBtn {
   from {
-    transform: rotate(135deg) scale(1.4);
+    transform: rotate(225deg) scale(1.4);
   }
   to {
     transform: rotate(0deg) scale(1.4);
