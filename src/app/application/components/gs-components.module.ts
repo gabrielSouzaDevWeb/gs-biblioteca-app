@@ -27,6 +27,6 @@ import { GsTableComponent } from './gs-table/gs-table.component';
     NzTableModule,
     NzDividerModule,
   ],
-  exports: [GsTableComponent],
+  exports: [GsTableComponent, GsFabComponent],
 })
 export class GsComponentsModule {}

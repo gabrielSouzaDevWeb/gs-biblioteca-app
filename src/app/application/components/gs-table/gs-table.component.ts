@@ -24,6 +24,8 @@ export class GsTableComponent implements OnInit {
   actions: IGsfabButton[] = [];
   @Input() displayData: readonly any[] = [];
   @Input() columns: any[] = [];
+  @Input() detalheColumns: any[] = [];
+  @Input() hasDetalhe: boolean = false;
   allChecked = false;
   indeterminate = false;
   fixedColumn = false;
@@ -31,85 +33,6 @@ export class GsTableComponent implements OnInit {
   scrollY: string | null = null;
 
   constructor(private formBuilder: UntypedFormBuilder) {
-    this.actions = [
-      {
-        label: 'Salvar',
-        icon: 'save',
-        condition: false,
-        color: 'red',
-        func: this.log,
-      },
-      {
-        label: 'Deletar',
-        icon: 'delete',
-        condition: true,
-        color: 'red',
-        func: this.log,
-      },
-      {
-        label: 'Salvar',
-        icon: 'save',
-        condition: false,
-        color: 'red',
-        func: this.log,
-      },
-      {
-        label: 'Deletar',
-        icon: 'delete',
-        condition: true,
-        color: 'red',
-        func: this.log,
-      },
-      {
-        label: 'Salvar',
-        icon: 'save',
-        condition: false,
-        color: 'red',
-        func: this.log,
-      },
-      {
-        label: 'Deletar',
-        icon: 'delete',
-        condition: true,
-        color: 'red',
-        func: this.log,
-      },
-      {
-        label: 'Salvar',
-        icon: 'save',
-        condition: false,
-        color: 'red',
-        func: this.log,
-      },
-      {
-        label: 'Deletar',
-        icon: 'delete',
-        condition: true,
-        color: 'red',
-        func: this.log,
-      },
-      {
-        label: 'Editar',
-        icon: 'edit',
-        condition: true,
-        color: 'red',
-        func: this.log,
-      },
-      {
-        label: 'Editar',
-        icon: 'reload',
-        condition: true,
-        color: 'red',
-        func: this.log,
-      },
-      {
-        label: 'Editar',
-        icon: 'edit',
-        condition: true,
-        color: 'red',
-        func: this.log,
-      },
-    ];
     this.setOrdenator();
   }
 

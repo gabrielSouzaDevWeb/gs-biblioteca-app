@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AlunoService } from 'src/app/shared/service/aluno.service';
 interface ItemData {
   name: string;
   age: number | string;
@@ -26,8 +27,10 @@ const enum ColumnTypes {
   styleUrls: ['./aluno.component.scss'],
 })
 export class AlunoComponent {
+  public title: string = 'Aluno';
+  public entity: string = 'aluno';
   displayData: readonly ItemData[];
-  columns = [
+  detalheColumns = [
     {
       label: 'Nome',
       columnName: 'name',
@@ -38,7 +41,7 @@ export class AlunoComponent {
       label: 'Idade',
       columnName: 'age',
       type: ColumnTypes.NUMBER,
-      visible: true,
+      visible: false,
     },
     {
       label: 'Endereço',
@@ -50,12 +53,135 @@ export class AlunoComponent {
       label: 'Ações',
       columnName: 'action',
       type: ColumnTypes.ACTION,
+      visible: true,
+    },
+  ];
+  columns = [
+    {
+      label: 'Código',
+      columnName: 'idPrivado',
+      type: ColumnTypes.NUMBER,
+      visible: true,
+    },
+    {
+      label: 'Nome',
+      columnName: 'nome',
+      type: ColumnTypes.STRING,
+      visible: true,
+    },
+    {
+      label: 'Matricula',
+      columnName: 'matricula',
+      type: ColumnTypes.STRING,
+      visible: true,
+    },
+    {
+      label: 'Ações',
+      columnName: 'action',
+      type: ColumnTypes.ACTION,
       visible: false,
     },
   ];
-  constructor() {
+
+  actions;
+
+  constructor(public service: AlunoService) {
     this.displayData = this.generateData();
+    this.actions = [
+      {
+        label: 'Salvar',
+        icon: 'save',
+        condition: false,
+        color: 'red',
+        func: this.getRegistrys,
+      },
+      {
+        label: 'Deletar',
+        icon: 'delete',
+        condition: true,
+        color: 'red',
+        func: this.getRegistrys,
+      },
+      {
+        label: 'Salvar',
+        icon: 'save',
+        condition: false,
+        color: 'red',
+        func: this.getRegistrys,
+      },
+      {
+        label: 'Deletar',
+        icon: 'delete',
+        condition: true,
+        color: 'red',
+        func: this.getRegistrys,
+      },
+      {
+        label: 'Salvar',
+        icon: 'save',
+        condition: false,
+        color: 'red',
+        func: this.getRegistrys,
+      },
+      {
+        label: 'Deletar',
+        icon: 'delete',
+        condition: true,
+        color: 'red',
+        func: this.getRegistrys,
+      },
+      {
+        label: 'Salvar',
+        icon: 'save',
+        condition: false,
+        color: 'red',
+        func: this.getRegistrys,
+      },
+      {
+        label: 'Deletar',
+        icon: 'delete',
+        condition: true,
+        color: 'red',
+        func: this.getRegistrys,
+      },
+      {
+        label: 'Editar',
+        icon: 'edit',
+        condition: true,
+        color: 'red',
+        func: this.getRegistrys,
+      },
+      {
+        label: 'Editar',
+        icon: 'reload',
+        condition: true,
+        color: 'red',
+        func: this.getRegistrys,
+      },
+      {
+        label: 'Editar',
+        icon: 'edit',
+        condition: true,
+        color: 'red',
+        func: this.getRegistrys,
+      },
+    ];
   }
+
+  getRegistrys = () => {
+    this.getAlunos();
+  };
+
+  getAlunos() {
+    let alunos: any;
+    this.service.getAll({ title: this.title }).subscribe(
+      (result) => (this.displayData = result.data),
+      (error) => console.log(error),
+      () => console.log(alunos)
+    );
+    console.log(alunos);
+  }
+
   generateData(): readonly ItemData[] {
     const data = [];
     const alp = ['a', 'b'];

@@ -8,11 +8,16 @@ import { NgModule } from '@angular/core';
 import { NzAffixModule } from 'ng-zorro-antd/affix';
 import { GsComponentsModule } from './components/gs-components.module';
 import { MainComponent } from './layouts/main/main.component';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { AlunoComponent } from './pages/aluno/aluno.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 @NgModule({
-  declarations: [MainComponent, DashboardComponent, AlunoComponent],
+  declarations: [
+    // GsFabComponent,
+    MainComponent,
+    DashboardComponent,
+    AlunoComponent,
+  ],
   imports: [
     NzAffixModule,
     GsComponentsModule,

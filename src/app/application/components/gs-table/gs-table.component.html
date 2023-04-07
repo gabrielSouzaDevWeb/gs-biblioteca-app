@@ -1,4 +1,3 @@
-<gs-fab [actions]="actions"></gs-fab>
 <nz-table #dynamicTable class="overlay" [nzScroll]="{y: '420px' }" [nzData]="displayData" [nzTableLayout]="'fixed'"
   [nzSimple]="false" [nzLoading]="false" [nzPaginationType]="'default'" [nzPaginationPosition]="'bottom'"
   [nzShowSizeChanger]="true" [nzFrontPagination]="true" [nzShowPagination]="true" [nzFooter]="'Gabriel souza'"
@@ -6,7 +5,7 @@
 
   <thead class="table_head ant-table-header ">
     <tr *ngIf="true" class="table_head ">
-      <th nzWidth="40px" class="table_head" class="p-t-20 p-b-20 table_head" *ngIf="true" [nzLeft]="true">
+      <th nzWidth="40px" class="table_head" class="p-t-20 p-b-20 table_head" *ngIf="hasDetalhe" [nzLeft]="true">
         <!--expand detalhe-->
       </th>
       <th *ngIf="true" nzWidth="60px" class="p-t-20 p-b-20 table_head" [(nzChecked)]="allChecked" [nzLeft]="true"
@@ -23,10 +22,10 @@
   <tbody class="ant-table-body">
     <ng-container *ngFor="let data of dynamicTable.data">
       <tr>
-        <td [nzLeft]="true" *ngIf="true" [(nzExpand)]="data.expand" (click)="expandTableRow(data)"></td>
+        <td [nzLeft]="true" *ngIf="hasDetalhe" [(nzExpand)]="data.expand" (click)="expandTableRow(data)"></td>
         <td [nzLeft]="true" *ngIf="true" [(nzChecked)]="data.checked" (nzCheckedChange)="refreshStatus()"></td>
         <ng-container *ngFor="let column of columns">
-          <td *ngIf="column.columnName  !== 'action' ">{{ getCell(column,data) }}</td>
+          <td *ngIf="column.columnName  !== 'action' && column.visible ">{{ getCell(column,data) }}</td>
           <td *ngIf="column.columnName  === 'action' && column.visible"> <a href="#">Delete</a>
             <nz-divider nzType="vertical"></nz-divider>
             <a href="#">More action</a>
@@ -43,15 +42,16 @@
             [nzShowPagination]="false" [nzSize]="'small'">
             <!-- (nzCurrentPageDataChange)="currentPageDataChange($event)" -->
             <thead class="table_head ant-table-header ">
-              <tr *ngIf="true" class="table_head ">
+              <tr *ngIf="hasDetalhe" class="table_head ">
                 <!-- <th nzWidth="40px" class="table_head" class="p-t-20 p-b-20 table_head" *ngIf="true" [nzLeft]="true">
               </th> -->
                 <th *ngIf="true" nzWidth="60px" class="p-t-20 p-b-20 table_head" [(nzChecked)]="allChecked"
                   [nzLeft]="true" [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"></th>
-                <ng-container *ngFor="let column of columns">
-                  <th [nzSortFn]="column.ordenator" *ngIf="column.visible" class="p-t-20 p-b-20 table_head">
+                <ng-container *ngFor="let detalheColumn of detalheColumns">
+                  <th [nzSortFn]="detalheColumn.ordenator" *ngIf="detalheColumn.visible"
+                    class="p-t-20 p-b-20 table_head">
                     <!--TODO: ordenadores,column checklist-->
-                    {{column.label}}
+                    {{detalheColumn.label}}
                   </th>
                 </ng-container>
 
@@ -61,10 +61,11 @@
     <ng-container *ngFor="let data of dynamicTableExpand.data">
       <tr>
         <!-- <td [nzLeft]="false" *ngIf="true" [(nzExpand)]="data.expand"></td> -->
-        <td [nzLeft]="true" *ngIf="true" [(nzChecked)]="data.checked" (nzCheckedChange)="refreshStatus()"></td>
-        <ng-container *ngFor="let column of columns">
-          <td *ngIf="column.columnName  !== 'action' ">{{ getCell(column,data) }}</td>
-          <td *ngIf="column.columnName  === 'action' && column.visible"> <a href="#">Delete</a>
+        <td [nzLeft]="true" [(nzChecked)]="data.checked" (nzCheckedChange)="refreshStatus()"></td>
+        <ng-container *ngFor="let detalheColumn of detalheColumns">
+          <td *ngIf="detalheColumn.columnName  !== 'action' && detalheColumn.visible">{{ getCell(detalheColumn,data) }}
+          </td>
+          <td *ngIf="detalheColumn.columnName  === 'action' && detalheColumn.visible"> <a href="#">Delete</a>
             <nz-divider nzType="vertical"></nz-divider>
             <a href="#">More action</a>
           </td>
