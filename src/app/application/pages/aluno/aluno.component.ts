@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { IAluno } from 'src/app/shared/interface/aluno.interface';
 import { AlunoService } from 'src/app/shared/service/aluno.service';
 interface ItemData {
   name: string;
@@ -60,32 +61,37 @@ export class AlunoComponent {
   columns = [
     {
       label: 'Código',
-      columnName: 'idPrivado',
+      columnName: 'idPublico',
       type: ColumnTypes.NUMBER,
+      search: true,
       visible: true,
     },
     {
       label: 'Nome',
       columnName: 'nome',
       type: ColumnTypes.STRING,
+      search: true,
       visible: true,
     },
     {
       label: 'Matricula',
       columnName: 'matricula',
       type: ColumnTypes.STRING,
+      search: true,
       visible: true,
     },
     {
       label: 'Registro',
       columnName: 'registro',
       type: ColumnTypes.STRING,
+      search: true,
       visible: true,
     },
     {
       label: 'Sala',
       columnName: 'sala',
       type: ColumnTypes.NUMBER,
+      search: true,
       visible: true,
     },
     {
@@ -136,6 +142,14 @@ export class AlunoComponent {
         func: this.getRegistrys,
       },
     ];
+  }
+
+  check(event: {
+    displayData: IAluno[];
+    checkeds: IAluno[];
+    checked: IAluno | undefined;
+  }) {
+    console.log(event);
   }
 
   getRegistrys = () => {

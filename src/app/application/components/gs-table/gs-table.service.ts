@@ -5,5 +5,6 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
   providedIn: 'root',
 })
 export class GsTableService {
-  constructor(service: NzNotificationService) {}
+  public notification!: NzNotificationService;
+  constructor(notification: NzNotificationService) {}
 }

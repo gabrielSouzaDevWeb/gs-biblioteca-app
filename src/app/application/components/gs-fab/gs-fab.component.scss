@@ -1,23 +1,23 @@
 $button-count: 20;
-$button-margin: 55px;
+$button-margin: 45px;
 @keyframes rotateBtn {
   from {
-    transform: rotate(0deg) scale(1.4);
+    transform: rotate(0deg) scale(1.3);
   }
   to {
-    transform: rotate(225deg) scale(1.4);
+    transform: rotate(225deg) scale(1.3);
   }
 }
 @keyframes desRotateBtn {
   from {
-    transform: rotate(225deg) scale(1.4);
+    transform: rotate(225deg) scale(1.3);
   }
   to {
-    transform: rotate(0deg) scale(1.4);
+    transform: rotate(0deg) scale(1.3);
   }
 }
 .fab {
-  transform: scale(1.4);
+  transform: scale(1.3);
   position: fixed;
 
   z-index: 999;
@@ -26,8 +26,8 @@ $button-margin: 55px;
     animation-duration: 0.4s;
     animation-fill-mode: forwards;
 
-    bottom: 48px;
-    right: 48px;
+    bottom: 36px;
+    right: 36px;
   }
 
   &__principal--clicked {
@@ -35,15 +35,15 @@ $button-margin: 55px;
     animation-duration: 0.4s;
     animation-fill-mode: forwards;
 
-    bottom: 48px;
-    right: 48px;
+    bottom: 36px;
+    right: 36px;
   }
 
   @for $i from 1 through $button-count {
     @keyframes grow-#{$i} {
       from {
         display: block;
-        bottom: 48px;
+        bottom: 36px;
       }
       to {
         display: none;
@@ -57,7 +57,7 @@ $button-margin: 55px;
       }
       to {
         display: block;
-        bottom: 48px;
+        bottom: 36px;
       }
     }
 
@@ -67,7 +67,7 @@ $button-margin: 55px;
       animation-fill-mode: forwards;
       transform: scale(1);
       // display: none;
-      right: 48px;
+      right: 36px;
     }
 
     &__filho--behiden:nth-child(#{$i}) {
@@ -76,7 +76,7 @@ $button-margin: 55px;
       animation-fill-mode: forwards;
       transform: scale(1);
       // display: block;
-      right: 48px;
+      right: 36px;
       z-index: 500;
     }
   }

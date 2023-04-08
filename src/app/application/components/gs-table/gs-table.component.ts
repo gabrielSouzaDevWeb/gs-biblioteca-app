@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+// import { EventEmitter } from 'stream';
 import { ColumnTypes } from '../../lib/enum/table.enum';
 import { IGsfabButton } from '../../lib/interface/fab.interface';
 import { GsTableService } from './gs-table.service';
@@ -29,9 +30,15 @@ export class GsTableComponent implements OnInit {
   @Input() hasDetalhe: boolean = false;
   @Input() pesquisar: () => any[] | void = () => {};
   @Input() title!: string;
+
+  @Output() check = new EventEmitter();
   allChecked = false;
   indeterminate = false;
   fixedColumn = false;
+  private pageSize: number = 10;
+  private pageIndex: number = 1;
+  selectFilter!: any;
+  selectFilterValue!: any;
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -50,6 +57,38 @@ export class GsTableComponent implements OnInit {
   //   console.log(this.displayData);
   //   return this.displayData.filter((data) => data.checked).length;
   // }
+
+  showFilter() {
+    console.log(this.selectFilter);
+    console.log(this.selectFilterValue);
+  }
+
+  onClose(data: any) {
+    console.log(data);
+  }
+
+  getChecked(): any[] | void {
+    const registry = this.getCheckeds();
+    if (registry.length === 0) {
+      this.service.notification.warning(
+        this.title,
+        'Nenhum registro selecionado!'
+      );
+      return;
+    }
+    if (registry.length > 1) {
+      this.service.notification.warning(
+        this.title,
+        'Muitos registro selecionado!'
+      );
+      return;
+    }
+    return registry[0];
+  }
+
+  getCheckeds(): any[] {
+    return this.displayData?.filter((data) => data.checked) ?? [];
+  }
 
   setOrdenator() {
     this.columns = this.columns.map((column) => {
@@ -73,11 +112,36 @@ export class GsTableComponent implements OnInit {
     });
   }
 
+  setPageSize(event: number) {
+    this.pageSize = event;
+  }
+  getPageSize(): number {
+    return this.pageSize;
+  }
+  setPageIndex(event: number) {
+    this.pageIndex = event;
+  }
+  getPageIndex(): number {
+    return this.pageIndex;
+  }
+
+  getPageTotal(): number {
+    const table: Array<any> = this.displayData;
+    return table?.length;
+  }
+
   expandTableRow(data: any) {
+    // this.displayDataEvent.emit('Olá, mundo!');
+
     data.expanded = !data.expanded;
   }
 
-  refreshStatus(): void {
+  refreshStatus(registry?: any): void {
+    this.check.emit({
+      checked: registry,
+      displayData: this.displayData,
+      checkeds: this.getCheckeds(),
+    });
     const validData = this.displayData.filter((value) => !value.disabled);
     const allChecked =
       validData.length > 0 &&

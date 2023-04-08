@@ -25,6 +25,23 @@ form nz-form-item {
 
 }
 
+nz-select, input {
+  width: 100%;
+  height: 36px !important;
+}
+::ng-deep nz-select .ant-select-selector{
+  height: 36px !important;
+}
+/* [nz-button] {
+  background-color: rgb(164, 164, 164);
+} */
+
+.btn-plus{
+  transform: scale(0.9);
+  position: relative;
+  top:-0.15em
+}
+
 
 
 

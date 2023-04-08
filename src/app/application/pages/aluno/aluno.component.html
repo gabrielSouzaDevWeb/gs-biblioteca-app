@@ -1,3 +1,3 @@
 <gs-fab [actions]="actions"></gs-fab>
-<gs-table [displayData]="displayData" [columns]="columns" [hasDetalhe]="true" [detalheColumns]="detalheColumns"
-  [pesquisar]="getRegistrys" [title]="title"></gs-table>
+<gs-table [displayData]="displayData" [columns]="columns" [hasDetalhe]="false" [detalheColumns]="detalheColumns"
+  [pesquisar]="getRegistrys" [title]="title" (check)="check($event)"></gs-table>

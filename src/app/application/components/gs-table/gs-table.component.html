@@ -1,10 +1,33 @@
 <ng-template #filter>
 
   <div>
-    <nz-collapse [nzBordered]="false">
+    <nz-collapse style="text-align: left;background-color: #ffeaea" [nzBordered]="false">
       <nz-collapse-panel [nzHeader]="'Filtros'" [nzActive]="'filter'">
-        <p>filtros</p>
-        <div nz-row [nzGutter]="[16,16]" nzJustify="end">
+        <div nz-row [nzGutter]="[16,16]">
+          <div nz-col class="gutter-row" [nzSpan]="6">
+            <nz-select nzSize="default" nzPlaceHolder="Selecione o campo" [(ngModel)]="selectFilter">
+              <ng-container *ngFor="let filter of  columns">
+                <nz-option *ngIf="filter.search" [nzLabel]="filter.label" [nzValue]="filter.columnName"></nz-option>
+              </ng-container>
+            </nz-select>
+          </div>
+          <div *ngIf="selectFilter" nz-col class="gutter-row" [nzSpan]="6">
+            <input nz-input nzSize="default" placeholder="Basic usage" [(ngModel)]="selectFilterValue" />
+          </div>
+
+          <div nz-col class="gutter-row" [nzSpan]="1">
+            <button class="btn-plus" nz-button nzType="primary" [nzSize]="'large'"
+              [disabled]="!selectFilter && !selectFilterValue" (click)="showFilter()"><span nz-icon
+                nzType="plus"></span></button>
+          </div>
+        </div>
+        <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }" nzJustify="space-between">
+          <div nz-col>
+            <strong>Filtros Aplicados:</strong>
+            <div>
+              <nz-tag nzMode="closeable" (nzOnClose)="onClose('data')">Tag 2</nz-tag>
+            </div>
+          </div>
           <div nz-col>
             <button nz-button nzType="primary" (click)="pesquisar()" [nzSize]="'default'" nzShape="round">
               <span nz-icon nzType="search"></span>
@@ -19,8 +42,8 @@
   </div>
 </ng-template>
 <nz-table #dynamicTable class="overlay" [nzScroll]="{y: '420px' }" [nzData]="displayData" [nzTableLayout]="'fixed'"
-  [nzSimple]="false" [nzLoading]="false" [nzPaginationType]="'default'" [nzShowPagination]="false" [nzFooter]="footer"
-  [nzTitle]="filter" [nzSize]="'default'">
+  [nzSimple]="false" [nzLoading]="false" [nzPaginationType]="'default'" [nzPageSize]="getPageSize()"
+  [nzShowPagination]="false" [nzFooter]="footer" [nzTitle]="filter" [nzSize]="'default'">
 
   <thead class="table_head ant-table-header ">
     <tr *ngIf="true" class="table_head ">
@@ -42,7 +65,7 @@
     <ng-container *ngFor="let data of dynamicTable.data">
       <tr>
         <td [nzLeft]="true" *ngIf="hasDetalhe" [(nzExpand)]="data.expand" (click)="expandTableRow(data)"></td>
-        <td [nzLeft]="true" *ngIf="true" [(nzChecked)]="data.checked" (nzCheckedChange)="refreshStatus()"></td>
+        <td [nzLeft]="true" *ngIf="true" [(nzChecked)]="data.checked" (nzCheckedChange)="refreshStatus(data)"></td>
         <ng-container *ngFor="let column of columns">
           <td *ngIf="column.columnName  !== 'action' && column.visible ">{{ getCell(column,data) }}</td>
           <td *ngIf="column.columnName  === 'action' && column.visible"> <a href="#">Delete</a>
@@ -80,7 +103,7 @@
     <ng-container *ngFor="let data of dynamicTableExpand.data">
       <tr>
         <!-- <td [nzLeft]="false" *ngIf="true" [(nzExpand)]="data.expand"></td> -->
-        <td [nzLeft]="true" [(nzChecked)]="data.checked" (nzCheckedChange)="refreshStatus()"></td>
+        <td [nzLeft]="true" [(nzChecked)]="data.checked" (nzCheckedChange)="refreshStatus(data)"></td>
         <ng-container *ngFor="let detalheColumn of detalheColumns">
           <td *ngIf="detalheColumn.columnName  !== 'action' && detalheColumn.visible">{{ getCell(detalheColumn,data) }}
           </td>
@@ -107,11 +130,13 @@
 <ng-template #footer>
 
   <div class="footer">
-    <div nz-row nzJustify="start">
+    <div nz-row nzJustify="space-between">
       <!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maiores, accusantium sunt rerum accusamus expedita
         recusandae porro odit deleniti maxime magni assumenda ut veniam dolorem eveniet molestiae modi fugit ipsum amet?
       </p> -->
-      <!-- <div nz-col>Alunos selecionados:<b>{{getSelecionados()}}</b></div> -->
+      <div nz-col>Alunos selecionados: <b>{{getCheckeds().length}}</b></div>
+      <div nz-col>Livros locados: <b>{{getCheckeds().length}}</b></div>
+      <div nz-col>Alunos listados: <b>{{getPageTotal()}}</b></div>
     </div>
   </div>
 </ng-template>
@@ -121,6 +146,8 @@
 <div nz-row [nzGutter]="[32,32]" nzJustify="end">
 
   <div nz-col>
-    <nz-pagination [nzPageIndex]="3" [nzTotal]="500" nzShowSizeChanger [nzPageSize]="10"></nz-pagination>
+    <nz-pagination (nzPageSizeChange)="setPageSize($event)" (nzPageIndexChange)="setPageIndex($event)"
+      [nzPageIndex]="getPageIndex()" [nzTotal]="getPageTotal()" nzShowSizeChanger
+      [nzPageSize]="getPageSize()"></nz-pagination>
   </div>
 </div>
