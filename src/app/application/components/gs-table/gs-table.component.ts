@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { ColumnTypes } from '../../lib/enum/table.enum';
 import { IGsfabButton } from '../../lib/interface/fab.interface';
+import { GsTableService } from './gs-table.service';
 
 interface IColumnProp {
   name: string;
@@ -22,32 +23,33 @@ export class GsTableComponent implements OnInit {
   settingForm?: UntypedFormGroup;
   listOfData: readonly IColumnProp[] = [];
   actions: IGsfabButton[] = [];
-  @Input() displayData: readonly any[] = [];
+  @Input() displayData: any[] = [];
   @Input() columns: any[] = [];
   @Input() detalheColumns: any[] = [];
   @Input() hasDetalhe: boolean = false;
+  @Input() pesquisar: () => any[] | void = () => {};
+  @Input() title!: string;
   allChecked = false;
   indeterminate = false;
   fixedColumn = false;
-  scrollX: string | null = null;
-  scrollY: string | null = null;
 
-  constructor(private formBuilder: UntypedFormBuilder) {
+  constructor(
+    private formBuilder: UntypedFormBuilder,
+    private service: GsTableService
+  ) {
     this.setOrdenator();
   }
 
-  log = () => {
-    console.log('color');
-  };
-
-  expandTableRow(data: any) {
-    console.log(data);
-  }
   // settingValue!: Setting;
-  currentPageDataChange($event: readonly IColumnProp[]): void {
-    this.displayData = $event;
-    this.refreshStatus();
-  }
+  // currentPageDataChange($event: readonly IColumnProp[]): void {
+  //   this.displayData = $event;
+  //   this.refreshStatus();
+  // }
+
+  // getSelecionados() {
+  //   console.log(this.displayData);
+  //   return this.displayData.filter((data) => data.checked).length;
+  // }
 
   setOrdenator() {
     this.columns = this.columns.map((column) => {
@@ -69,6 +71,10 @@ export class GsTableComponent implements OnInit {
             : (a: any, b: any) => a[column.columnName] - b[column.columnName],
       };
     });
+  }
+
+  expandTableRow(data: any) {
+    data.expanded = !data.expanded;
   }
 
   refreshStatus(): void {

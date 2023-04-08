@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { IGsfabButton } from './../../lib/interface/fab.interface';
 
 @Component({
@@ -6,11 +6,13 @@ import { IGsfabButton } from './../../lib/interface/fab.interface';
   templateUrl: './gs-fab.component.html',
   styleUrls: ['./gs-fab.component.scss'],
 })
-export class GsFabComponent {
+export class GsFabComponent implements OnInit {
   isExpand: boolean = false;
   showActions = false;
   @Input() actions: IGsfabButton[] = [];
-  constructor() {
+  constructor() {}
+
+  ngOnInit() {
     this.actions.reverse();
   }
 

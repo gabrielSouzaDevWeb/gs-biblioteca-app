@@ -29,7 +29,8 @@ const enum ColumnTypes {
 export class AlunoComponent {
   public title: string = 'Aluno';
   public entity: string = 'aluno';
-  displayData: readonly ItemData[];
+  displayData!: ItemData[];
+  actions;
   detalheColumns = [
     {
       label: 'Nome',
@@ -76,6 +77,18 @@ export class AlunoComponent {
       visible: true,
     },
     {
+      label: 'Registro',
+      columnName: 'registro',
+      type: ColumnTypes.STRING,
+      visible: true,
+    },
+    {
+      label: 'Sala',
+      columnName: 'sala',
+      type: ColumnTypes.NUMBER,
+      visible: true,
+    },
+    {
       label: 'Ações',
       columnName: 'action',
       type: ColumnTypes.ACTION,
@@ -83,53 +96,17 @@ export class AlunoComponent {
     },
   ];
 
-  actions;
-
   constructor(public service: AlunoService) {
-    this.displayData = this.generateData();
+    // this.displayData = this.generateData();
     this.actions = [
       {
-        label: 'Salvar',
-        icon: 'save',
-        condition: false,
-        color: 'red',
-        func: this.getRegistrys,
-      },
-      {
-        label: 'Deletar',
-        icon: 'delete',
+        label: 'ver',
+        icon: 'eye',
         condition: true,
         color: 'red',
-        func: this.getRegistrys,
+        func: this.getChecked,
       },
-      {
-        label: 'Salvar',
-        icon: 'save',
-        condition: false,
-        color: 'red',
-        func: this.getRegistrys,
-      },
-      {
-        label: 'Deletar',
-        icon: 'delete',
-        condition: true,
-        color: 'red',
-        func: this.getRegistrys,
-      },
-      {
-        label: 'Salvar',
-        icon: 'save',
-        condition: false,
-        color: 'red',
-        func: this.getRegistrys,
-      },
-      {
-        label: 'Deletar',
-        icon: 'delete',
-        condition: true,
-        color: 'red',
-        func: this.getRegistrys,
-      },
+
       {
         label: 'Salvar',
         icon: 'save',
@@ -152,15 +129,8 @@ export class AlunoComponent {
         func: this.getRegistrys,
       },
       {
-        label: 'Editar',
+        label: 'Atualizar',
         icon: 'reload',
-        condition: true,
-        color: 'red',
-        func: this.getRegistrys,
-      },
-      {
-        label: 'Editar',
-        icon: 'edit',
         condition: true,
         color: 'red',
         func: this.getRegistrys,
@@ -172,14 +142,49 @@ export class AlunoComponent {
     this.getAlunos();
   };
 
+  getChecked = () => {
+    const checkeds = this.displayData.filter((data) => data.checked);
+    console.log(checkeds);
+  };
+
   getAlunos() {
     let alunos: any;
     this.service.getAll({ title: this.title }).subscribe(
-      (result) => (this.displayData = result.data),
+      (result) => (
+        (this.displayData = result.data.map((dt: any) => ({
+          ...dt,
+          checked: false,
+          expand: false,
+        }))),
+        this.service.notification.success(
+          this.title,
+          'Consulta Realizada com sucesso!'
+        )
+      ),
       (error) => console.log(error),
       () => console.log(alunos)
     );
     console.log(alunos);
+  }
+
+  getRegistroSelecionado(): any | void {
+    const registrys = this.displayData.filter((data) => data.checked);
+    if (registrys.length > 0) {
+      this.service.notification.warning(
+        this.title,
+        'Muitos alunos selecionados!'
+      );
+      return;
+    }
+    if (registrys.length === 0) {
+      this.service.notification.warning(
+        this.title,
+        'Nenhum aluno selecionado!'
+      );
+      return;
+    }
+
+    return registrys[0];
   }
 
   generateData(): readonly ItemData[] {

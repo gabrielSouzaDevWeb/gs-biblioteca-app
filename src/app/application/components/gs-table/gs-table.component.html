@@ -1,7 +1,26 @@
+<ng-template #filter>
+
+  <div>
+    <nz-collapse [nzBordered]="false">
+      <nz-collapse-panel [nzHeader]="'Filtros'" [nzActive]="'filter'">
+        <p>filtros</p>
+        <div nz-row [nzGutter]="[16,16]" nzJustify="end">
+          <div nz-col>
+            <button nz-button nzType="primary" (click)="pesquisar()" [nzSize]="'default'" nzShape="round">
+              <span nz-icon nzType="search"></span>
+              Pesquisar
+            </button>
+
+          </div>
+        </div>
+
+      </nz-collapse-panel>
+    </nz-collapse>
+  </div>
+</ng-template>
 <nz-table #dynamicTable class="overlay" [nzScroll]="{y: '420px' }" [nzData]="displayData" [nzTableLayout]="'fixed'"
-  [nzSimple]="false" [nzLoading]="false" [nzPaginationType]="'default'" [nzPaginationPosition]="'bottom'"
-  [nzShowSizeChanger]="true" [nzFrontPagination]="true" [nzShowPagination]="true" [nzFooter]="'Gabriel souza'"
-  [nzTitle]="'Tabela teste'" [nzSize]="'default'">
+  [nzSimple]="false" [nzLoading]="false" [nzPaginationType]="'default'" [nzShowPagination]="false" [nzFooter]="footer"
+  [nzTitle]="filter" [nzSize]="'default'">
 
   <thead class="table_head ant-table-header ">
     <tr *ngIf="true" class="table_head ">
@@ -85,3 +104,23 @@
 </ng-container>
 </tbody>
 </nz-table>
+<ng-template #footer>
+
+  <div class="footer">
+    <div nz-row nzJustify="start">
+      <!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maiores, accusantium sunt rerum accusamus expedita
+        recusandae porro odit deleniti maxime magni assumenda ut veniam dolorem eveniet molestiae modi fugit ipsum amet?
+      </p> -->
+      <!-- <div nz-col>Alunos selecionados:<b>{{getSelecionados()}}</b></div> -->
+    </div>
+  </div>
+</ng-template>
+&nbsp;
+
+
+<div nz-row [nzGutter]="[32,32]" nzJustify="end">
+
+  <div nz-col>
+    <nz-pagination [nzPageIndex]="3" [nzTotal]="500" nzShowSizeChanger [nzPageSize]="10"></nz-pagination>
+  </div>
+</div>

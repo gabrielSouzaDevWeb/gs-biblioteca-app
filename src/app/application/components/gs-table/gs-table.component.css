@@ -5,6 +5,17 @@ form nz-form-item {
 
 ::ng-deep .overlay .nz-table-hide-scrollbar {
   overflow-y: overlay!important;
+
+}
+
+::ng-deep .overlay .ant-table-title{
+  padding:0 0 1.5em 0;
+  /* margin-top:2em */
+}
+::ng-deep .overlay .ant-table-footer{
+  margin:0.5em 0 0 0;
+  padding:0;
+  overflow-y: hidden;
 }
 
 

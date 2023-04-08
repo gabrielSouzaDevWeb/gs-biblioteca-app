@@ -1,11 +1,16 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable } from 'rxjs';
 
 @Injectable()
 export class AbstractService {
   @Injectable() public entity: string;
-  constructor(@Inject('entity') entity: string, public http: HttpClient) {
+  constructor(
+    @Inject('entity') entity: string,
+    public http: HttpClient,
+    public notification: NzNotificationService
+  ) {
     this.entity = entity;
   }
 
