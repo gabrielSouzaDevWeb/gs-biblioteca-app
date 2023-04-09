@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable } from 'rxjs';
+import { IQueryParams } from 'src/app/application/lib/interface/table.interface';
 
 @Injectable()
 export class AbstractService {
@@ -43,27 +44,37 @@ export class AbstractService {
     });
   }
 
-  getAll(params: {
-    entity?: string;
-    title: string;
-    query?: any;
-    take?: number;
-    skip?: number;
-    all?: boolean;
-  }): Observable<any> {
+  getAll(params: IQueryParams): Observable<any> {
     console.log('chegou aqui');
 
     const {
       entity = this.entity,
       title,
-      query,
+      filters,
       take = 10,
       skip = 1,
-      all = true,
+      all = filters && filters?.length === 0,
     } = params;
+    console.log(filters);
+
+    let filterParams: Array<string> = [];
+    let query: string;
+
+    if (filters && filters?.length !== 0 && !all) {
+      for (const filter of filters) {
+        filterParams.push(`${filter.columnName}=${filter.value}`);
+      }
+      query = `?${filterParams.join('&')}&take=${take}&skip=${skip}`;
+    } else {
+      query = `?all=true&take=${take}&skip=${skip}`;
+    }
+
+    console.log(query);
+    // console.log(uri);
+
     let data;
     const headers = this.createHeader();
-    return this.http.get<any>(this.getUrl(), { headers });
+    return this.http.get<any>(this.getUrl(query), { headers });
     console.log(data);
     return data;
   }
@@ -72,8 +83,8 @@ export class AbstractService {
     return this.getUri(entity);
   }
 
-  getUrl(entity: string = this.entity, url?: string): string {
-    return `${this.getUri(entity)}/${url ? url : ''}`;
+  getUrl(url?: string, entity: string = this.entity): string {
+    return `${this.getUri(entity)}${url ? url : ''}`;
   }
 
   getToken(): string | null {

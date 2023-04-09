@@ -3,17 +3,12 @@ import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 // import { EventEmitter } from 'stream';
 import { ColumnTypes } from '../../lib/enum/table.enum';
 import { IGsfabButton } from '../../lib/interface/fab.interface';
+import {
+  IColumn,
+  IFilter,
+  IQueryParams,
+} from '../../lib/interface/table.interface';
 import { GsTableService } from './gs-table.service';
-
-interface IColumnProp {
-  name: string;
-  age: number | string;
-  address: string;
-  checked: boolean;
-  expand: boolean;
-  description: string;
-  disabled?: boolean;
-}
 
 @Component({
   selector: 'gs-table',
@@ -22,13 +17,12 @@ interface IColumnProp {
 })
 export class GsTableComponent implements OnInit {
   settingForm?: UntypedFormGroup;
-  listOfData: readonly IColumnProp[] = [];
   actions: IGsfabButton[] = [];
   @Input() displayData: any[] = [];
   @Input() columns: any[] = [];
   @Input() detalheColumns: any[] = [];
   @Input() hasDetalhe: boolean = false;
-  @Input() pesquisar: () => any[] | void = () => {};
+  @Input() pesquisar: (params: IQueryParams) => any[] | void = () => {};
   @Input() title!: string;
 
   @Output() check = new EventEmitter();
@@ -37,8 +31,9 @@ export class GsTableComponent implements OnInit {
   fixedColumn = false;
   private pageSize: number = 10;
   private pageIndex: number = 1;
-  selectFilter!: any;
-  selectFilterValue!: any;
+  selectFilter!: IColumn | any;
+  selectFilterValue!: string | number;
+  filters: IFilter[] | any[] = [];
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -47,24 +42,40 @@ export class GsTableComponent implements OnInit {
     this.setOrdenator();
   }
 
-  // settingValue!: Setting;
-  // currentPageDataChange($event: readonly IColumnProp[]): void {
-  //   this.displayData = $event;
-  //   this.refreshStatus();
-  // }
+  getRegistrysWithFilters() {
+    let params: IQueryParams = {} as IQueryParams;
+    params.filters = this.filters;
+    params.title = this.title;
+    params.take = this.getPageSize();
+    params.skip = this.getPageIndex();
+    params.all = this.filters.length === 0 ? true : false;
+    this.pesquisar(params);
+  }
 
-  // getSelecionados() {
-  //   console.log(this.displayData);
-  //   return this.displayData.filter((data) => data.checked).length;
-  // }
+  isString(value: ColumnTypes): boolean {
+    return value === ColumnTypes.STRING;
+  }
 
-  showFilter() {
-    console.log(this.selectFilter);
-    console.log(this.selectFilterValue);
+  selecionarFiltro(event: any) {
+    this.selectFilterValue = '';
+  }
+
+  addFilter() {
+    let resetColumn: IColumn = this.selectFilter;
+    this.filters.push({
+      ...this.selectFilter,
+      value: this.selectFilterValue,
+      text: `${this.selectFilter.label} - ${this.selectFilterValue}`,
+    });
+    this.selectFilter = null;
+    this.selectFilterValue = '';
   }
 
   onClose(data: any) {
-    console.log(data);
+    const index = this.filters.indexOf(data);
+    if (index > -1) {
+      this.filters.splice(index, 1);
+    }
   }
 
   getChecked(): any[] | void {
@@ -120,6 +131,7 @@ export class GsTableComponent implements OnInit {
   }
   setPageIndex(event: number) {
     this.pageIndex = event;
+    this.getRegistrysWithFilters();
   }
   getPageIndex(): number {
     return this.pageIndex;
@@ -166,6 +178,5 @@ export class GsTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.setOrdenator();
-    console.log(this.columns);
   }
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IAluno } from 'src/app/shared/interface/aluno.interface';
 import { AlunoService } from 'src/app/shared/service/aluno.service';
+import { IQueryParams } from '../../lib/interface/table.interface';
 interface ItemData {
   name: string;
   age: number | string;
@@ -63,35 +64,35 @@ export class AlunoComponent {
       label: 'Código',
       columnName: 'idPublico',
       type: ColumnTypes.NUMBER,
-      search: true,
+      seachable: true,
       visible: true,
     },
     {
       label: 'Nome',
       columnName: 'nome',
       type: ColumnTypes.STRING,
-      search: true,
+      seachable: true,
       visible: true,
     },
     {
       label: 'Matricula',
       columnName: 'matricula',
       type: ColumnTypes.STRING,
-      search: true,
+      seachable: true,
       visible: true,
     },
     {
       label: 'Registro',
       columnName: 'registro',
       type: ColumnTypes.STRING,
-      search: true,
+      seachable: true,
       visible: true,
     },
     {
       label: 'Sala',
       columnName: 'sala',
       type: ColumnTypes.NUMBER,
-      search: true,
+      seachable: true,
       visible: true,
     },
     {
@@ -152,8 +153,8 @@ export class AlunoComponent {
     console.log(event);
   }
 
-  getRegistrys = () => {
-    this.getAlunos();
+  getRegistrys = (filters?: any) => {
+    this.getAlunos(filters);
   };
 
   getChecked = () => {
@@ -161,9 +162,15 @@ export class AlunoComponent {
     console.log(checkeds);
   };
 
-  getAlunos() {
+  getAlunos(params?: IQueryParams) {
+    params = {
+      ...params,
+      title: this.title,
+      entity: this.entity,
+    };
+    console.log(params);
     let alunos: any;
-    this.service.getAll({ title: this.title }).subscribe(
+    this.service.getAll(params).subscribe(
       (result) => (
         (this.displayData = result.data.map((dt: any) => ({
           ...dt,

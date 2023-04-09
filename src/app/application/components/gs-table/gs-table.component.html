@@ -5,35 +5,48 @@
       <nz-collapse-panel [nzHeader]="'Filtros'" [nzActive]="'filter'">
         <div nz-row [nzGutter]="[16,16]">
           <div nz-col class="gutter-row" [nzSpan]="6">
-            <nz-select nzSize="default" nzPlaceHolder="Selecione o campo" [(ngModel)]="selectFilter">
+            <nz-select nzAllowClear nzSize="default" nzPlaceHolder="Selecione o campo"
+              (ngModelChange)="selecionarFiltro($event)" [(ngModel)]="selectFilter">
               <ng-container *ngFor="let filter of  columns">
-                <nz-option *ngIf="filter.search" [nzLabel]="filter.label" [nzValue]="filter.columnName"></nz-option>
+                <nz-option *ngIf="filter.seachable" [nzLabel]="filter.label" [nzValue]="filter"></nz-option>
               </ng-container>
             </nz-select>
           </div>
           <div *ngIf="selectFilter" nz-col class="gutter-row" [nzSpan]="6">
-            <input nz-input nzSize="default" placeholder="Basic usage" [(ngModel)]="selectFilterValue" />
+            <input nz-input [type]="isString(selectFilter.type)?'text':'number'" nzSize="default"
+              [placeholder]="'Digite um valor para '+selectFilter.label.toLowerCase()"
+              [(ngModel)]="selectFilterValue" />
           </div>
 
           <div nz-col class="gutter-row" [nzSpan]="1">
             <button class="btn-plus" nz-button nzType="primary" [nzSize]="'large'"
-              [disabled]="!selectFilter && !selectFilterValue" (click)="showFilter()"><span nz-icon
+              [disabled]="!selectFilter && !selectFilterValue" (click)="addFilter()"><span nz-icon
                 nzType="plus"></span></button>
           </div>
         </div>
-        <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }" nzJustify="space-between">
-          <div nz-col>
-            <strong>Filtros Aplicados:</strong>
-            <div>
-              <nz-tag nzMode="closeable" (nzOnClose)="onClose('data')">Tag 2</nz-tag>
+        <div class="p-l-20 p-r-20">
+          <div nz-row [nzGutter]="[16,16]" nzJustify="space-between">
+            <div nz-col>
+              <p *ngIf="filters.length>0">&nbsp;<strong>Filtros Aplicados:</strong></p>
+              <div class="p-l-20 ">
+                <!-- <input nzMode="tags"> -->
+                &nbsp;
+                &nbsp;
+                <ng-container *ngFor="let filter of filters">
+                  <nz-tag nzMode="closeable" [nzColor]="'blue'" style="border-radius: 10px;transform: scale(1.2);"
+                    (nzOnClose)="onClose(filter)">{{filter.text}} </nz-tag>
+                </ng-container>
+              </div>
             </div>
-          </div>
-          <div nz-col>
-            <button nz-button nzType="primary" (click)="pesquisar()" [nzSize]="'default'" nzShape="round">
-              <span nz-icon nzType="search"></span>
-              Pesquisar
-            </button>
+            <div nz-col>
+              <p></p>
+              <button nz-button nzType="primary" (click)="getRegistrysWithFilters()" [nzSize]="'default'"
+                nzShape="round">
+                <span nz-icon nzType="search"></span>
+                Pesquisar
+              </button>
 
+            </div>
           </div>
         </div>
 
