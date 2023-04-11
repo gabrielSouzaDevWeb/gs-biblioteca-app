@@ -1,7 +1,7 @@
 <ng-template #filter>
 
   <div>
-    <nz-collapse style="text-align: left;background-color: #ffeaea" [nzBordered]="false">
+    <nz-collapse style="text-align: left;background-color: #ffeaea;overflow-x: hidden;" [nzBordered]="false">
       <nz-collapse-panel [nzHeader]="'Filtros'" [nzActive]="'filter'">
         <div nz-row [nzGutter]="[16,16]">
           <div nz-col class="gutter-row" [nzSpan]="6">
@@ -25,18 +25,19 @@
           </div>
         </div>
         <div class="p-l-20 p-r-20">
-          <div nz-row [nzGutter]="[16,16]" nzJustify="space-between">
-            <div nz-col>
-              <p *ngIf="filters.length>0">&nbsp;<strong>Filtros Aplicados:</strong></p>
-              <div class="p-l-20 ">
-                <!-- <input nzMode="tags"> -->
-                &nbsp;
-                &nbsp;
+          <div nz-row [nzGutter]="[16,16]" nzJustify="space-between" nzAlign="bottom">
+            <div nz-col nzSpan="12">
+              <!-- <p *ngIf="filters.length>0">&nbsp;<strong>Filtros Aplicados:</strong></p> -->
+              <!-- <input nzMode="tags"> -->
+
+              <nz-input-group style="display:flex;flex-wrap: wrap;" *ngIf="filters.length>0" nz-input
+                nzPrefix="Filtros aplicados:" nzSuffix="" nzSize="default">
                 <ng-container *ngFor="let filter of filters">
-                  <nz-tag nzMode="closeable" [nzColor]="'blue'" style="border-radius: 10px;transform: scale(1.2);"
+                  <nz-tag nzMode="closeable" [nzColor]="'blue'" style="border-radius: 10px;"
                     (nzOnClose)="onClose(filter)">{{filter.text}} </nz-tag>
                 </ng-container>
-              </div>
+              </nz-input-group>
+
             </div>
             <div nz-col>
               <p></p>
@@ -54,9 +55,9 @@
     </nz-collapse>
   </div>
 </ng-template>
-<nz-table #dynamicTable class="overlay" [nzScroll]="{y: '420px' }" [nzData]="displayData" [nzTableLayout]="'fixed'"
-  [nzSimple]="false" [nzLoading]="false" [nzPaginationType]="'default'" [nzPageSize]="getPageSize()"
-  [nzShowPagination]="false" [nzFooter]="footer" [nzTitle]="filter" [nzSize]="'default'">
+<nz-table #dynamicTable class="overlay" [nzScroll]="{y: dynamicTable.data.length>=7? '420px':null }"
+  [nzData]="displayData" [nzTableLayout]="'fixed'" [nzSimple]="false" [nzLoading]="false" [nzPaginationType]="'default'"
+  [nzPageSize]="getPageSize()" [nzShowPagination]="false" [nzFooter]="footer" [nzTitle]="filter" [nzSize]="'default'">
 
   <thead class="table_head ant-table-header ">
     <tr *ngIf="true" class="table_head ">
@@ -147,9 +148,15 @@
       <!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maiores, accusantium sunt rerum accusamus expedita
         recusandae porro odit deleniti maxime magni assumenda ut veniam dolorem eveniet molestiae modi fugit ipsum amet?
       </p> -->
-      <div nz-col>Alunos selecionados: <b>{{getCheckeds().length}}</b></div>
       <div nz-col>Livros locados: <b>{{getCheckeds().length}}</b></div>
-      <div nz-col>Alunos listados: <b>{{getPageTotal()}}</b></div>
+      <div nz-col>Alunos listados: <b>{{getPageTotal()||0}}</b></div>
+
+
+    </div>
+    <div nz-row nzJustify="space-between">
+
+      <div nz-col>Alunos selecionados: <b>{{getCheckeds().length}}</b></div>
+      <div nz-col>Total: <b>{{count||0}}</b></div>
     </div>
   </div>
 </ng-template>
@@ -160,7 +167,6 @@
 
   <div nz-col>
     <nz-pagination (nzPageSizeChange)="setPageSize($event)" (nzPageIndexChange)="setPageIndex($event)"
-      [nzPageIndex]="getPageIndex()" [nzTotal]="getPageTotal()" nzShowSizeChanger
-      [nzPageSize]="getPageSize()"></nz-pagination>
+      [nzPageIndex]="getPageIndex()" [nzTotal]="count" nzShowSizeChanger [nzPageSize]="getPageSize()"></nz-pagination>
   </div>
 </div>

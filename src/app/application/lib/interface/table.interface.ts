@@ -19,6 +19,6 @@ export interface IQueryParams {
   title: string;
   filters?: IFilter[];
   take?: number;
-  skip?: number;
+  page?: number;
   all?: boolean;
 }

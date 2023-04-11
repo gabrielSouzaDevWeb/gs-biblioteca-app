@@ -24,6 +24,7 @@ export class GsTableComponent implements OnInit {
   @Input() hasDetalhe: boolean = false;
   @Input() pesquisar: (params: IQueryParams) => any[] | void = () => {};
   @Input() title!: string;
+  @Input() count!: number;
 
   @Output() check = new EventEmitter();
   allChecked = false;
@@ -47,7 +48,7 @@ export class GsTableComponent implements OnInit {
     params.filters = this.filters;
     params.title = this.title;
     params.take = this.getPageSize();
-    params.skip = this.getPageIndex();
+    params.page = this.getPageIndex();
     params.all = this.filters.length === 0 ? true : false;
     this.pesquisar(params);
   }
@@ -125,6 +126,7 @@ export class GsTableComponent implements OnInit {
 
   setPageSize(event: number) {
     this.pageSize = event;
+    this.getRegistrysWithFilters();
   }
   getPageSize(): number {
     return this.pageSize;

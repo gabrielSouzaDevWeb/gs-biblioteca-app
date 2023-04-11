@@ -32,6 +32,7 @@ export class AlunoComponent {
   public title: string = 'Aluno';
   public entity: string = 'aluno';
   displayData!: ItemData[];
+  count: number = 0;
   actions;
   detalheColumns = [
     {
@@ -171,17 +172,20 @@ export class AlunoComponent {
     console.log(params);
     let alunos: any;
     this.service.getAll(params).subscribe(
-      (result) => (
-        (this.displayData = result.data.map((dt: any) => ({
-          ...dt,
-          checked: false,
-          expand: false,
-        }))),
+      (result) => {
+        this.count = result.data.count;
+        this.displayData = result.data.result.map((dt: any) => {
+          return {
+            ...dt,
+            checked: false,
+            expand: false,
+          };
+        });
         this.service.notification.success(
           this.title,
           'Consulta Realizada com sucesso!'
-        )
-      ),
+        );
+      },
       (error) => console.log(error),
       () => console.log(alunos)
     );

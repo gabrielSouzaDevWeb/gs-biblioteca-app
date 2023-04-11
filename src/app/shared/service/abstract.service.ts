@@ -52,7 +52,7 @@ export class AbstractService {
       title,
       filters,
       take = 10,
-      skip = 1,
+      page = 1,
       all = filters && filters?.length === 0,
     } = params;
     console.log(filters);
@@ -64,9 +64,9 @@ export class AbstractService {
       for (const filter of filters) {
         filterParams.push(`${filter.columnName}=${filter.value}`);
       }
-      query = `?${filterParams.join('&')}&take=${take}&skip=${skip}`;
+      query = `?${filterParams.join('&')}&take=${take}&page=${page}`;
     } else {
-      query = `?all=true&take=${take}&skip=${skip}`;
+      query = `?all=true&take=${take}&page=${page}`;
     }
 
     console.log(query);
