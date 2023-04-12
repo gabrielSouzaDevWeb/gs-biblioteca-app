@@ -81,10 +81,25 @@ export class AbstractService {
   }
 
   salvarRegistro(form: any) {
-    console.log(form);
+    console.log(form, this.getUrl());
     //TODO: torna esse header mais generico criando uma funão para retornar ele já pronto
     const headers = this.createHeader();
-    return this.http.post<any>(this.getUrl(), form, { headers });
+    try {
+      const post = this.http.post(this.getUrl(), form, { headers }).subscribe(
+        (event) => {
+          console.log(event);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+      console.log(post);
+      return post;
+    } catch (error) {
+      console.trace(error);
+      console.error(error);
+      return error;
+    }
   }
 
   getEntity(entity: string = this.entity): string {
