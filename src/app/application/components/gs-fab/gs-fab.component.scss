@@ -1,5 +1,5 @@
 $button-count: 20;
-$button-margin: 45px;
+$button-margin: 47px; //espaçamento entre os botões
 @keyframes rotateBtn {
   from {
     transform: rotate(0deg) scale(1.3);
@@ -25,7 +25,6 @@ $button-margin: 45px;
     animation-name: desRotateBtn;
     animation-duration: 0.4s;
     animation-fill-mode: forwards;
-
     bottom: 36px;
     right: 36px;
   }
@@ -47,13 +46,13 @@ $button-margin: 45px;
       }
       to {
         display: none;
-        bottom: ($i + 0.1) * $button-margin;
+        bottom: ($i + 1) * $button-margin;
       }
     }
     @keyframes shrink-#{$i} {
       from {
         display: none;
-        bottom: ($i + 0.1) * $button-margin;
+        bottom: ($i + 1) * $button-margin;
       }
       to {
         display: block;
@@ -61,21 +60,19 @@ $button-margin: 45px;
       }
     }
 
-    &__filho:nth-child(#{$i}) {
+    &__filho:nth-last-child(#{$i}) {
       animation-name: grow-#{$i};
       animation-duration: 0.4s;
       animation-fill-mode: forwards;
       transform: scale(1);
-      // display: none;
       right: 36px;
     }
 
-    &__filho--behiden:nth-child(#{$i}) {
+    &__filho--behiden:nth-last-child(#{$i}) {
       animation-name: shrink-#{$i};
       animation-duration: 0.4s;
       animation-fill-mode: forwards;
       transform: scale(1);
-      // display: block;
       right: 36px;
       z-index: 9999999;
     }

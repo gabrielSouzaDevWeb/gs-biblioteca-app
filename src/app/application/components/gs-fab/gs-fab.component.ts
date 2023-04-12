@@ -12,9 +12,7 @@ export class GsFabComponent implements OnInit {
   @Input() actions: IGsfabButton[] = [];
   constructor() {}
 
-  ngOnInit() {
-    this.actions.reverse();
-  }
+  ngOnInit() {}
 
   isSigleBtn(): boolean {
     return this.actions.filter((action) => action.condition).length === 1;
