@@ -117,22 +117,35 @@ export class AlunoComponent {
   public form!: FormGroup;
 
   constructor(public service: AlunoService, private formBuilder: FormBuilder) {
-    // this.displayData = this.generateData();
-
-    this.buildForm();
+    this.criarFormulario();
     this.criarFabButton();
   }
 
+  limparFormulario = () => {
+    this.form.reset();
+  };
+
+  cancelarRegistro = () => {
+    this.close();
+    this.limparFormulario();
+  };
+
   criarFabButton() {
-    // this.actions = [];
-    //todo: melhorar o componente FAB-buttons
+    //todo: melhorar o componente FAB-buttons 👌
     this.actions = [
       {
-        label: 'ver',
-        icon: 'eye',
-        condition: true,
+        label: 'Cancelar',
+        icon: 'stop',
+        condition: this.visible,
         color: 'red',
-        func: this.getChecked,
+        func: this.cancelarRegistro,
+      },
+      {
+        label: 'Limpar formulário',
+        icon: 'clear',
+        condition: this.visible,
+        color: 'red',
+        func: this.limparFormulario,
       },
       {
         label: 'Novo cadastro',
@@ -144,28 +157,28 @@ export class AlunoComponent {
       {
         label: 'Salvar',
         icon: 'save',
-        condition: true,
+        condition: this.visible,
         color: 'red',
         func: this.salvarRegistro,
       },
       {
         label: 'Deletar',
         icon: 'delete',
-        condition: true,
+        condition: !this.visible,
         color: 'red',
         func: this.getRegistrys,
       },
       {
         label: 'Editar',
         icon: 'edit',
-        condition: true,
+        condition: !this.visible,
         color: 'red',
         func: this.editarRegistro,
       },
       {
         label: 'Atualizar',
         icon: 'reload',
-        condition: true,
+        condition: !this.visible,
         color: 'red',
         func: this.getRegistrys,
       },
@@ -244,7 +257,7 @@ export class AlunoComponent {
     this.open();
   };
 
-  buildForm(): void {
+  criarFormulario(): void {
     this.form = this.formBuilder.group({
       idPublico: [null],
       idPrivado: [null],
