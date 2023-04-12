@@ -4,8 +4,14 @@ import { AppRoutingModule } from './../app-routing.module';
 import { IconsProviderModule } from './../icons-provider.module';
 
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { NzAffixModule } from 'ng-zorro-antd/affix';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzDrawerModule } from 'ng-zorro-antd/drawer';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 import { GsComponentsModule } from './components/gs-components.module';
 import { MainComponent } from './layouts/main/main.component';
 import { AlunoComponent } from './pages/aluno/aluno.component';
@@ -18,7 +24,14 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
     DashboardComponent,
     AlunoComponent,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
+    NzButtonModule,
+    NzInputModule,
+    NzSelectModule,
+    FormsModule,
+    NzGridModule,
+    NzDrawerModule,
     NzAffixModule,
     GsComponentsModule,
     CommonModule,

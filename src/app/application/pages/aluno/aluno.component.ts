@@ -34,6 +34,7 @@ export class AlunoComponent {
   displayData!: ItemData[];
   count: number = 0;
   actions;
+  visible: boolean = false;
   detalheColumns = [
     {
       label: 'Nome',
@@ -191,6 +192,12 @@ export class AlunoComponent {
     );
     console.log(alunos);
   }
+  updateConfirmValidator(): void {
+    /** wait for refresh value */
+    // Promise.resolve().then(() =>
+    //   this.validateForm.controls.checkPassword.updateValueAndValidity()
+    // );
+  }
 
   getRegistroSelecionado(): any | void {
     const registrys = this.displayData.filter((data) => data.checked);
@@ -236,5 +243,13 @@ export class AlunoComponent {
       });
     }
     return data;
+  }
+
+  open(): void {
+    this.visible = true;
+  }
+
+  close(): void {
+    this.visible = false;
   }
 }
