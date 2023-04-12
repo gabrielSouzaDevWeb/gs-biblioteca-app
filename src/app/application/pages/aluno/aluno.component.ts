@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IAluno } from 'src/app/shared/interface/aluno.interface';
 import { AlunoService } from 'src/app/shared/service/aluno.service';
 import { IQueryParams } from '../../lib/interface/table.interface';
+import { IGsfabButton } from './../../lib/interface/fab.interface';
+
 interface ItemData {
   name: string;
   age: number | string;
@@ -31,9 +34,15 @@ const enum ColumnTypes {
 export class AlunoComponent {
   public title: string = 'Aluno';
   public entity: string = 'aluno';
+  displayDataState!: {
+    displayData: IAluno[];
+    checkeds: IAluno[];
+    checked: IAluno;
+  };
+
   displayData!: ItemData[];
   count: number = 0;
-  actions;
+  actions!: IGsfabButton[];
   visible: boolean = false;
   detalheColumns = [
     {
@@ -105,8 +114,18 @@ export class AlunoComponent {
     },
   ];
 
-  constructor(public service: AlunoService) {
+  public form!: FormGroup;
+
+  constructor(public service: AlunoService, private formBuilder: FormBuilder) {
     // this.displayData = this.generateData();
+
+    this.buildForm();
+    this.criarFabButton();
+  }
+
+  criarFabButton() {
+    // this.actions = [];
+    //todo: melhorar o componente FAB-buttons
     this.actions = [
       {
         label: 'ver',
@@ -115,13 +134,19 @@ export class AlunoComponent {
         color: 'red',
         func: this.getChecked,
       },
-
+      {
+        label: 'Novo cadastro',
+        icon: 'plus',
+        condition: !this.visible,
+        color: 'red',
+        func: this.criarNovoCadastro,
+      },
       {
         label: 'Salvar',
         icon: 'save',
-        condition: false,
+        condition: true,
         color: 'red',
-        func: this.getRegistrys,
+        func: this.salvarRegistro,
       },
       {
         label: 'Deletar',
@@ -135,7 +160,7 @@ export class AlunoComponent {
         icon: 'edit',
         condition: true,
         color: 'red',
-        func: this.getRegistrys,
+        func: this.editarRegistro,
       },
       {
         label: 'Atualizar',
@@ -147,12 +172,28 @@ export class AlunoComponent {
     ];
   }
 
-  check(event: {
-    displayData: IAluno[];
-    checkeds: IAluno[];
-    checked: IAluno | undefined;
-  }) {
+  salvarRegistro = (): void => {
+    if (!this.form.valid) {
+      this.service.notification.warning(
+        this.title,
+        'Preencha todos os campos corretamente!'
+      );
+      return;
+    }
+    // TODO: rotina de atualizar e rotina de editar
+
+    this.service.salvarRegistro(this.form.value);
+  };
+
+  editarRegistro = () => {
+    // console.log(t);
+    this.form.patchValue(this.displayDataState.checked);
+    this.open();
+  };
+
+  check(event: { displayData: IAluno[]; checkeds: IAluno[]; checked: IAluno }) {
     console.log(event);
+    this.displayDataState = event;
   }
 
   getRegistrys = (filters?: any) => {
@@ -199,6 +240,33 @@ export class AlunoComponent {
     // );
   }
 
+  criarNovoCadastro = () => {
+    this.open();
+  };
+
+  buildForm(): void {
+    this.form = this.formBuilder.group({
+      idPublico: [null],
+      idPrivado: [null],
+      nome: [null, Validators.required],
+      matricula: [null, Validators.required],
+      registro: [null, Validators.required],
+      sala: [null, Validators.required],
+      //endereço //todo: trocar rua por logradouro
+      rua: [null],
+      numero: [null],
+      complemento: [null],
+      bairro: [null],
+      cidade: [null],
+      uf: [null], //mudar para uf
+      cep: [null],
+      // contato
+      tel: [null, Validators.required],
+      telResponsavel: [null, Validators.required],
+      email: [null, Validators.required],
+    });
+  }
+
   getRegistroSelecionado(): any | void {
     const registrys = this.displayData.filter((data) => data.checked);
     if (registrys.length > 0) {
@@ -219,37 +287,14 @@ export class AlunoComponent {
     return registrys[0];
   }
 
-  generateData(): readonly ItemData[] {
-    const data = [];
-    const alp = ['a', 'b'];
-    for (let i = 1; i <= 100; i++) {
-      data.push({
-        name: `${alp[i % 2]} John Brown`,
-        age: `${i}2`,
-        address: `New York No. ${i} Lake Park`,
-        description: `My name is John Brown, I am ${i}2 years old, living in New York No. ${i} Lake Park.`,
-        children: [
-          {
-            name: `${alp[i % 2]} John Brown`,
-            age: `${i}2`,
-            address: `New York No. ${i} Lake Park`,
-            description: `My name is John Brown, I am ${i}2 years old, living in New York No. ${i} Lake Park.`,
-            checked: false,
-            expand: false,
-          },
-        ],
-        checked: false,
-        expand: false,
-      });
-    }
-    return data;
-  }
-
   open(): void {
+    window.scrollTo({ top: 0, left: 0 });
     this.visible = true;
+    this.criarFabButton();
   }
 
   close(): void {
     this.visible = false;
+    this.criarFabButton();
   }
 }
