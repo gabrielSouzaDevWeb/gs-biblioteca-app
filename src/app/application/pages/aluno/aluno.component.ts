@@ -131,7 +131,7 @@ export class AlunoComponent {
   };
 
   criarFabButton() {
-    //todo: melhorar o componente FAB-buttons 👌
+    //TODO: melhorar o componente FAB-buttons 👌
     this.actions = [
       {
         label: 'Cancelar',
@@ -199,7 +199,7 @@ export class AlunoComponent {
   };
 
   editarRegistro = () => {
-    // console.log(t);
+    // TODO: criar função para evitar que editar com dois registros checkados
     this.form.patchValue(this.displayDataState.checked);
     this.open();
   };
@@ -265,7 +265,7 @@ export class AlunoComponent {
       matricula: [null, Validators.required],
       registro: [null, Validators.required],
       sala: [null, Validators.required],
-      //endereço //todo: trocar rua por logradouro
+      //endereço //TODO: trocar rua por logradouro
       rua: [null],
       numero: [null],
       complemento: [null],

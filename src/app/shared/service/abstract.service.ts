@@ -83,6 +83,8 @@ export class AbstractService {
   salvarRegistro(form: any) {
     console.log(form, this.getUrl());
     //TODO: torna esse header mais generico criando uma funão para retornar ele já pronto
+    //TODO: melhorar os observables
+    //TODO: notificações, adicionar as de error e remover duplicidade
     const headers = this.createHeader();
     try {
       const post = this.http.post(this.getUrl(), form, { headers }).subscribe(
