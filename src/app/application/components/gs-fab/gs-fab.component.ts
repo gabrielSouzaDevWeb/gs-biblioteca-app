@@ -8,11 +8,14 @@ import { IGsfabButton } from './../../lib/interface/fab.interface';
 })
 export class GsFabComponent implements OnInit {
   isExpand: boolean = false;
-  showActions = false;
   @Input() actions: IGsfabButton[] = [];
   constructor() {}
 
   ngOnInit() {}
+
+  getActions(): IGsfabButton[] {
+    return this.actions;
+  }
 
   isSigleBtn(): boolean {
     return this.actions.filter((action) => action.condition).length === 1;
@@ -20,5 +23,10 @@ export class GsFabComponent implements OnInit {
 
   actionValid(): IGsfabButton {
     return this.actions.find((action) => action.condition) ?? this.actions[0];
+  }
+
+  executeFunction(action: IGsfabButton): void {
+    action.changeContext ? (this.isExpand = false) : (this.isExpand = true);
+    action.func();
   }
 }

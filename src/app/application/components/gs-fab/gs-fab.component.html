@@ -1,7 +1,7 @@
 <ng-container *ngIf="isSigleBtn()">
   <button [nzTooltipTitle]="actionValid().label" [nzTooltipPlacement]="'left'" nz-tooltip class="fab fab__principal"
-    nz-button nzType="primary" (click)="actionValid().func()" [nzSize]="'large'" nzShape="circle"><span nz-icon
-      [nzType]="actionValid().icon"></span></button>
+    nz-button nzType="primary" (click)="executeFunction(actionValid())" [nzSize]="'large'" nzShape="circle"><span
+      nz-icon [nzType]="actionValid().icon"></span></button>
 </ng-container>
 
 <ng-container *ngIf="!isSigleBtn()">
@@ -11,7 +11,8 @@
   <ng-container *ngFor="let action of actions">
     <button class="fab" *ngIf="action.condition" [ngClass]="{'fab__filho--behiden':!isExpand,'fab__filho':isExpand}"
       [nzTooltipTitle]="action.label" [nzTooltipPlacement]="'left'" nz-tooltip nz-button nzType="default"
-      (click)="action.func()" [nzSize]="'large'" nzShape="circle"><span nz-icon [nzType]="action.icon"></span></button>
+      (click)="executeFunction(action)" [nzSize]="'large'" nzShape="circle"><span nz-icon
+        [nzType]="action.icon"></span></button>
   </ng-container>
 
 </ng-container>

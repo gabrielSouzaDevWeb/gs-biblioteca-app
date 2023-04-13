@@ -131,11 +131,11 @@ export class AlunoComponent {
   };
 
   criarFabButton() {
-    //TODO: melhorar o componente FAB-buttons 👌
     this.actions = [
       {
         label: 'Cancelar',
         icon: 'stop',
+        changeContext: true,
         condition: this.visible,
         color: 'red',
         func: this.cancelarRegistro,
@@ -150,6 +150,7 @@ export class AlunoComponent {
       {
         label: 'Novo cadastro',
         icon: 'plus',
+        changeContext: true,
         condition: !this.visible,
         color: 'red',
         func: this.criarNovoCadastro,
@@ -157,6 +158,7 @@ export class AlunoComponent {
       {
         label: 'Salvar',
         icon: 'save',
+        changeContext: true,
         condition: this.visible,
         color: 'red',
         func: this.salvarRegistro,
@@ -171,6 +173,7 @@ export class AlunoComponent {
       {
         label: 'Editar',
         icon: 'edit',
+        changeContext: true,
         condition: !this.visible,
         color: 'red',
         func: this.editarRegistro,

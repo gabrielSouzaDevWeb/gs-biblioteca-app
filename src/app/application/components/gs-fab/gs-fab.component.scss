@@ -66,6 +66,7 @@ $button-margin: 47px; //espaçamento entre os botões
       animation-fill-mode: forwards;
       transform: scale(1);
       right: 36px;
+      z-index: 99999;
     }
 
     &__filho--behiden:nth-last-child(#{$i}) {
@@ -74,7 +75,7 @@ $button-margin: 47px; //espaçamento entre os botões
       animation-fill-mode: forwards;
       transform: scale(1);
       right: 36px;
-      z-index: 9999999;
+      z-index: 99999;
     }
   }
 }
