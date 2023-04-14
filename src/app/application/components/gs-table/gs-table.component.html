@@ -106,7 +106,6 @@
                 <ng-container *ngFor="let detalheColumn of detalheColumns">
                   <th [nzSortFn]="detalheColumn.ordenator" *ngIf="detalheColumn.visible"
                     class="p-t-20 p-b-20 table_head">
-                    <!--TODO: ordenadores,column checklist-->
                     {{detalheColumn.label}}
                   </th>
                 </ng-container>

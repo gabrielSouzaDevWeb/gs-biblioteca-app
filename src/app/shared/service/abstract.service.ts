@@ -37,16 +37,19 @@ export class AbstractService {
     return `http://localhost:${port}/${entity}`;
   }
 
-  createHeader(authToken: string | null = this.getToken()): HttpHeaders {
-    return new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${authToken}`,
-    });
+  createHeader(authToken: string | null = this.getToken()): {
+    headers: HttpHeaders;
+  } {
+    return {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${authToken}`,
+      }),
+    };
   }
 
   getAll(params: IQueryParams): Observable<any> {
-    console.log('chegou aqui');
-
+    // TODO: implement a consulte return type based in the get endpoint type
     const {
       entity = this.entity,
       title,
@@ -69,39 +72,16 @@ export class AbstractService {
       query = `?all=true&take=${take}&page=${page}`;
     }
 
-    console.log(query);
-    // console.log(uri);
-
     let data;
-    //TODO: torna esse header mais generico criando uma funão para retornar ele já pronto
-    const headers = this.createHeader();
-    return this.http.get<any>(this.getUrl(query), { headers });
-    console.log(data);
-    return data;
+    return this.http.get<any>(this.getUrl(query), this.createHeader());
   }
 
   salvarRegistro(form: any) {
     console.log(form, this.getUrl());
-    //TODO: torna esse header mais generico criando uma funão para retornar ele já pronto
     //TODO: melhorar os observables
     //TODO: notificações, adicionar as de error e remover duplicidade
-    const headers = this.createHeader();
-    try {
-      const post = this.http.post(this.getUrl(), form, { headers }).subscribe(
-        (event) => {
-          console.log(event);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-      console.log(post);
-      return post;
-    } catch (error) {
-      console.trace(error);
-      console.error(error);
-      return error;
-    }
+
+    const post = this.http.post(this.getUrl(), form, this.createHeader());
   }
 
   getEntity(entity: string = this.entity): string {

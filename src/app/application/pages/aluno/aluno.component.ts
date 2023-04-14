@@ -222,15 +222,15 @@ export class AlunoComponent {
   };
 
   getAlunos(params?: IQueryParams) {
+    //TODO: animação de carregamento
     params = {
       ...params,
       title: this.title,
       entity: this.entity,
     };
-    console.log(params);
     let alunos: any;
-    this.service.getAll(params).subscribe(
-      (result) => {
+    this.service.getAll(params).subscribe({
+      next: (result) => {
         this.count = result.data.count;
         this.displayData = result.data.result.map((dt: any) => {
           return {
@@ -241,13 +241,21 @@ export class AlunoComponent {
         });
         this.service.notification.success(
           this.title,
-          'Consulta Realizada com sucesso!'
+          'Consulta Realizada com sucesso!',
+          { nzKey: JSON.stringify(result) }
         );
       },
-      (error) => console.log(error),
-      () => console.log(alunos)
-    );
-    console.log(alunos);
+      error: (error) => {
+        this.service.notification.error(
+          this.title,
+          `${error}. CODE_ERROR-500 GET-${this.title}`,
+          {
+            nzKey: JSON.stringify(error),
+          }
+        );
+      },
+      complete: () => console.log(alunos),
+    });
   }
   updateConfirmValidator(): void {
     /** wait for refresh value */
