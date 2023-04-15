@@ -5,6 +5,10 @@ import { Observable } from 'rxjs/internal/Observable';
 import { IQueryParams } from 'src/app/application/lib/interface/table.interface';
 import { IAluno } from 'src/app/shared/interface/aluno.interface';
 
+interface abstractType {
+  idPrivado: number;
+  idPublico?: string;
+}
 @Injectable()
 export class AbstractService {
   @Injectable() public entity: string;
@@ -91,6 +95,13 @@ export class AbstractService {
     return this.http.put<IAluno>(
       this.getUrl(`atualizar/${form.idPrivado}`),
       form,
+      this.getHeader()
+    );
+  }
+
+  deletar<T extends abstractType>(form: T): Observable<T> {
+    return this.http.delete<T>(
+      this.getUrl(`deletar/${form.idPrivado}`),
       this.getHeader()
     );
   }

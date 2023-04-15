@@ -206,7 +206,27 @@ export class AlunoComponent {
     ];
   }
 
-  deletarRegistro = () => {};
+  deletarRegistro = () => {
+    if (this.getchecked()) {
+      this.loadingTable = true;
+      const aluno: IAluno = this.getchecked() as IAluno;
+      this.service.deletar<IAluno>(aluno).subscribe({
+        next: (response: any) => {
+          /**
+           * TODO: logica para remover aluno do displayData
+           * do componente da tabela
+           */
+          this.service.notification.success(this.title, response.message);
+          this.getRegistrys();
+          this.loadingTable = false;
+        },
+        error: (error) => {
+          this.service.notification.error(this.title, error);
+          this.loadingTable = false;
+        },
+      });
+    }
+  };
 
   salvarRegistro = (): void => {
     if (!this.form.valid) {
@@ -224,6 +244,7 @@ export class AlunoComponent {
           //TODO: implementar lógica de atualizar o registro no display data
           this.service.notification.success(this.title, response.message);
           this.loadingTable = false;
+          this.getRegistrys();
           this.limparFecharFormulario();
         },
         error: (error) => {
@@ -242,6 +263,7 @@ export class AlunoComponent {
          */
         this.loadingTable = false;
         this.service.notification.success(this.title, response.message);
+        this.getRegistrys();
         this.limparFormulario();
         return;
       },
@@ -322,15 +344,11 @@ export class AlunoComponent {
         );
       },
       error: (error) => {
-        this.service.notification.error(
-          this.title,
-          `${error}. CODE_ERROR-500 GET-${this.title}`,
-          {
-            nzKey: JSON.stringify(error),
-          }
-        );
+        this.loadingTable = false;
+        this.service.notification.error(this.title, error, {
+          nzKey: JSON.stringify(error),
+        });
       },
-      complete: () => console.log(alunos),
     });
   }
   updateConfirmValidator(): void {
