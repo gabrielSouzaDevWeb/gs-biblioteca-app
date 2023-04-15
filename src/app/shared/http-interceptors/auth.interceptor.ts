@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
-import { AuthService } from './../service/auth.service';
 import {
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpInterceptor,
   HttpErrorResponse,
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest,
 } from '@angular/common/http';
-import { catchError, Observable, throwError } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Observable, catchError, throwError } from 'rxjs';
+import { AuthService } from './../service/auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -29,13 +29,16 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   private handlerError(error: HttpErrorResponse) {
-    if (error.error instanceof ErrorEvent) {
-      console.error(`Ocorreu um erro: ${error.error.message}`);
-      return throwError('Ocorreu um error, tente novamente');
-    }
-    console.error(
-      `Código do error: ${error.status}; Error:${JSON.stringify(error.error)}`
-    );
-    return throwError('Ocorreu um error, tente novamente');
+    console.log(error);
+    const mensagemError: string =
+      error.error instanceof ErrorEvent
+        ? error.error.message
+        : `Código do error: ${error.status}; Error:${JSON.stringify(
+            typeof error.error.message === typeof 'string'
+              ? error.error.message
+              : (error.error.message as Array<string>).join('./n')
+          )}`;
+
+    return throwError(() => mensagemError);
   }
 }

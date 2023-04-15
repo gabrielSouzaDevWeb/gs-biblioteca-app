@@ -40,6 +40,8 @@ export class AlunoComponent {
     checked: IAluno;
   };
 
+  loadingTable: boolean = false;
+
   displayData!: ItemData[];
   count: number = 0;
   actions!: IGsfabButton[];
@@ -125,20 +127,36 @@ export class AlunoComponent {
     this.form.reset();
   };
 
-  cancelarRegistro = () => {
+  limparFecharFormulario = () => {
     this.close();
     this.limparFormulario();
   };
+  eye = () => {
+    console.log(this.form.value);
+  };
 
   criarFabButton() {
+    /**
+     * FIXME: quando clicar em editar e houver mais de um
+     * registro marcado o botão é contraído. Isso só deve
+     * acontecer se o mnodal for aberto
+     * */
     this.actions = [
+      {
+        label: 'eye',
+        icon: 'eye',
+
+        condition: true,
+        color: 'red',
+        func: this.eye,
+      },
       {
         label: 'Cancelar',
         icon: 'stop',
         changeContext: true,
         condition: this.visible,
         color: 'red',
-        func: this.cancelarRegistro,
+        func: this.limparFecharFormulario,
       },
       {
         label: 'Limpar formulário',
@@ -168,7 +186,7 @@ export class AlunoComponent {
         icon: 'delete',
         condition: !this.visible,
         color: 'red',
-        func: this.getRegistrys,
+        func: this.deletarRegistro,
       },
       {
         label: 'Editar',
@@ -188,6 +206,8 @@ export class AlunoComponent {
     ];
   }
 
+  deletarRegistro = () => {};
+
   salvarRegistro = (): void => {
     if (!this.form.valid) {
       this.service.notification.warning(
@@ -196,16 +216,69 @@ export class AlunoComponent {
       );
       return;
     }
-    // TODO: rotina de atualizar e rotina de editar
+    this.loadingTable = true;
+    if (this.form.value.idPrivado) {
+      console.log('Entrou aqui!');
+      this.service.editarRegistro(this.form.value).subscribe({
+        next: (response: any) => {
+          //TODO: implementar lógica de atualizar o registro no display data
+          this.service.notification.success(this.title, response.message);
+          this.loadingTable = false;
+          this.limparFecharFormulario();
+        },
+        error: (error) => {
+          this.service.notification.error(this.title, error);
+          this.loadingTable = false;
+        },
+      });
+      return;
+    }
 
-    this.service.salvarRegistro(this.form.value);
+    this.service.salvarRegistro(this.form.value).subscribe({
+      next: (response: any) => {
+        /**
+         * TODO: o response traz o aluno cadastrado como retorno
+         *  colocar adicionar ele no display data assim que é retornado
+         */
+        this.loadingTable = false;
+        this.service.notification.success(this.title, response.message);
+        this.limparFormulario();
+        return;
+      },
+      error: (error: any) => {
+        this.loadingTable = false;
+        this.service.notification.error(this.title, error);
+      },
+    });
   };
 
   editarRegistro = () => {
-    // TODO: criar função para evitar que editar com dois registros checkados
-    this.form.patchValue(this.displayDataState.checked);
-    this.open();
+    if (this.getchecked()) {
+      const aluno: IAluno = this.getchecked() as IAluno;
+      this.form.patchValue(aluno);
+      this.open();
+    }
   };
+
+  getchecked(): IAluno | void {
+    console.log(this.displayDataState);
+    const alunos: IAluno[] = this.displayDataState.checkeds;
+    if (alunos.length > 1) {
+      this.service.notification.warning(
+        this.title,
+        'Muitos alunos Selecionados. Por favor, selecione apenas um!'
+      );
+      return;
+    }
+    if (alunos.length === 0) {
+      this.service.notification.warning(
+        this.title,
+        'Nenhum aluno Selecionados. Por favor, selecione um!'
+      );
+      return;
+    }
+    return alunos[0] as IAluno;
+  }
 
   check(event: { displayData: IAluno[]; checkeds: IAluno[]; checked: IAluno }) {
     console.log(event);
@@ -222,15 +295,18 @@ export class AlunoComponent {
   };
 
   getAlunos(params?: IQueryParams) {
-    //TODO: animação de carregamento
     params = {
       ...params,
       title: this.title,
       entity: this.entity,
     };
     let alunos: any;
+    this.count = 0;
+    this.displayData = [];
+    this.loadingTable = true;
     this.service.getAll(params).subscribe({
       next: (result) => {
+        this.loadingTable = false;
         this.count = result.data.count;
         this.displayData = result.data.result.map((dt: any) => {
           return {
@@ -265,10 +341,18 @@ export class AlunoComponent {
   }
 
   criarNovoCadastro = () => {
+    this.limparFormulario();
     this.open();
   };
 
   criarFormulario(): void {
+    /**
+     * TODO: ao preencher o campo cep,
+     *  consultar o backend para trazer
+     *  o endereço completo. A Api irá
+     *  fazer uma consulta na api do
+     *  via CEP e retonar o endereço
+     */
     this.form = this.formBuilder.group({
       idPublico: [null],
       idPrivado: [null],
@@ -276,18 +360,22 @@ export class AlunoComponent {
       matricula: [null, Validators.required],
       registro: [null, Validators.required],
       sala: [null, Validators.required],
-      //endereço //TODO: trocar rua por logradouro
+      //endereço
+      //TODO: trocar rua por logradouro
       rua: [null],
       numero: [null],
       complemento: [null],
       bairro: [null],
       cidade: [null],
-      uf: [null], //mudar para uf
+      uf: [null],
       cep: [null],
       // contato
       tel: [null, Validators.required],
       telResponsavel: [null, Validators.required],
       email: [null, Validators.required],
+      //
+      dtCriacao: [null],
+      dtAlteracao: [null],
     });
   }
 

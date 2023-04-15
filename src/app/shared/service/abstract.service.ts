@@ -1,8 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/internal/Observable';
 import { IQueryParams } from 'src/app/application/lib/interface/table.interface';
+import { IAluno } from 'src/app/shared/interface/aluno.interface';
 
 @Injectable()
 export class AbstractService {
@@ -15,6 +16,8 @@ export class AbstractService {
     this.entity = entity;
   }
 
+  //TODO: Criar urlService
+  //TODO: Criar abstractCrudService
   getUri(entity: string = this.entity): string {
     const uris: { [key: string]: string } = {
       [`aluno`]: this.getUriByEnviroment({
@@ -37,7 +40,7 @@ export class AbstractService {
     return `http://localhost:${port}/${entity}`;
   }
 
-  createHeader(authToken: string | null = this.getToken()): {
+  getHeader(authToken: string | null = this.getToken()): {
     headers: HttpHeaders;
   } {
     return {
@@ -73,15 +76,23 @@ export class AbstractService {
     }
 
     let data;
-    return this.http.get<any>(this.getUrl(query), this.createHeader());
+    return this.http.get<any>(this.getUrl(query), this.getHeader());
   }
 
-  salvarRegistro(form: any) {
+  salvarRegistro(form: IAluno): Observable<IAluno> {
     console.log(form, this.getUrl());
     //TODO: melhorar os observables
     //TODO: notificações, adicionar as de error e remover duplicidade
 
-    const post = this.http.post(this.getUrl(), form, this.createHeader());
+    return this.http.post<IAluno>(this.getUrl(), form, this.getHeader());
+  }
+
+  editarRegistro(form: IAluno): Observable<IAluno> {
+    return this.http.put<IAluno>(
+      this.getUrl(`atualizar/${form.idPrivado}`),
+      form,
+      this.getHeader()
+    );
   }
 
   getEntity(entity: string = this.entity): string {
@@ -89,11 +100,13 @@ export class AbstractService {
   }
 
   getUrl(url?: string, entity: string = this.entity): string {
-    return `${this.getUri(entity)}${url ? url : ''}`;
+    return `${this.getUri(entity)}${
+      url ? (url?.startsWith('&') ? url : `/${url}`) : ''
+    }`;
   }
 
-  getToken(): string | null {
-    return window.sessionStorage.getItem('token');
+  getToken(): string {
+    return window.sessionStorage.getItem('token') ?? '';
   }
   setToken(token: string): void {
     this.clearToken();

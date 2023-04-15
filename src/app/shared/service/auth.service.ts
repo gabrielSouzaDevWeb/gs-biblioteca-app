@@ -1,15 +1,16 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import jwt_decode from 'jwt-decode';
 import * as moment from 'moment';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { AbstractService } from './abstract.service';
 
 // import { Observable } from 'rxjs/internal/Observable';
 
 @Injectable()
-export class AuthService {
-  constructor() {}
-
-  getToken(): string {
-    return window.sessionStorage.getItem('token') ?? '';
+export class AuthService extends AbstractService {
+  constructor(http: HttpClient, notification: NzNotificationService) {
+    super('auth', http, notification);
   }
 
   isTokenValid(): boolean | any {
@@ -37,13 +38,13 @@ export class AuthService {
     return keys;
   }
 
-  setToken(token: string): void {
-    if (token === 'undefined' || token === undefined) {
-      return;
-    }
-    return window.sessionStorage.setItem('token', token);
-  }
-  clearToken(): void {
-    window.sessionStorage.removeItem('token');
-  }
+  // setToken(token: string): void {
+  //   if (token === 'undefined' || token === undefined) {
+  //     return;
+  //   }
+  //   return window.sessionStorage.setItem('token', token);
+  // }
+  // clearToken(): void {
+  //   window.sessionStorage.removeItem('token');
+  // }
 }

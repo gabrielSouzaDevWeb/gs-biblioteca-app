@@ -1,6 +1,7 @@
 <gs-fab [actions]="actions"></gs-fab>
 <gs-table [displayData]="displayData" [columns]="columns" [hasDetalhe]="true" [detalheColumns]="detalheColumns"
-  [pesquisar]="getRegistrys" [title]="title" [count]="count" (check)="check($event)"></gs-table>
+  [pesquisar]="getRegistrys" [title]="title" [count]="count" (check)="check($event)"
+  [loading]="loadingTable"></gs-table>
 <!-- <button nz-button nzType="primary" (click)="open()">Create</button> -->
 <nz-drawer #drawerElement [nzBodyStyle]="{ overflow: 'auto' }" [nzMaskClosable]="true" [nzWidth]="720"
   [nzVisible]="visible" [nzTitle]="drawerTitulo" nzPlacement="right" (nzOnClose)="close()" nzCloseOnNavigation="true">
@@ -17,7 +18,7 @@
         <nz-form-item>
           <nz-form-label nzSpan="24">Nome</nz-form-label>
           <nz-form-control nzSpan="24">
-            <input nz-input name="nome" placeholder="Nome do aluno" formControlName="nome" type="text">
+            <input nz-input placeholder="Nome do aluno" formControlName="nome" type="text">
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -25,7 +26,7 @@
         <nz-form-item>
           <nz-form-label nzSpan="24">Sala</nz-form-label>
           <nz-form-control nzSpan="24">
-            <input nz-input name="sala" placeholder="Sala" formControlName="sala" type="number">
+            <input nz-input placeholder="Sala" formControlName="sala" type="number">
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -38,7 +39,7 @@
           <nz-form-label nzSpan="24">Matricula</nz-form-label>
           <nz-form-control nzSpan="24">
             <!--TODO: tooltip "ou algum numero de indentificação"-->
-            <input nz-input name="matricula ou algum" placeholder="Matricula" formControlName="matricula" type="text">
+            <input nz-input placeholder="Matricula" formControlName="matricula" type="text">
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -48,7 +49,7 @@
           <nz-form-label nzSpan="24">Registro</nz-form-label>
           <nz-form-control nzSpan="24">
             <!--TODO: tooltip "ou algum numero de indentificação"-->
-            <input nz-input name="registro" placeholder="Regitro" formControlName="registro" type="text">
+            <input nz-input placeholder="Regitro" formControlName="registro" type="text">
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -64,7 +65,7 @@
           <nz-form-label nzSpan="24">E-mail</nz-form-label>
           <nz-form-control nzSpan="24">
 
-            <input nz-input name="email" placeholder="E-mail do aluno" formControlName="email" type="email">
+            <input nz-input placeholder="E-mail do aluno" formControlName="email" type="email">
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -75,7 +76,7 @@
           <nz-form-label nzSpan="24">Telefone</nz-form-label>
           <nz-form-control nzSpan="24">
 
-            <input nz-input name="tel" placeholder="Telefone do aluno" formControlName="tel" type="text">
+            <input nz-input placeholder="Telefone do aluno" formControlName="tel" type="text">
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -85,8 +86,7 @@
           <nz-form-label nzSpan="24">Telefone do responsável</nz-form-label>
           <nz-form-control nzSpan="24">
 
-            <input nz-input name="telResponsavel" placeholder="Telefone do responsável" formControlName="telResponsavel"
-              type="text">
+            <input nz-input placeholder="Telefone do responsável" formControlName="telResponsavel" type="text">
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -102,7 +102,7 @@
           <nz-form-label nzSpan="24">CEP</nz-form-label>
           <nz-form-control nzSpan="24">
 
-            <input nz-input name="cep" placeholder="CEP" formControlName="cep" type="text">
+            <input nz-input placeholder="CEP" formControlName="cep" type="text">
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -112,7 +112,7 @@
           <nz-form-label nzSpan="24">Rua</nz-form-label>
           <nz-form-control nzSpan="24">
 
-            <input nz-input name="rua" placeholder="Rua" formControlName="rua" type="text">
+            <input nz-input placeholder="Rua" formControlName="rua" type="text">
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -121,7 +121,7 @@
           <nz-form-label nzSpan="24">Número</nz-form-label>
           <nz-form-control nzSpan="24">
 
-            <input nz-input name="numero" placeholder="Número" formControlName="numero" type="text">
+            <input nz-input placeholder="Número" formControlName="numero" type="number">
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -133,7 +133,7 @@
           <nz-form-label nzSpan="24">Bairro</nz-form-label>
           <nz-form-control nzSpan="24">
 
-            <input nz-input name="bairro" placeholder="bairro" formControlName="bairro" type="text">
+            <input nz-input placeholder="bairro" formControlName="bairro" type="text">
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -142,7 +142,7 @@
           <nz-form-label nzSpan="24">Complemento</nz-form-label>
           <nz-form-control nzSpan="24">
 
-            <input nz-input name="complemento" placeholder="Complemento" formControlName="complemento" type="text">
+            <input nz-input placeholder="Complemento" formControlName="complemento" type="text">
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -151,7 +151,7 @@
           <nz-form-label nzSpan="24">Cidade</nz-form-label>
           <nz-form-control nzSpan="24">
 
-            <input nz-input name="cidade" placeholder="Cidade" formControlName="cidade" type="text">
+            <input nz-input placeholder="Cidade" formControlName="cidade" type="text">
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -159,7 +159,7 @@
         <nz-form-item>
           <nz-form-label nzSpan="24">UF</nz-form-label>
           <nz-form-control nzSpan="24">
-            <input nz-input name="UF" placeholder="UF" formControlName="uf" type="text">
+            <input nz-input placeholder="UF" formControlName="uf" type="text">
           </nz-form-control>
         </nz-form-item>
       </div>

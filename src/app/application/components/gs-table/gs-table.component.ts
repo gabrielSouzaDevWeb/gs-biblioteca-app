@@ -25,6 +25,7 @@ export class GsTableComponent implements OnInit {
   @Input() pesquisar: (params: IQueryParams) => any[] | void = () => {};
   @Input() title!: string;
   @Input() count!: number;
+  @Input() loading:boolean = false;
 
   @Output() check = new EventEmitter();
   allChecked = false;

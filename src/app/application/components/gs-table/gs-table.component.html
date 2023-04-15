@@ -57,7 +57,8 @@
 </ng-template>
 <nz-table #dynamicTable class="overlay" [nzScroll]="{y: dynamicTable.data.length>=7? '420px':null }"
   [nzData]="displayData" [nzTableLayout]="'fixed'" [nzSimple]="false" [nzLoading]="false" [nzPaginationType]="'default'"
-  [nzPageSize]="getPageSize()" [nzShowPagination]="false" [nzFooter]="footer" [nzTitle]="filter" [nzSize]="'default'">
+  [nzPageSize]="getPageSize()" [nzLoading]="loading" [nzShowPagination]="false" [nzFooter]="footer" [nzTitle]="filter"
+  [nzSize]="'default'">
 
   <thead class="table_head ant-table-header ">
     <tr *ngIf="true" class="table_head ">
