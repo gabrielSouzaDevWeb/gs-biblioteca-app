@@ -18,4 +18,5 @@ export interface IAluno {
   dtAlteracao?: Date;
   dtCriacao: Date;
   dtDeletado?: Date;
+  detalhe: any;
 }

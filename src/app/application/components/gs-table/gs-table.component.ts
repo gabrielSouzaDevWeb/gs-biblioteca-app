@@ -23,11 +23,14 @@ export class GsTableComponent implements OnInit {
   @Input() detalheColumns: any[] = [];
   @Input() hasDetalhe: boolean = false;
   @Input() pesquisar: (params: IQueryParams) => any[] | void = () => {};
+  @Input() detalheColumnName!: string;
+
   @Input() title!: string;
   @Input() count!: number;
-  @Input() loading:boolean = false;
+  @Input() loading: boolean = false;
 
   @Output() check = new EventEmitter();
+  @Input() expand!: (item: any) => void;
   allChecked = false;
   indeterminate = false;
   fixedColumn = false;
@@ -63,6 +66,7 @@ export class GsTableComponent implements OnInit {
   }
 
   addFilter() {
+    console.log(this.displayData);
     let resetColumn: IColumn = this.selectFilter;
     this.filters.push({
       ...this.selectFilter,
@@ -147,8 +151,8 @@ export class GsTableComponent implements OnInit {
 
   expandTableRow(data: any) {
     // this.displayDataEvent.emit('Olá, mundo!');
-
-    data.expanded = !data.expanded;
+    // this.expand.emit(data);
+    // data.expanded = !data.expanded;
   }
 
   refreshStatus(registry?: any): void {

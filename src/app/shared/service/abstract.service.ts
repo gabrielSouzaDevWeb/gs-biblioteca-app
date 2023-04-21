@@ -54,6 +54,9 @@ export class AbstractService {
       }),
     };
   }
+  getDetalhe<T = any>(): Observable<T> {
+    return this.http.get<T>(this.getUrl('detalhe'));
+  }
 
   getAll(params: IQueryParams): Observable<any> {
     // TODO: implement a consulte return type based in the get endpoint type

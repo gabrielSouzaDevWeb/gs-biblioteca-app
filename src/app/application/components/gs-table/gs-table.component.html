@@ -79,7 +79,7 @@
   <tbody class="ant-table-body">
     <ng-container *ngFor="let data of dynamicTable.data">
       <tr>
-        <td [nzLeft]="true" *ngIf="hasDetalhe" [(nzExpand)]="data.expand" (click)="expandTableRow(data)"></td>
+        <td [nzLeft]="true" *ngIf="hasDetalhe" [(nzExpand)]="data.expand" (click)="expand(data)"></td>
         <td [nzLeft]="true" *ngIf="true" [(nzChecked)]="data.checked" (nzCheckedChange)="refreshStatus(data)"></td>
         <ng-container *ngFor="let column of columns">
           <td *ngIf="column.columnName  !== 'action' && column.visible ">{{ getCell(column,data) }}</td>
@@ -93,10 +93,10 @@
       </tr>
       <tr *ngIf="true" [nzExpand]="data.expand">
         <div>
-          <nz-table class="m-t-10" #dynamicTableExpand class="overlay" [nzScroll]="{ }" [nzData]="data.children"
-            [nzTableLayout]="'fixed'" [nzSimple]="false" [nzLoading]="false" [nzPaginationType]="'default'"
-            [nzPaginationPosition]="'bottom'" [nzShowSizeChanger]="true" [nzFrontPagination]="true"
-            [nzShowPagination]="false" [nzSize]="'small'">
+          <nz-table class="m-t-10" #dynamicTableExpand class="overlay" [nzScroll]="{ }"
+            [nzData]="data[detalheColumnName]" [nzTableLayout]="'fixed'" [nzSimple]="false" [nzLoading]="false"
+            [nzPaginationType]="'default'" [nzPaginationPosition]="'bottom'" [nzShowSizeChanger]="true"
+            [nzFrontPagination]="true" [nzShowPagination]="false" [nzSize]="'small'">
             <!-- (nzCurrentPageDataChange)="currentPageDataChange($event)" -->
             <thead class="table_head ant-table-header ">
               <tr *ngIf="hasDetalhe" class="table_head ">

@@ -48,27 +48,33 @@ export class AlunoComponent {
   visible: boolean = false;
   detalheColumns = [
     {
-      label: 'Nome',
-      columnName: 'name',
+      label: 'código',
+      columnName: 'idPublico',
       type: ColumnTypes.STRING,
       visible: true,
     },
     {
-      label: 'Idade',
-      columnName: 'age',
-      type: ColumnTypes.NUMBER,
+      label: 'Nome do livro',
+      columnName: 'nomLivro',
+      type: ColumnTypes.STRING,
       visible: false,
     },
     {
-      label: 'Endereço',
-      columnName: 'address',
+      label: 'Nome do autor',
+      columnName: 'nomAutor',
       type: ColumnTypes.STRING,
       visible: true,
     },
     {
-      label: 'Ações',
-      columnName: 'action',
-      type: ColumnTypes.ACTION,
+      label: 'Categoria',
+      columnName: 'categoria',
+      type: ColumnTypes.STRING,
+      visible: true,
+    },
+    {
+      label: 'Unidades',
+      columnName: 'unidades',
+      type: ColumnTypes.NUMBER,
       visible: true,
     },
   ];
@@ -133,6 +139,26 @@ export class AlunoComponent {
   };
   eye = () => {
     console.log(this.form.value);
+  };
+
+  expand = (item: any): void => {
+    // this.displayData = [item];
+    let detalhe: any;
+    this.service.getDetalhe().subscribe({
+      next: (result) => {
+        console.log(result.data);
+        detalhe = result.data;
+        this.displayData = this.displayData.map((item, index, itens) => {
+          return { ...item, detalhe: [detalhe] };
+        });
+        console.log(this.displayData);
+
+        this.service.notification.success(this.title, result.message);
+      },
+      error: (error) => {
+        console.log(error), this.service.notification.error(this.title, error);
+      },
+    });
   };
 
   criarFabButton() {

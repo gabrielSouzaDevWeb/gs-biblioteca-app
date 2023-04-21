@@ -1,7 +1,7 @@
 <gs-fab [actions]="actions"></gs-fab>
 <gs-table [displayData]="displayData" [columns]="columns" [hasDetalhe]="true" [detalheColumns]="detalheColumns"
-  [pesquisar]="getRegistrys" [title]="title" [count]="count" (check)="check($event)"
-  [loading]="loadingTable"></gs-table>
+  [pesquisar]="getRegistrys" [title]="title" [count]="count" (check)="check($event)" [detalheColumnName]="'detalhe'"
+  [loading]="loadingTable" [expand]="expand"></gs-table>
 <!-- <button nz-button nzType="primary" (click)="open()">Create</button> -->
 <nz-drawer #drawerElement [nzBodyStyle]="{ overflow: 'auto' }" [nzMaskClosable]="true" [nzWidth]="720"
   [nzVisible]="visible" [nzTitle]="drawerTitulo" nzPlacement="right" (nzOnClose)="close()" nzCloseOnNavigation="true">
