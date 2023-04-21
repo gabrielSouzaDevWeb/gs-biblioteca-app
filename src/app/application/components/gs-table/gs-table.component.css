@@ -25,6 +25,10 @@ form nz-form-item {
 
 }
 
+.bg-color{
+  background-color: #ffeaef;
+}
+
 nz-select, input {
   width: 100%;
   height: 36px !important;

@@ -66,8 +66,6 @@ export class GsTableComponent implements OnInit {
   }
 
   addFilter() {
-    console.log(this.displayData);
-    let resetColumn: IColumn = this.selectFilter;
     this.filters.push({
       ...this.selectFilter,
       value: this.selectFilterValue,
@@ -75,6 +73,10 @@ export class GsTableComponent implements OnInit {
     });
     this.selectFilter = null;
     this.selectFilterValue = '';
+  }
+
+  isDetalheLoading(registry: any): boolean {
+    return !registry[this.detalheColumnName];
   }
 
   onClose(data: any) {

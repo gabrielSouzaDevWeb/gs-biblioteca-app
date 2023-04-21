@@ -34,6 +34,7 @@ const enum ColumnTypes {
 export class AlunoComponent {
   public title: string = 'Aluno';
   public entity: string = 'aluno';
+  public detalheColumnName: string = 'livros';
   displayDataState!: {
     displayData: IAluno[];
     checkeds: IAluno[];
@@ -141,31 +142,32 @@ export class AlunoComponent {
     console.log(this.form.value);
   };
 
-  expand = (item: any): void => {
-    // this.displayData = [item];
-    let detalhe: any;
-    this.service.getDetalhe().subscribe({
-      next: (result) => {
-        console.log(result.data);
-        detalhe = result.data;
-        this.displayData = this.displayData.map((item, index, itens) => {
-          return { ...item, detalhe: [detalhe] };
-        });
-        console.log(this.displayData);
-
-        this.service.notification.success(this.title, result.message);
-      },
-      error: (error) => {
-        console.log(error), this.service.notification.error(this.title, error);
-      },
-    });
+  expand = (registro: any): void => {
+    if (!registro[this.detalheColumnName]) {
+      let detalhe: any;
+      this.service.getDetalhe().subscribe({
+        next: (result) => {
+          detalhe = result.data;
+          this.displayData = this.displayData.map((item, index, itens) => {
+            if (itens.indexOf(registro) === index) {
+              return { ...registro, [this.detalheColumnName]: [detalhe] };
+            }
+            return item;
+          });
+          this.service.notification.success(this.title, result.message);
+        },
+        error: (error) => {
+          this.service.notification.error(this.title, error);
+        },
+      });
+    }
   };
 
   criarFabButton() {
     /**
      * FIXME: quando clicar em editar e houver mais de um
      * registro marcado o botão é contraído. Isso só deve
-     * acontecer se o mnodal for aberto
+     * acontecer se o modal for aberto
      * */
     this.actions = [
       {

@@ -1,5 +1,4 @@
 <ng-template #filter>
-
   <div>
     <nz-collapse style="text-align: left;background-color: #ffeaea;overflow-x: hidden;" [nzBordered]="false">
       <nz-collapse-panel [nzHeader]="'Filtros'" [nzActive]="'filter'">
@@ -17,7 +16,6 @@
               [placeholder]="'Digite um valor para '+selectFilter.label.toLowerCase()"
               [(ngModel)]="selectFilterValue" />
           </div>
-
           <div nz-col class="gutter-row" [nzSpan]="1">
             <button class="btn-plus" nz-button nzType="primary" [nzSize]="'large'"
               [disabled]="!selectFilter && !selectFilterValue" (click)="addFilter()"><span nz-icon
@@ -27,9 +25,6 @@
         <div class="p-l-20 p-r-20">
           <div nz-row [nzGutter]="[16,16]" nzJustify="space-between" nzAlign="bottom">
             <div nz-col nzSpan="12">
-              <!-- <p *ngIf="filters.length>0">&nbsp;<strong>Filtros Aplicados:</strong></p> -->
-              <!-- <input nzMode="tags"> -->
-
               <nz-input-group style="display:flex;flex-wrap: wrap;" *ngIf="filters.length>0" nz-input
                 nzPrefix="Filtros aplicados:" nzSuffix="" nzSize="default">
                 <ng-container *ngFor="let filter of filters">
@@ -37,7 +32,6 @@
                     (nzOnClose)="onClose(filter)">{{filter.text}} </nz-tag>
                 </ng-container>
               </nz-input-group>
-
             </div>
             <div nz-col>
               <p></p>
@@ -46,11 +40,9 @@
                 <span nz-icon nzType="search"></span>
                 Pesquisar
               </button>
-
             </div>
           </div>
         </div>
-
       </nz-collapse-panel>
     </nz-collapse>
   </div>
@@ -59,21 +51,17 @@
   [nzData]="displayData" [nzTableLayout]="'fixed'" [nzSimple]="false" [nzLoading]="false" [nzPaginationType]="'default'"
   [nzPageSize]="getPageSize()" [nzLoading]="loading" [nzShowPagination]="false" [nzFooter]="footer" [nzTitle]="filter"
   [nzSize]="'default'">
-
   <thead class="table_head ant-table-header ">
     <tr *ngIf="true" class="table_head ">
       <th nzWidth="40px" class="table_head" class="p-t-20 p-b-20 table_head" *ngIf="hasDetalhe" [nzLeft]="true">
-        <!--expand detalhe-->
       </th>
       <th *ngIf="true" nzWidth="60px" class="p-t-20 p-b-20 table_head" [(nzChecked)]="allChecked" [nzLeft]="true"
         [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"></th>
       <ng-container *ngFor="let column of columns">
         <th [nzSortFn]="column.ordenator" *ngIf="column.visible" class="p-t-20 p-b-20 table_head">
-
           {{column.label}}
         </th>
       </ng-container>
-
     </tr>
   </thead>
   <tbody class="ant-table-body">
@@ -88,35 +76,27 @@
             <a href="#">More action</a>
           </td>
         </ng-container>
-
-
       </tr>
       <tr *ngIf="true" [nzExpand]="data.expand">
         <div>
           <nz-table class="m-t-10" #dynamicTableExpand class="overlay" [nzScroll]="{ }"
-            [nzData]="data[detalheColumnName]" [nzTableLayout]="'fixed'" [nzSimple]="false" [nzLoading]="false"
-            [nzPaginationType]="'default'" [nzPaginationPosition]="'bottom'" [nzShowSizeChanger]="true"
-            [nzFrontPagination]="true" [nzShowPagination]="false" [nzSize]="'small'">
-            <!-- (nzCurrentPageDataChange)="currentPageDataChange($event)" -->
+            [nzData]="data[detalheColumnName]" [nzTableLayout]="'fixed'" [nzSimple]="false"
+            [nzLoading]="isDetalheLoading(data)" [nzPaginationType]="'default'" [nzPaginationPosition]="'bottom'"
+            [nzShowSizeChanger]="true" [nzFrontPagination]="true" [nzShowPagination]="false" [nzSize]="'small'">
             <thead class="table_head ant-table-header ">
               <tr *ngIf="hasDetalhe" class="table_head ">
-                <!-- <th nzWidth="40px" class="table_head" class="p-t-20 p-b-20 table_head" *ngIf="true" [nzLeft]="true">
-              </th> -->
-                <th *ngIf="true" nzWidth="60px" class="p-t-20 p-b-20 table_head" [(nzChecked)]="allChecked"
-                  [nzLeft]="true" [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"></th>
+                <th nzWidth="20px" class="p-t-20 p-b-20 bg-color"></th>
                 <ng-container *ngFor="let detalheColumn of detalheColumns">
                   <th [nzSortFn]="detalheColumn.ordenator" *ngIf="detalheColumn.visible"
                     class="p-t-20 p-b-20 table_head">
                     {{detalheColumn.label}}
                   </th>
                 </ng-container>
-
               </tr>
             </thead>
   <tbody class="ant-table-body">
     <ng-container *ngFor="let data of dynamicTableExpand.data">
       <tr>
-        <!-- <td [nzLeft]="false" *ngIf="true" [(nzExpand)]="data.expand"></td> -->
         <td [nzLeft]="true" [(nzChecked)]="data.checked" (nzCheckedChange)="refreshStatus(data)"></td>
         <ng-container *ngFor="let detalheColumn of detalheColumns">
           <td *ngIf="detalheColumn.columnName  !== 'action' && detalheColumn.visible">{{ getCell(detalheColumn,data) }}
@@ -126,13 +106,7 @@
             <a href="#">More action</a>
           </td>
         </ng-container>
-
-
       </tr>
-      <!-- <tr *ngIf="false" [nzExpand]="data.expand">
-
-        <span>{{ data.description }}</span>
-      </tr> -->
     </ng-container>
   </tbody>
 </nz-table>
@@ -142,29 +116,19 @@
 </tbody>
 </nz-table>
 <ng-template #footer>
-
   <div class="footer">
     <div nz-row nzJustify="space-between">
-      <!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maiores, accusantium sunt rerum accusamus expedita
-        recusandae porro odit deleniti maxime magni assumenda ut veniam dolorem eveniet molestiae modi fugit ipsum amet?
-      </p> -->
       <div nz-col>Livros locados: <b>{{getCheckeds().length}}</b></div>
       <div nz-col>Alunos listados: <b>{{getPageTotal()||0}}</b></div>
-
-
     </div>
     <div nz-row nzJustify="space-between">
-
       <div nz-col>Alunos selecionados: <b>{{getCheckeds().length}}</b></div>
       <div nz-col>Total: <b>{{count||0}}</b></div>
     </div>
   </div>
 </ng-template>
 &nbsp;
-
-
 <div nz-row [nzGutter]="[32,32]" nzJustify="end">
-
   <div nz-col>
     <nz-pagination (nzPageSizeChange)="setPageSize($event)" (nzPageIndexChange)="setPageIndex($event)"
       [nzPageIndex]="getPageIndex()" [nzTotal]="count" nzShowSizeChanger [nzPageSize]="getPageSize()"></nz-pagination>
