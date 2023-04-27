@@ -47,16 +47,17 @@ export class AlunoComponent {
   count: number = 0;
   actions!: IGsfabButton[];
   visible: boolean = false;
+  //TODO: colocar as configs de todas as tabelas em arquivos em uma pasta separada
   detalheColumns = [
     {
       label: 'código',
-      columnName: 'idPublico',
+      columnName: 'idPrivado',
       type: ColumnTypes.STRING,
       visible: true,
     },
     {
       label: 'Nome do livro',
-      columnName: 'nomLivro',
+      columnName: 'livroLocado',
       type: ColumnTypes.STRING,
       visible: false,
     },
@@ -145,7 +146,7 @@ export class AlunoComponent {
   expand = (registro: any): void => {
     if (!registro[this.detalheColumnName]) {
       let detalhe: any;
-      this.service.getDetalhe().subscribe({
+      this.service.getDetalhe(registro.idPrivado).subscribe({
         next: (result) => {
           detalhe = result.data;
           this.displayData = this.displayData.map((item, index, itens) => {
@@ -398,6 +399,10 @@ export class AlunoComponent {
      *  o endereço completo. A Api irá
      *  fazer uma consulta na api do
      *  via CEP e retonar o endereço
+     */
+
+    /*
+     * TODO
      */
     this.form = this.formBuilder.group({
       idPublico: [null],
