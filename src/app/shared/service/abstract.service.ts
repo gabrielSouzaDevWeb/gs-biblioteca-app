@@ -55,7 +55,7 @@ export class AbstractService {
     };
   }
   getDetalhe<T = any>(idPrivado: number): Observable<T> {
-    return this.http.get<T>(this.getUrl(`detalhe/${idPrivado}`));
+    return this.http.get<T>(`${this.getUrl(`detalhe`)}?idPrivado=${idPrivado}`);
   }
 
   getAll(params: IQueryParams): Observable<any> {

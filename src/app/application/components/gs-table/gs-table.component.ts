@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 // import { EventEmitter } from 'stream';
+import * as moment from 'moment';
 import { ColumnTypes } from '../../lib/enum/table.enum';
 import { IGsfabButton } from '../../lib/interface/fab.interface';
 import {
@@ -181,8 +182,16 @@ export class GsTableComponent implements OnInit {
     this.refreshStatus();
   }
 
-  getCell(column: any, data: any) {
-    return column.visible ? data[column.columnName] : null;
+  getCell(column: IColumn, data: any) {
+    if (column.visible) {
+      if (column.type === ColumnTypes.DATA) {
+        return data[column.columnName]
+          ? moment(data[column.columnName]).format('DD/MM/YYYY - HH:mm')
+          : null;
+      }
+      return data[column.columnName];
+    }
+    // return column.visible ? data[column.columnName] : null;
   }
 
   ngOnInit(): void {

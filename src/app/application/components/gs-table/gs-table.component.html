@@ -47,7 +47,7 @@
     </nz-collapse>
   </div>
 </ng-template>
-<nz-table #dynamicTable class="overlay" [nzScroll]="{y: dynamicTable.data.length>=7? '420px':null }"
+<nz-table #dynamicTable class="overlay" [nzScroll]="{y: dynamicTable.data.length>=7? '420px':null,x:'420px' }"
   [nzData]="displayData" [nzTableLayout]="'fixed'" [nzSimple]="false" [nzLoading]="false" [nzPaginationType]="'default'"
   [nzPageSize]="getPageSize()" [nzLoading]="loading" [nzShowPagination]="false" [nzFooter]="footer" [nzTitle]="filter"
   [nzSize]="'default'">
@@ -58,7 +58,8 @@
       <th *ngIf="true" nzWidth="60px" class="p-t-20 p-b-20 table_head" [(nzChecked)]="allChecked" [nzLeft]="true"
         [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"></th>
       <ng-container *ngFor="let column of columns">
-        <th [nzSortFn]="column.ordenator" *ngIf="column.visible" class="p-t-20 p-b-20 table_head">
+        <th [nzSortFn]="column.ordenator" [nzWidth]="column.width" [nzLeft]="column.float === 'LEFT' "
+          [nzRight]="column.float === 'RIGTH' " *ngIf="column.visible" class="p-t-20 p-b-20 table_head">
           {{column.label}}
         </th>
       </ng-container>
@@ -70,8 +71,10 @@
         <td [nzLeft]="true" *ngIf="hasDetalhe" [(nzExpand)]="data.expand" (click)="expand(data)"></td>
         <td [nzLeft]="true" *ngIf="true" [(nzChecked)]="data.checked" (nzCheckedChange)="refreshStatus(data)"></td>
         <ng-container *ngFor="let column of columns">
-          <td *ngIf="column.columnName  !== 'action' && column.visible ">{{ getCell(column,data) }}</td>
-          <td *ngIf="column.columnName  === 'action' && column.visible"> <a href="#">Delete</a>
+          <td *ngIf="column.columnName  !== 'action' && column.visible " [nzLeft]="column.float === 'LEFT' "
+            [nzRight]="column.float === 'RIGTH' ">{{ getCell(column,data) }}</td>
+          <td *ngIf="column.columnName  === 'action' && column.visible" [nzLeft]="column.float === 'LEFT' "
+            [nzRight]="column.float === 'RIGTH' "> <a href="#">Delete</a>
             <nz-divider nzType="vertical"></nz-divider>
             <a href="#">More action</a>
           </td>

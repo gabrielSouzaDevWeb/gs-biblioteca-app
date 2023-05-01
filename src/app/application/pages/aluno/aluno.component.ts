@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IAluno } from 'src/app/shared/interface/aluno.interface';
 import { AlunoService } from 'src/app/shared/service/aluno.service';
-import { IQueryParams } from '../../lib/interface/table.interface';
+import { ColumnTypes } from '../../lib/enum/table.enum';
+import { IColumn, IQueryParams } from '../../lib/interface/table.interface';
 import { IGsfabButton } from './../../lib/interface/fab.interface';
 
 interface ItemData {
@@ -21,11 +22,12 @@ interface ItemData {
 //   type: ColumnTypes.NUMBER | ColumnTypes.STRING | ColumnTypes.ACTION;
 //   // compare: (a: any, b: any) => any;
 // }
-const enum ColumnTypes {
-  'ACTION' = 0,
-  'STRING' = 1,
-  'NUMBER' = 2,
-}
+// const enum ColumnTypes {
+//   'ACTION' = 0,
+//   'STRING' = 1,
+//   'NUMBER' = 2,
+//   'DATA' = 3,
+// }
 @Component({
   selector: 'aluno',
   templateUrl: './aluno.component.html',
@@ -48,18 +50,25 @@ export class AlunoComponent {
   actions!: IGsfabButton[];
   visible: boolean = false;
   //TODO: colocar as configs de todas as tabelas em arquivos em uma pasta separada
-  detalheColumns = [
+  detalheColumns: IColumn[] = [
     {
       label: 'código',
       columnName: 'idPrivado',
       type: ColumnTypes.STRING,
+      width: '2em',
+      visible: true,
+    },
+    {
+      label: 'Status',
+      columnName: 'statusLocacao',
+      type: ColumnTypes.NUMBER,
       visible: true,
     },
     {
       label: 'Nome do livro',
-      columnName: 'livroLocado',
+      columnName: 'nomLivro',
       type: ColumnTypes.STRING,
-      visible: false,
+      visible: true,
     },
     {
       label: 'Nome do autor',
@@ -74,25 +83,46 @@ export class AlunoComponent {
       visible: true,
     },
     {
-      label: 'Unidades',
-      columnName: 'unidades',
-      type: ColumnTypes.NUMBER,
+      label: 'Data locação',
+      columnName: 'dtLocacao',
+      type: ColumnTypes.DATA,
       visible: true,
     },
+    {
+      label: 'Data renovação',
+      columnName: 'dtRenovacao',
+      type: ColumnTypes.DATA,
+      visible: true,
+    },
+    {
+      label: 'Data vencimento',
+      columnName: 'dtVencimento',
+      type: ColumnTypes.DATA,
+      visible: true,
+    },
+    // {
+    //   label: 'Unidades',
+    //   columnName: 'unidades',
+    //   type: ColumnTypes.NUMBER,
+    //   visible: true,
+    // },
   ];
-  columns = [
+  columns: IColumn[] = [
     {
       label: 'Código',
       columnName: 'idPublico',
       type: ColumnTypes.NUMBER,
-      seachable: true,
-      visible: true,
+      width: '6em',
+      seachable: false,
+      visible: false,
     },
     {
       label: 'Nome',
       columnName: 'nome',
       type: ColumnTypes.STRING,
       seachable: true,
+      float: 'LEFT',
+      width: '18em',
       visible: true,
     },
     {
@@ -113,6 +143,27 @@ export class AlunoComponent {
       label: 'Sala',
       columnName: 'sala',
       type: ColumnTypes.NUMBER,
+      seachable: true,
+      visible: true,
+    },
+    {
+      label: 'Cidade',
+      columnName: 'cidade',
+      type: ColumnTypes.STRING,
+      seachable: true,
+      visible: true,
+    },
+    {
+      label: 'Rua',
+      columnName: 'rua',
+      type: ColumnTypes.STRING,
+      seachable: true,
+      visible: true,
+    },
+    {
+      label: 'Data cadastro',
+      columnName: 'dtCriacao',
+      type: ColumnTypes.DATA,
       seachable: true,
       visible: true,
     },
@@ -149,9 +200,10 @@ export class AlunoComponent {
       this.service.getDetalhe(registro.idPrivado).subscribe({
         next: (result) => {
           detalhe = result.data;
+          console.log(detalhe);
           this.displayData = this.displayData.map((item, index, itens) => {
             if (itens.indexOf(registro) === index) {
-              return { ...registro, [this.detalheColumnName]: [detalhe] };
+              return { ...registro, [this.detalheColumnName]: detalhe };
             }
             return item;
           });

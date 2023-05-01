@@ -4,8 +4,14 @@ export interface IColumn {
   label: string;
   columnName: string;
   visible: boolean;
-  seachable: boolean;
-  type: ColumnTypes.NUMBER | ColumnTypes.STRING | ColumnTypes.ACTION;
+  seachable?: boolean;
+  width?: string;
+  float?: 'LEFT' | 'RIGHT';
+  type:
+    | ColumnTypes.NUMBER
+    | ColumnTypes.STRING
+    | ColumnTypes.ACTION
+    | ColumnTypes.DATA;
   // compare: (a: any, b: any) => any;
 }
 
