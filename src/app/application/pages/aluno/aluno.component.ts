@@ -85,19 +85,19 @@ export class AlunoComponent {
     {
       label: 'Data locação',
       columnName: 'dtLocacao',
-      type: ColumnTypes.DATA,
+      type: ColumnTypes.DATE,
       visible: true,
     },
     {
       label: 'Data renovação',
       columnName: 'dtRenovacao',
-      type: ColumnTypes.DATA,
+      type: ColumnTypes.DATE,
       visible: true,
     },
     {
       label: 'Data vencimento',
       columnName: 'dtVencimento',
-      type: ColumnTypes.DATA,
+      type: ColumnTypes.DATE,
       visible: true,
     },
     // {
@@ -163,7 +163,8 @@ export class AlunoComponent {
     {
       label: 'Data cadastro',
       columnName: 'dtCriacao',
-      type: ColumnTypes.DATA,
+      type: ColumnTypes.DATE,
+      width: '12em',
       seachable: true,
       visible: true,
     },
@@ -358,7 +359,9 @@ export class AlunoComponent {
   editarRegistro = () => {
     if (this.getchecked()) {
       const aluno: IAluno = this.getchecked() as IAluno;
-      this.form.patchValue(aluno);
+
+      console.log(aluno);
+      this.form.patchValue({ ...aluno, numero: Number(aluno.numero) });
       this.open();
     }
   };

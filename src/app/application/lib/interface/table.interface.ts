@@ -11,7 +11,7 @@ export interface IColumn {
     | ColumnTypes.NUMBER
     | ColumnTypes.STRING
     | ColumnTypes.ACTION
-    | ColumnTypes.DATA;
+    | ColumnTypes.DATE;
   // compare: (a: any, b: any) => any;
 }
 

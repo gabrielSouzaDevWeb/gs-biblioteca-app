@@ -123,11 +123,10 @@ export class GsTableComponent implements OnInit {
       };
       return {
         ...column,
-        ordenator:
-          column.type === ColumnTypes.STRING
-            ? (a: any, b: any) =>
-                a[column.columnName].localeCompare(b[column.columnName])
-            : (a: any, b: any) => a[column.columnName] - b[column.columnName],
+        ordenator: [ColumnTypes.STRING, ColumnTypes.DATE].includes(column.type)
+          ? (a: any, b: any) =>
+              a[column.columnName].localeCompare(b[column.columnName])
+          : (a: any, b: any) => a[column.columnName] - b[column.columnName],
       };
     });
   }
@@ -184,7 +183,7 @@ export class GsTableComponent implements OnInit {
 
   getCell(column: IColumn, data: any) {
     if (column.visible) {
-      if (column.type === ColumnTypes.DATA) {
+      if (column.type === ColumnTypes.DATE) {
         return data[column.columnName]
           ? moment(data[column.columnName]).format('DD/MM/YYYY - HH:mm')
           : null;

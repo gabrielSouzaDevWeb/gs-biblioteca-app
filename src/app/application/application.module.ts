@@ -17,12 +17,14 @@ import { GsComponentsModule } from './components/gs-components.module';
 import { MainComponent } from './layouts/main/main.component';
 import { AlunoComponent } from './pages/aluno/aluno.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { LivroComponent } from './pages/livro/livro.component';
 @NgModule({
   declarations: [
     // GsFabComponent,
     MainComponent,
     DashboardComponent,
     AlunoComponent,
+    LivroComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
