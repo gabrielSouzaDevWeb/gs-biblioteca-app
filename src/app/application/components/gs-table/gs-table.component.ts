@@ -21,7 +21,7 @@ export class GsTableComponent implements OnInit {
   actions: IGsfabButton[] = [];
   @Input() displayData: any[] = [];
   @Input() columns: any[] = [];
-  @Input() detalheColumns: any[] = [];
+  @Input() detalheColumns?: any[] = [];
   @Input() hasDetalhe: boolean = false;
   @Input() pesquisar: (params: IQueryParams) => any[] | void = () => {};
   @Input() detalheColumnName!: string;

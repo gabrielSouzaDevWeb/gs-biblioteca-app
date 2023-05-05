@@ -53,7 +53,8 @@
   [nzSize]="'default'">
   <thead class="table_head ant-table-header ">
     <tr *ngIf="true" class="table_head ">
-      <th nzWidth="40px" class="table_head" class="p-t-20 p-b-20 table_head" *ngIf="hasDetalhe" [nzLeft]="true">
+      <th nzWidth="40px" class="table_head" class="p-t-20 p-b-20 table_head" *ngIf="hasDetalhe && !!expand" [nzLeft]="
+        true">
       </th>
       <th *ngIf="true" nzWidth="60px" class="p-t-20 p-b-20 table_head" [(nzChecked)]="allChecked" [nzLeft]="true"
         [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"></th>
@@ -68,7 +69,7 @@
   <tbody class="ant-table-body">
     <ng-container *ngFor="let data of dynamicTable.data">
       <tr>
-        <td [nzLeft]="true" *ngIf="hasDetalhe" [(nzExpand)]="data.expand" (click)="expand(data)"></td>
+        <td [nzLeft]="true" *ngIf="hasDetalhe && !!expand" [(nzExpand)]="data.expand" (click)="expand(data)"></td>
         <td [nzLeft]="true" *ngIf="true" [(nzChecked)]="data.checked" (nzCheckedChange)="refreshStatus(data)"></td>
         <ng-container *ngFor="let column of columns">
           <td *ngIf="column.columnName  !== 'action' && column.visible " [nzLeft]="column.float === 'LEFT' "

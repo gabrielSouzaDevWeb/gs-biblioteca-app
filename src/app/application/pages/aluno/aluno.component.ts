@@ -415,6 +415,10 @@ export class AlunoComponent {
         this.loadingTable = false;
         this.count = result.data.count;
         this.displayData = result.data.result.map((dt: any) => {
+          /**
+           * TODO: Deixar os atributos (checked, expand)
+           * sob resoponsabilidade do component gs-table
+           */
           return {
             ...dt,
             checked: false,
@@ -480,8 +484,8 @@ export class AlunoComponent {
       telResponsavel: [null, Validators.required],
       email: [null, Validators.required],
       //
-      dtCriacao: [null],
-      dtAlteracao: [null],
+      // dtCriacao: [null],
+      // dtAlteracao: [null],
     });
   }
 

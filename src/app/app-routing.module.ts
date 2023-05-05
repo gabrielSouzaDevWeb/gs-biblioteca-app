@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { GsTableComponent } from './application/components/gs-table/gs-table.component';
 import { AlunoComponent } from './application/pages/aluno/aluno.component';
 import { DashboardComponent } from './application/pages/dashboard/dashboard.component';
+import { LivroComponent } from './application/pages/livro/livro.component';
 
 const routes: Routes = [
   {
@@ -24,22 +24,16 @@ const routes: Routes = [
         // canActivate: [AuthService],
         component: DashboardComponent,
       },
+
       {
         path: 'aluno',
         // canActivate: [AuthService],
-        // component: DashboardComponent,
-        children: [
-          {
-            path: 'consultar',
-            // canActivate: [AuthService],
-            component: GsTableComponent,
-          },
-          {
-            path: 'aluno',
-            // canActivate: [AuthService],
-            component: AlunoComponent,
-          },
-        ],
+        component: AlunoComponent,
+      },
+      {
+        path: 'livro',
+        // canActivate: [AuthService],
+        component: LivroComponent,
       },
     ],
   },

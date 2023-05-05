@@ -32,7 +32,7 @@ export class MainComponent implements OnInit {
         // },
         {
           title: 'aluno',
-          router: 'session/aluno/aluno',
+          router: 'session/aluno',
           icon: 'user',
           children: [],
         },
@@ -43,8 +43,8 @@ export class MainComponent implements OnInit {
       icon: 'dashboard',
       children: [
         {
-          title: 'Dashboard2',
-          router: 'session/coisa',
+          title: 'Livro',
+          router: 'session/livro',
           icon: 'dashboard',
           children: [],
         },
