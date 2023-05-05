@@ -1,3 +1,158 @@
 <gs-fab [actions]="actions"></gs-fab>
 <gs-table [displayData]="displayData" [columns]="columns" [hasDetalhe]="true" [pesquisar]="getRegistrys" [title]="title"
   [count]="count" (check)="check($event)" [loading]="loadingTable"></gs-table>
+<nz-drawer #drawerElement [nzBodyStyle]="{ overflow: 'auto' }" [nzMaskClosable]="true" [nzWidth]="720"
+  [nzVisible]="visible" [nzTitle]="drawerTitulo" nzPlacement="right" (nzOnClose)="close()" nzCloseOnNavigation="true">
+  <ng-template #drawerTitulo>
+    <span nz-icon nzType="book" nzTheme="outline"></span>&nbsp;Cadastrar Livro
+  </ng-template>
+  <form [formGroup]="form" nz-form *nzDrawerContent>
+    <nz-divider [nzText]="cadastroBasicoDivider" nzOrientation="left"></nz-divider>
+    <ng-template #cadastroBasicoDivider>
+      <span nz-icon nzType="form" nzTheme="outline"></span>&nbsp;Cadastro básico
+    </ng-template>
+    <div nz-row [nzGutter]=[16,16]>
+      <div nz-col nzSpan="10">
+        <nz-form-item>
+          <nz-form-label nzSpan="24">Nome do livro</nz-form-label>
+          <nz-form-control nzSpan="24">
+            <input nz-input placeholder="Nome do livro" formControlName="nomLivro" type="text">
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="8">
+        <nz-form-item>
+          <nz-form-label nzSpan="24">Nome do autor</nz-form-label>
+          <nz-form-control nzSpan="24">
+            <input nz-input placeholder="Nome do autor" formControlName="nomAutor" type="text">
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="6">
+        <nz-form-item>
+          <nz-form-label nzSpan="24">Categoria</nz-form-label>
+          <nz-form-control nzSpan="24">
+            <!--TODO: tooltip "ou algum numero de indentificação"-->
+            <input nz-input placeholder="Categoria" formControlName="categoria" type="text">
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+
+    </div>
+    <!-- <div nz-row [nzGutter]=[16,16]>
+
+
+      
+
+    </div> -->
+    <!-- <nz-divider [nzText]="contatoDivider" nzOrientation="left"></nz-divider>
+    <ng-template #contatoDivider>
+      <span nz-icon nzType="phone" nzTheme="outline"></span>&nbsp;Contato
+    </ng-template> -->
+    <div nz-row [nzGutter]=[16,16]>
+      <div nz-col nzSpan="6">
+        <nz-form-item>
+          <nz-form-label nzSpan="24">Quantidade de páginas</nz-form-label>
+          <nz-form-control nzSpan="24">
+
+            <input nz-input placeholder="Quantidade de páginas" formControlName="qntdPagina" type="number">
+          </nz-form-control>
+        </nz-form-item>
+
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label nzSpan="24">Prateleira</nz-form-label>
+          <nz-form-control nzSpan="24">
+            <!--TODO: tooltip "ou algum numero de indentificação"-->
+            <input nz-input placeholder="Prateleira" formControlName="prateleira" type="text">
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="6">
+        <nz-form-item>
+          <nz-form-label nzSpan="24">Unidades</nz-form-label>
+          <nz-form-control nzSpan="24">
+
+            <input nz-input placeholder="Unidades do livro na biblioteca" formControlName="unidades" type="text">
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+
+    <!-- <nz-divider [nzText]="enderecoDivider" nzOrientation="left"></nz-divider>
+    <ng-template #enderecoDivider>
+      <span nz-icon nzType="environment" nzTheme="outline"></span>&nbsp;Endereço
+    </ng-template>
+    <div nz-row [nzGutter]=[16,16]>
+      <div nz-col nzSpan="8">
+        <nz-form-item>
+          <nz-form-label nzSpan="24">CEP</nz-form-label>
+          <nz-form-control nzSpan="24">
+
+            <input nz-input placeholder="CEP" formControlName="cep" type="text">
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="10">
+        <nz-form-item>
+          <nz-form-label nzSpan="24">Rua</nz-form-label>
+          <nz-form-control nzSpan="24">
+
+            <input nz-input placeholder="Rua" formControlName="rua" type="text">
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="6">
+        <nz-form-item>
+          <nz-form-label nzSpan="24">Número</nz-form-label>
+          <nz-form-control nzSpan="24">
+
+            <input nz-input placeholder="Número" formControlName="numero" type="number">
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+    </div>
+    <div nz-row [nzGutter]=[16,16]>
+      <div nz-col nzSpan="6">
+        <nz-form-item>
+          <nz-form-label nzSpan="24">Bairro</nz-form-label>
+          <nz-form-control nzSpan="24">
+
+            <input nz-input placeholder="bairro" formControlName="bairro" type="text">
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="7">
+        <nz-form-item>
+          <nz-form-label nzSpan="24">Complemento</nz-form-label>
+          <nz-form-control nzSpan="24">
+
+            <input nz-input placeholder="Complemento" formControlName="complemento" type="text">
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="8">
+        <nz-form-item>
+          <nz-form-label nzSpan="24">Cidade</nz-form-label>
+          <nz-form-control nzSpan="24">
+
+            <input nz-input placeholder="Cidade" formControlName="cidade" type="text">
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="3">
+        <nz-form-item>
+          <nz-form-label nzSpan="24">UF</nz-form-label>
+          <nz-form-control nzSpan="24">
+            <input nz-input placeholder="UF" formControlName="uf" type="text">
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+    </div> -->
+  </form>
+</nz-drawer>

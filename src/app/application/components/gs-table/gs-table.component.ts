@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 // import { EventEmitter } from 'stream';
 import * as moment from 'moment';
 import { ColumnTypes } from '../../lib/enum/table.enum';
@@ -41,10 +41,7 @@ export class GsTableComponent implements OnInit {
   selectFilterValue!: string | number;
   filters: IFilter[] | any[] = [];
 
-  constructor(
-    private formBuilder: UntypedFormBuilder,
-    private service: GsTableService
-  ) {
+  constructor(private service: GsTableService) {
     this.setOrdenator();
   }
 

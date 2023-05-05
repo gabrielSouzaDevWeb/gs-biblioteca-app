@@ -40,12 +40,12 @@ export class MainComponent implements OnInit {
     },
     {
       title: 'Livros',
-      icon: 'dashboard',
+      icon: 'book',
       children: [
         {
           title: 'Livro',
           router: 'session/livro',
-          icon: 'dashboard',
+          icon: 'book',
           children: [],
         },
       ],
