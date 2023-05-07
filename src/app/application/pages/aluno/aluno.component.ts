@@ -3,7 +3,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IAluno } from 'src/app/shared/interface/aluno.interface';
 import { AlunoService } from 'src/app/shared/service/aluno.service';
 import { ColumnTypes } from '../../lib/enum/table.enum';
-import { IColumn, IQueryParams } from '../../lib/interface/table.interface';
+import {
+  IColumn,
+  IDisplayDataState,
+  IQueryParams,
+} from '../../lib/interface/table.interface';
 import { IGsfabButton } from './../../lib/interface/fab.interface';
 
 interface ItemData {
@@ -37,11 +41,7 @@ export class AlunoComponent {
   public title: string = 'Aluno';
   public entity: string = 'aluno';
   public detalheColumnName: string = 'livros';
-  displayDataState!: {
-    displayData: IAluno[];
-    checkeds: IAluno[];
-    checked: IAluno;
-  };
+  displayDataState!: IDisplayDataState<IAluno>;
 
   loadingTable: boolean = false;
 
@@ -298,6 +298,8 @@ export class AlunoComponent {
            * TODO: logica para remover aluno do displayData
            * do componente da tabela
            */
+
+          //TODO: Modal de confirmação
           this.service.notification.success(this.title, response.message);
           this.getRegistrys();
           this.loadingTable = false;
@@ -328,6 +330,7 @@ export class AlunoComponent {
           this.loadingTable = false;
           this.getRegistrys();
           this.limparFecharFormulario();
+          this.close();
         },
         error: (error) => {
           this.service.notification.error(this.title, error);
@@ -386,7 +389,7 @@ export class AlunoComponent {
     return alunos[0] as IAluno;
   }
 
-  check(event: { displayData: IAluno[]; checkeds: IAluno[]; checked: IAluno }) {
+  check(event: IDisplayDataState<IAluno>) {
     console.log(event);
     this.displayDataState = event;
   }
@@ -406,11 +409,12 @@ export class AlunoComponent {
       title: this.title,
       entity: this.entity,
     };
-    let alunos: any;
+    // let alunos: any;
     this.count = 0;
     this.displayData = [];
     this.loadingTable = true;
-    this.service.getAll(params).subscribe({
+    //TODO: Criar uma interface "abstractResponse"
+    this.service.getAll<any>(params).subscribe({
       next: (result) => {
         this.loadingTable = false;
         this.count = result.data.count;

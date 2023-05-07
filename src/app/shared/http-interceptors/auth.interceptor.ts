@@ -36,7 +36,9 @@ export class AuthInterceptor implements HttpInterceptor {
         : `Código do error: ${error.status}; Error:${JSON.stringify(
             typeof error.error.message === typeof 'string'
               ? error.error.message
-              : (error.error.message as Array<string>).join('./n')
+              : error.error.message
+              ? (error.error.message as Array<string>).join('./n')
+              : (error.message as string)
           )}`;
 
     return throwError(() => mensagemError);

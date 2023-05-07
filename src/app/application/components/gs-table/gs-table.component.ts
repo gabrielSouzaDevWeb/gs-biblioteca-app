@@ -45,14 +45,15 @@ export class GsTableComponent implements OnInit {
     this.setOrdenator();
   }
 
-  getRegistrysWithFilters() {
+  async getRegistrysWithFilters() {
     let params: IQueryParams = {} as IQueryParams;
     params.filters = this.filters;
     params.title = this.title;
     params.take = this.getPageSize();
     params.page = this.getPageIndex();
-    params.all = this.filters.length === 0 ? true : false;
+    params.all = this.filters.length === 0;
     this.pesquisar(params);
+    this.checkAll(false);
   }
 
   isString(value: ColumnTypes): boolean {
@@ -170,12 +171,14 @@ export class GsTableComponent implements OnInit {
   }
 
   checkAll(value: boolean): void {
-    this.displayData.forEach((data) => {
-      if (!data.disabled) {
-        data.checked = value;
-      }
-    });
-    this.refreshStatus();
+    if (this.displayData && this.displayData.length !== 0) {
+      this.displayData.forEach((data) => {
+        if (!data.disabled) {
+          data.checked = value;
+        }
+      });
+      this.refreshStatus();
+    }
   }
 
   getCell(column: IColumn, data: any) {
@@ -192,5 +195,8 @@ export class GsTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.setOrdenator();
+    // if (this.displayData.length === 0) {
+    this.getRegistrysWithFilters();
+    // }
   }
 }

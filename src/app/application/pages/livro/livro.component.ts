@@ -1,9 +1,14 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ILivro } from 'src/app/shared/interface/livro.interface';
 import { ColumnTypes } from '../../lib/enum/table.enum';
 import { LivroService } from './../../../shared/service/livro.service';
 import { IGsfabButton } from './../../lib/interface/fab.interface';
-import { IColumn } from './../../lib/interface/table.interface';
+import {
+  IColumn,
+  IDisplayDataState,
+  IQueryParams,
+} from './../../lib/interface/table.interface';
 
 @Component({
   selector: 'app-livro',
@@ -13,58 +18,14 @@ import { IColumn } from './../../lib/interface/table.interface';
 export class LivroComponent {
   public form!: FormGroup;
   title: string = 'Livros';
+  entity: string = 'livro';
   count: number = 2;
   visible: boolean = false;
-
+  displayDataState!: IDisplayDataState<ILivro>;
   actions!: IGsfabButton[];
   loadingTable: boolean = false;
 
-  public displayData: {
-    idPrivado?: number;
-    idPublico?: string;
-    nomLivro: string;
-    nomAutor: string;
-    categoria: string;
-    estante?: string;
-    prateleira?: string;
-    qntdPaginas: number;
-    unidades: number;
-    dtAlteracao?: Date;
-    dtCriacao?: Date;
-    dtDeletado?: Date;
-    checked?: boolean;
-  }[] = [
-    {
-      checked: false,
-      idPrivado: 1,
-      idPublico: '1',
-      nomLivro: 'Coração de Tinta',
-      nomAutor: 'Emily',
-      categoria: 'Romance',
-      estante: '2b',
-      prateleira: '5',
-      qntdPaginas: 313,
-      unidades: 2,
-      //   dtAlteracao?: Timestamp;
-      dtCriacao: new Date('2023-05-05 09:38:33.678'),
-      //   dtDeletado?: Timestamp;
-    },
-    {
-      checked: false,
-      idPrivado: 1,
-      idPublico: '1',
-      nomLivro: 'Coração de Tinta',
-      nomAutor: 'Emily',
-      categoria: 'Romance',
-      estante: '2b',
-      prateleira: '5',
-      qntdPaginas: 313,
-      unidades: 2,
-      //   dtAlteracao?: Timestamp;
-      dtCriacao: new Date('2023-05-05 09:38:33.678'),
-      //   dtDeletado?: Timestamp;
-    },
-  ];
+  public displayData!: ILivro[];
 
   columns: IColumn[] = [
     {
@@ -179,17 +140,58 @@ export class LivroComponent {
       nomAutor: [null],
       categoria: [null],
       prateleira: [null],
-      qntdPagina: [null],
+      qntdPaginas: [null],
+      estante: [null],
       unidades: [null],
     });
   }
 
-  getRegistrys = () => {
-    console.log('123');
+  getRegistrys = (filters?: any) => {
+    this.getLivros(filters);
   };
 
-  check(event: any) {
+  getLivros(params?: IQueryParams) {
+    params = {
+      ...params,
+      title: this.title,
+      entity: this.entity,
+    };
+    this.count = 0;
+    this.displayData = [];
+    this.loadingTable = true;
+    this.service.getAll<any>(params).subscribe({
+      next: (result) => {
+        this.loadingTable = false;
+        this.count = result.data.count;
+        this.displayData = result.data.result.map((dt: any) => {
+          /**
+           * TODO: Deixar os atributos (checked, expand)
+           * sob resoponsabilidade do component gs-table
+           */
+          return {
+            ...dt,
+            checked: false,
+            expand: false,
+          };
+        });
+        this.service.notification.success(
+          this.title,
+          'Consulta Realizada com sucesso!',
+          { nzKey: JSON.stringify(result) }
+        );
+      },
+      error: (error) => {
+        this.loadingTable = false;
+        this.service.notification.error(this.title, error, {
+          nzKey: JSON.stringify(error),
+        });
+      },
+    });
+  }
+
+  check(event: IDisplayDataState<ILivro>) {
     console.log(event);
+    this.displayDataState = event;
   }
 
   criarFabButton() {
@@ -200,14 +202,6 @@ export class LivroComponent {
      * */
     this.actions = [
       {
-        label: 'Novo cadastro',
-        icon: 'plus',
-        changeContext: true,
-        condition: !this.visible,
-        color: 'red',
-        func: this.criarNovoCadastro,
-      },
-      {
         label: 'eye',
         icon: 'eye',
         func: () => {
@@ -217,61 +211,62 @@ export class LivroComponent {
         color: 'red',
         // func: this.eye,
       },
-      // {
-      //   label: 'Cancelar',
-      //   icon: 'stop',
-      //   changeContext: true,
-      //   condition: this.visible,
-      //   color: 'red',
-      //   func: this.limparFecharFormulario,
-      // },
-      // {
-      //   label: 'Limpar formulário',
-      //   icon: 'clear',
-      //   condition: this.visible,
-      //   color: 'red',
-      //   func: this.limparFormulario,
-      // },
-      // {
-      //   label: 'Novo cadastro',
-      //   icon: 'plus',
-      //   changeContext: true,
-      //   condition: !this.visible,
-      //   color: 'red',
-      //   func: this.criarNovoCadastro,
-      // },
-      // {
-      //   label: 'Salvar',
-      //   icon: 'save',
-      //   changeContext: true,
-      //   condition: this.visible,
-      //   color: 'red',
-      //   func: this.salvarRegistro,
-      // },
-      // {
-      //   label: 'Deletar',
-      //   icon: 'delete',
-      //   condition: !this.visible,
-      //   color: 'red',
-      //   func: this.deletarRegistro,
-      // },
-      // {
-      //   label: 'Editar',
-      //   icon: 'edit',
-      //   changeContext: true,
-      //   condition: !this.visible,
-      //   color: 'red',
-      //   func: this.editarRegistro,
-      // },
-      // {
-      //   label: 'Atualizar',
-      //   icon: 'reload',
-      //   condition: !this.visible,
-      //   color: 'red',
-      //   func: this.getRegistrys,
-      // },
+      {
+        label: 'Novo cadastro',
+        icon: 'plus',
+        changeContext: true,
+        condition: !this.visible,
+        color: 'red',
+        func: this.criarNovoCadastro,
+      },
+      {
+        label: 'Cancelar',
+        icon: 'stop',
+        changeContext: true,
+        condition: this.visible,
+        color: 'red',
+        func: this.limparFecharFormulario,
+      },
+      {
+        label: 'Limpar formulário',
+        icon: 'clear',
+        condition: this.visible,
+        color: 'red',
+        func: this.limparFormulario,
+      },
+      {
+        label: 'Salvar',
+        icon: 'save',
+        changeContext: true,
+        condition: this.visible,
+        color: 'red',
+        func: this.salvarRegistro,
+      },
+      {
+        label: 'Deletar',
+        icon: 'delete',
+        condition: !this.visible,
+        color: 'red',
+        func: this.deletarRegistro,
+      },
+      {
+        label: 'Editar',
+        icon: 'edit',
+        changeContext: true,
+        condition: !this.visible,
+        color: 'red',
+        func: this.editarRegistro,
+      },
+      {
+        label: 'Atualizar',
+        icon: 'reload',
+        condition: !this.visible,
+        color: 'red',
+        func: this.getRegistrys,
+      },
     ];
   }
+
   criarNovoCadastro = () => {
     this.limparFormulario();
     this.open();
@@ -280,6 +275,113 @@ export class LivroComponent {
     this.form.reset();
   };
 
+  limparFecharFormulario = () => {
+    this.close();
+    this.limparFormulario();
+  };
+
+  salvarRegistro = (): void => {
+    if (!this.form.valid) {
+      this.service.notification.warning(
+        this.title,
+        'Preencha todos os campos corretamente!'
+      );
+      return;
+    }
+    this.loadingTable = true;
+    if (this.form.value.idPrivado) {
+      console.log('Entrou aqui!');
+      this.service.editarRegistro(this.form.value).subscribe({
+        next: (response: any) => {
+          //TODO: implementar lógica de atualizar o registro no display data
+          this.service.notification.success(this.title, response.message);
+          this.loadingTable = false;
+          this.getRegistrys();
+          this.limparFecharFormulario();
+          this.close();
+        },
+        error: (error) => {
+          this.service.notification.error(this.title, error);
+          this.loadingTable = false;
+        },
+      });
+      return;
+    }
+
+    this.service.salvarRegistro(this.form.value).subscribe({
+      next: (response: any) => {
+        /**
+         * TODO: o response traz o livro cadastrado como retorno
+         *  colocar adicionar ele no display data assim que é retornado
+         */
+        this.loadingTable = false;
+        this.service.notification.success(this.title, response.message);
+        this.getRegistrys();
+        this.limparFormulario();
+        return;
+      },
+      error: (error: any) => {
+        this.loadingTable = false;
+        this.service.notification.error(this.title, error);
+      },
+    });
+  };
+
+  deletarRegistro = () => {
+    if (this.getchecked()) {
+      this.loadingTable = true;
+      const aluno: ILivro = this.getchecked() as ILivro;
+
+      //implementar abstract response
+      this.service.deletar<ILivro>(aluno).subscribe({
+        next: (response: any) => {
+          /**
+           * TODO: logica para remover aluno do displayData
+           * do componente da tabela
+           */
+
+          //TODO: Modal de confirmação
+          this.service.notification.success(this.title, response.message);
+          this.getRegistrys();
+          this.loadingTable = false;
+        },
+        error: (error) => {
+          this.service.notification.error(this.title, error);
+          this.loadingTable = false;
+        },
+      });
+    }
+  };
+
+  editarRegistro = () => {
+    if (this.getchecked()) {
+      const livro: ILivro = this.getchecked() as ILivro;
+
+      console.log(livro);
+      this.form.patchValue({ ...livro });
+      this.open();
+    }
+  };
+
+  getchecked(): ILivro | void {
+    console.log(this.displayDataState);
+    const livros: ILivro[] = this.displayDataState.checkeds;
+    if (livros.length > 1) {
+      this.service.notification.warning(
+        this.title,
+        'Muitos livros Selecionados. Por favor, selecione apenas um!'
+      );
+      return;
+    }
+    if (livros.length === 0) {
+      this.service.notification.warning(
+        this.title,
+        'Nenhum livro Selecionados. Por favor, selecione um!'
+      );
+      return;
+    }
+    return livros[0] as ILivro;
+  }
   open(): void {
     window.scrollTo({ top: 0, left: 0 });
     this.visible = true;

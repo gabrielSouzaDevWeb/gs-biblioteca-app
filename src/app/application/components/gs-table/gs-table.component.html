@@ -47,8 +47,9 @@
     </nz-collapse>
   </div>
 </ng-template>
-<nz-table #dynamicTable class="overlay" [nzScroll]="{y: dynamicTable.data.length>=7? '420px':null,x:'420px' }"
-  [nzData]="displayData" [nzTableLayout]="'fixed'" [nzSimple]="false" [nzLoading]="false" [nzPaginationType]="'default'"
+<nz-table #dynamicTable class="overlay"
+  [nzScroll]="{y:dynamicTable.data && dynamicTable.data.length>=7? '420px':null,x:'420px' }" [nzData]="displayData"
+  [nzTableLayout]="'fixed'" [nzSimple]="false" [nzLoading]="false" [nzPaginationType]="'default'"
   [nzPageSize]="getPageSize()" [nzLoading]="loading" [nzShowPagination]="false" [nzFooter]="footer" [nzTitle]="filter"
   [nzSize]="'default'">
   <thead class="table_head ant-table-header ">

@@ -7,11 +7,7 @@ export interface IColumn {
   seachable?: boolean;
   width?: string;
   float?: 'LEFT' | 'RIGHT';
-  type:
-    | ColumnTypes.NUMBER
-    | ColumnTypes.STRING
-    | ColumnTypes.ACTION
-    | ColumnTypes.DATE;
+  type: ColumnTypes;
   // compare: (a: any, b: any) => any;
 }
 
@@ -27,4 +23,10 @@ export interface IQueryParams {
   take?: number;
   page?: number;
   all?: boolean;
+}
+
+export interface IDisplayDataState<Type = any> {
+  displayData: Array<Type>;
+  checkeds: Array<Type>;
+  checked: Type;
 }

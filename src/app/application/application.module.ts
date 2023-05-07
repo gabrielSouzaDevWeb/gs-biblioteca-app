@@ -10,6 +10,7 @@ import { NzAffixModule } from 'ng-zorro-antd/affix';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
+import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
@@ -18,6 +19,7 @@ import { MainComponent } from './layouts/main/main.component';
 import { AlunoComponent } from './pages/aluno/aluno.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { LivroComponent } from './pages/livro/livro.component';
+
 @NgModule({
   declarations: [
     // GsFabComponent,
@@ -26,8 +28,10 @@ import { LivroComponent } from './pages/livro/livro.component';
     AlunoComponent,
     LivroComponent,
   ],
+
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
+    NzFormModule,
     NzDividerModule,
     ReactiveFormsModule,
     NzButtonModule,

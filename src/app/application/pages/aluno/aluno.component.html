@@ -15,7 +15,7 @@
     <div nz-row [nzGutter]=[16,16]>
       <div nz-col nzSpan="15">
         <nz-form-item>
-          <nz-form-label nzSpan="24">Nome</nz-form-label>
+          <nz-form-label nzSpan="24" nzRequired>Nome</nz-form-label>
           <nz-form-control nzSpan="24">
             <input nz-input placeholder="Nome do aluno" formControlName="nome" type="text">
           </nz-form-control>
@@ -23,7 +23,7 @@
       </div>
       <div nz-col nzSpan="9">
         <nz-form-item>
-          <nz-form-label nzSpan="24">Sala</nz-form-label>
+          <nz-form-label nzSpan="24" nzRequired>Sala</nz-form-label>
           <nz-form-control nzSpan="24">
             <input nz-input placeholder="Sala" formControlName="sala" type="number">
           </nz-form-control>
@@ -35,7 +35,7 @@
     <div nz-row [nzGutter]=[16,16]>
       <div nz-col nzSpan="12">
         <nz-form-item>
-          <nz-form-label nzSpan="24">Matricula</nz-form-label>
+          <nz-form-label nzSpan="24" nzRequired>Matricula</nz-form-label>
           <nz-form-control nzSpan="24">
             <!--TODO: tooltip "ou algum numero de indentificação"-->
             <input nz-input placeholder="Matricula" formControlName="matricula" type="text">
@@ -45,7 +45,7 @@
 
       <div nz-col nzSpan="12">
         <nz-form-item>
-          <nz-form-label nzSpan="24">Registro</nz-form-label>
+          <nz-form-label nzSpan="24" nzRequired>Registro</nz-form-label>
           <nz-form-control nzSpan="24">
             <!--TODO: tooltip "ou algum numero de indentificação"-->
             <input nz-input placeholder="Regitro" formControlName="registro" type="text">
@@ -61,7 +61,7 @@
     <div nz-row [nzGutter]=[16,16]>
       <div nz-col nzSpan="24">
         <nz-form-item>
-          <nz-form-label nzSpan="24">E-mail</nz-form-label>
+          <nz-form-label nzSpan="24" nzRequired>E-mail</nz-form-label>
           <nz-form-control nzSpan="24">
 
             <input nz-input placeholder="E-mail do aluno" formControlName="email" type="email">
@@ -72,7 +72,7 @@
     <div nz-row [nzGutter]=[16,16]>
       <div nz-col nzSpan="12">
         <nz-form-item>
-          <nz-form-label nzSpan="24">Telefone</nz-form-label>
+          <nz-form-label nzSpan="24" nzRequired>Telefone</nz-form-label>
           <nz-form-control nzSpan="24">
 
             <input nz-input placeholder="Telefone do aluno" formControlName="tel" type="text">
@@ -82,7 +82,7 @@
 
       <div nz-col nzSpan="12">
         <nz-form-item>
-          <nz-form-label nzSpan="24">Telefone do responsável</nz-form-label>
+          <nz-form-label nzSpan="24" nzRequired>Telefone do responsável</nz-form-label>
           <nz-form-control nzSpan="24">
 
             <input nz-input placeholder="Telefone do responsável" formControlName="telResponsavel" type="text">

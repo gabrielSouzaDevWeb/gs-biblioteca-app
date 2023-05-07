@@ -7,6 +7,8 @@
     <span nz-icon nzType="book" nzTheme="outline"></span>&nbsp;Cadastrar Livro
   </ng-template>
   <form [formGroup]="form" nz-form *nzDrawerContent>
+
+    <!--TODO: melhorar as validações do formualário para evitar erros-->
     <nz-divider [nzText]="cadastroBasicoDivider" nzOrientation="left"></nz-divider>
     <ng-template #cadastroBasicoDivider>
       <span nz-icon nzType="form" nzTheme="outline"></span>&nbsp;Cadastro básico
@@ -56,17 +58,26 @@
           <nz-form-label nzSpan="24">Quantidade de páginas</nz-form-label>
           <nz-form-control nzSpan="24">
 
-            <input nz-input placeholder="Quantidade de páginas" formControlName="qntdPagina" type="number">
+            <input nz-input placeholder="Quantidade de páginas" formControlName="qntdPaginas" type="text">
           </nz-form-control>
         </nz-form-item>
 
       </div>
-      <div nz-col nzSpan="12">
+      <div nz-col nzSpan="6">
         <nz-form-item>
           <nz-form-label nzSpan="24">Prateleira</nz-form-label>
           <nz-form-control nzSpan="24">
             <!--TODO: tooltip "ou algum numero de indentificação"-->
             <input nz-input placeholder="Prateleira" formControlName="prateleira" type="text">
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="6">
+        <nz-form-item>
+          <nz-form-label nzSpan="24">Estante</nz-form-label>
+          <nz-form-control nzSpan="24">
+            <!--TODO: tooltip "ou algum numero de indentificação"-->
+            <input nz-input placeholder="Estante" formControlName="estante" type="text">
           </nz-form-control>
         </nz-form-item>
       </div>

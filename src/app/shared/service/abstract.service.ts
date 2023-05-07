@@ -29,6 +29,11 @@ export class AbstractService {
         entity: 'aluno',
         api: 'biblioteca',
       }),
+      [`livro`]: this.getUriByEnviroment({
+        port: 3000,
+        entity: 'livro',
+        api: 'biblioteca',
+      }),
     };
 
     return uris[entity];
@@ -58,7 +63,7 @@ export class AbstractService {
     return this.http.get<T>(`${this.getUrl(`detalhe`)}?idPrivado=${idPrivado}`);
   }
 
-  getAll(params: IQueryParams): Observable<any> {
+  getAll<T>(params: IQueryParams): Observable<T> {
     // TODO: implement a consulte return type based in the get endpoint type
     const {
       entity = this.entity,
@@ -82,8 +87,7 @@ export class AbstractService {
       query = `?all=true&take=${take}&page=${page}`;
     }
 
-    let data;
-    return this.http.get<any>(this.getUrl(query), this.getHeader());
+    return this.http.get<T>(this.getUrl(query), this.getHeader());
   }
 
   salvarRegistro(form: IAluno): Observable<IAluno> {
