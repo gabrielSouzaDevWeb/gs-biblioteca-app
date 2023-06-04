@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { livroAdapter } from 'src/app/shared/adapters/livros.adapter';
+import { livroEmprestadoAdapter } from 'src/app/shared/adapters/livros.adapter';
 import { IAluno } from 'src/app/shared/interface/aluno.interface';
 import { AlunoService } from 'src/app/shared/service/aluno.service';
 import { EmpretimoService } from 'src/app/shared/service/empretimo.service';
@@ -73,7 +73,6 @@ export class AlunoComponent {
       type: ColumnTypes.NUMBER,
       visible: true,
     },
-
     {
       label: 'Nome do autor',
       columnName: 'nomAutor',
@@ -81,8 +80,8 @@ export class AlunoComponent {
       visible: true,
     },
     {
-      label: 'Categoria',
-      columnName: 'categoria',
+      label: 'Gereno',
+      columnName: 'genero',
       type: ColumnTypes.STRING,
       visible: true,
     },
@@ -208,7 +207,7 @@ export class AlunoComponent {
       let detalhe: any;
       this.empretimoService.consultarEmprestimos(registro.idPrivado).subscribe({
         next: (result: any) => {
-          detalhe = livroAdapter(result.data);
+          detalhe = livroEmprestadoAdapter(result.data);
           this.displayData = this.displayData.map((item, index, itens) => {
             if (itens.indexOf(registro) === index) {
               return { ...registro, [this.detalheColumnName]: detalhe };

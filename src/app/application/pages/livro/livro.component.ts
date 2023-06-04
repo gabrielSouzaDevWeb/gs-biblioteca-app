@@ -61,8 +61,8 @@ export class LivroComponent {
       seachable: true,
     },
     {
-      label: 'Categoria',
-      columnName: 'categoria',
+      label: 'genero',
+      columnName: 'genero',
       type: ColumnTypes.STRING,
       width: '10em',
       visible: true,
@@ -72,7 +72,7 @@ export class LivroComponent {
       label: 'Estante',
       columnName: 'estante',
       type: ColumnTypes.NUMBER,
-      width: '8em',
+      width: '12em',
       visible: true,
       seachable: true,
     },
@@ -138,7 +138,7 @@ export class LivroComponent {
       idPrivado: [null],
       nomLivro: [null, Validators.required],
       nomAutor: [null],
-      categoria: [null],
+      genero: [null],
       prateleira: [null],
       qntdPaginas: [null],
       estante: [null],
@@ -163,6 +163,7 @@ export class LivroComponent {
       next: (result) => {
         this.loadingTable = false;
         this.count = result.data.count;
+
         this.displayData = result.data.result.map((dt: any) => {
           /**
            * TODO: Deixar os atributos (checked, expand)

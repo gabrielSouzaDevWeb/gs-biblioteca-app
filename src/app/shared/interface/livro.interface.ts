@@ -3,7 +3,7 @@ export interface ILivro {
   idPublico?: string;
   nomLivro: string;
   nomAutor: string;
-  categoria: string;
+  genero: string;
   estante?: string;
   prateleira?: string;
   qntdPaginas: number;
