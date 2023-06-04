@@ -34,6 +34,11 @@ export class AbstractService {
         entity: 'livro',
         api: 'biblioteca',
       }),
+      [`emprestimo`]: this.getUriByEnviroment({
+        port: 3000,
+        entity: 'emprestimo',
+        api: 'biblioteca',
+      }),
     };
 
     return uris[entity];

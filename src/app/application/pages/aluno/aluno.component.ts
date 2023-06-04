@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { livroAdapter } from 'src/app/shared/adapters/livros.adapter';
 import { IAluno } from 'src/app/shared/interface/aluno.interface';
 import { AlunoService } from 'src/app/shared/service/aluno.service';
+import { EmpretimoService } from 'src/app/shared/service/empretimo.service';
 import { ColumnTypes } from '../../lib/enum/table.enum';
 import {
   IColumn,
@@ -50,13 +52,20 @@ export class AlunoComponent {
   actions!: IGsfabButton[];
   visible: boolean = false;
   //TODO: colocar as configs de todas as tabelas em arquivos em uma pasta separada
+  //TODO: amarrar com o adapter. as colunas detalhes e os adapters devem oolhar para um único protocolo/interface
   detalheColumns: IColumn[] = [
     {
+      label: 'Nome do livro',
+      columnName: 'nomLivro',
+      type: ColumnTypes.STRING,
+      visible: true,
+    },
+    {
       label: 'código',
-      columnName: 'idPrivado',
+      columnName: 'idPublicoLivro',
       type: ColumnTypes.STRING,
       width: '2em',
-      visible: true,
+      visible: false,
     },
     {
       label: 'Status',
@@ -64,12 +73,7 @@ export class AlunoComponent {
       type: ColumnTypes.NUMBER,
       visible: true,
     },
-    {
-      label: 'Nome do livro',
-      columnName: 'nomLivro',
-      type: ColumnTypes.STRING,
-      visible: true,
-    },
+
     {
       label: 'Nome do autor',
       columnName: 'nomAutor',
@@ -178,7 +182,11 @@ export class AlunoComponent {
 
   public form!: FormGroup;
 
-  constructor(public service: AlunoService, private formBuilder: FormBuilder) {
+  constructor(
+    public service: AlunoService,
+    private formBuilder: FormBuilder,
+    private readonly empretimoService: EmpretimoService
+  ) {
     this.criarFormulario();
     this.criarFabButton();
   }
@@ -198,10 +206,9 @@ export class AlunoComponent {
   expand = (registro: any): void => {
     if (!registro[this.detalheColumnName]) {
       let detalhe: any;
-      this.service.getDetalhe(registro.idPrivado).subscribe({
-        next: (result) => {
-          detalhe = result.data;
-          console.log(detalhe);
+      this.empretimoService.consultarEmprestimos(registro.idPrivado).subscribe({
+        next: (result: any) => {
+          detalhe = livroAdapter(result.data);
           this.displayData = this.displayData.map((item, index, itens) => {
             if (itens.indexOf(registro) === index) {
               return { ...registro, [this.detalheColumnName]: detalhe };
@@ -209,6 +216,7 @@ export class AlunoComponent {
             return item;
           });
           this.service.notification.success(this.title, result.message);
+          console.log(this.displayData);
         },
         error: (error) => {
           this.service.notification.error(this.title, error);
