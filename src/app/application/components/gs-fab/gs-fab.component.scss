@@ -20,7 +20,7 @@ $button-margin: 47px; //espaçamento entre os botões
   transform: scale(1.3);
   position: fixed;
 
-  z-index: 9999999999999;
+  z-index: 999999;
   &__principal {
     animation-name: desRotateBtn;
     animation-duration: 0.4s;
