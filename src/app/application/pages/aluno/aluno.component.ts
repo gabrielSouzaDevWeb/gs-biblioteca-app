@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { livroEmprestadoAdapter } from 'src/app/shared/adapters/livros.adapter';
 import { IAluno } from 'src/app/shared/interface/aluno.interface';
+import { ILivro } from 'src/app/shared/interface/livro.interface';
 import { AlunoService } from 'src/app/shared/service/aluno.service';
 import { EmpretimoService } from 'src/app/shared/service/empretimo.service';
 import { ColumnTypes } from '../../lib/enum/table.enum';
@@ -10,6 +12,7 @@ import {
   IDisplayDataState,
   IQueryParams,
 } from '../../lib/interface/table.interface';
+import { LivroComponent } from '../livro/livro.component';
 import { IGsfabButton } from './../../lib/interface/fab.interface';
 
 interface ItemData {
@@ -50,7 +53,7 @@ export class AlunoComponent {
   displayData!: ItemData[];
   count: number = 0;
   actions!: IGsfabButton[];
-  visible: boolean = false;
+  drawerVisible: boolean = false;
   //TODO: colocar as configs de todas as tabelas em arquivos em uma pasta separada
   //TODO: amarrar com o adapter. as colunas detalhes e os adapters devem oolhar para um único protocolo/interface
   detalheColumns: IColumn[] = [
@@ -184,7 +187,8 @@ export class AlunoComponent {
   constructor(
     public service: AlunoService,
     private formBuilder: FormBuilder,
-    private readonly empretimoService: EmpretimoService
+    private readonly empretimoService: EmpretimoService,
+    private readonly modalService: NzModalService
   ) {
     this.criarFormulario();
     this.criarFabButton();
@@ -199,8 +203,13 @@ export class AlunoComponent {
     this.limparFormulario();
   };
   eye = () => {
-    console.log(this.form.value);
+    console.log();
+    this.hideFabButtons();
   };
+
+  hideFabButtons() {
+    this.actions = [];
+  }
 
   expand = (registro: any): void => {
     if (!registro[this.detalheColumnName]) {
@@ -240,17 +249,24 @@ export class AlunoComponent {
         func: this.eye,
       },
       {
+        label: 'Alugar livro',
+        icon: 'book',
+        changeContext: true,
+        condition: !this.drawerVisible,
+        func: this.emprestarLivro,
+      },
+      {
         label: 'Cancelar',
         icon: 'stop',
         changeContext: true,
-        condition: this.visible,
+        condition: this.drawerVisible,
         color: 'red',
         func: this.limparFecharFormulario,
       },
       {
         label: 'Limpar formulário',
         icon: 'clear',
-        condition: this.visible,
+        condition: this.drawerVisible,
         color: 'red',
         func: this.limparFormulario,
       },
@@ -258,7 +274,7 @@ export class AlunoComponent {
         label: 'Novo cadastro',
         icon: 'plus',
         changeContext: true,
-        condition: !this.visible,
+        condition: !this.drawerVisible,
         color: 'red',
         func: this.criarNovoCadastro,
       },
@@ -266,14 +282,14 @@ export class AlunoComponent {
         label: 'Salvar',
         icon: 'save',
         changeContext: true,
-        condition: this.visible,
+        condition: this.drawerVisible,
         color: 'red',
         func: this.salvarRegistro,
       },
       {
         label: 'Deletar',
         icon: 'delete',
-        condition: !this.visible,
+        condition: !this.drawerVisible,
         color: 'red',
         func: this.deletarRegistro,
       },
@@ -281,18 +297,58 @@ export class AlunoComponent {
         label: 'Editar',
         icon: 'edit',
         changeContext: true,
-        condition: !this.visible,
+        condition: !this.drawerVisible,
         color: 'red',
         func: this.editarRegistro,
       },
       {
         label: 'Atualizar',
         icon: 'reload',
-        condition: !this.visible,
+        condition: !this.drawerVisible,
         color: 'red',
         func: this.getRegistrys,
       },
     ];
+  }
+
+  emprestarLivro = () => {
+    if (this.getchecked()) {
+      const aluno: IAluno = this.getchecked() as IAluno;
+      this.openLivrosModal(aluno.idPrivado);
+
+      return;
+    }
+  };
+
+  openLivrosModal(IdPrivadoAluno: number) {
+    const criarEmprestimo = (livros: { livros: Array<ILivro> }) => {
+      const idsPrivadosLivros: ReadonlyArray<number> = livros.livros.map(
+        (livro) => livro.idPrivado
+      );
+      this.criarFabButton();
+      // const msg = idsPrivadosLivros.length =
+      this.empretimoService
+        .criarEmprestimo(idsPrivadosLivros, IdPrivadoAluno)
+        .subscribe({
+          next: (data) =>
+            this.service.notification.success(this.title, data.message),
+          error: (err) => {
+            this.service.notification.error(this.title, err);
+          },
+        });
+    };
+
+    this.hideFabButtons();
+    const modal = this.modalService.create({
+      nzTitle: 'Livro Component',
+      nzContent: LivroComponent,
+      nzComponentParams: {
+        modalOpen: { from: this.entity, data: { IdPrivadoAluno } },
+      },
+      nzStyle: { width: '80em' },
+      nzFooter: null,
+    });
+    modal.afterClose.subscribe(criarEmprestimo); // this.criarFabButton();
   }
 
   deletarRegistro = () => {
@@ -522,12 +578,12 @@ export class AlunoComponent {
 
   open(): void {
     window.scrollTo({ top: 0, left: 0 });
-    this.visible = true;
+    this.drawerVisible = true;
     this.criarFabButton();
   }
 
   close(): void {
-    this.visible = false;
+    this.drawerVisible = false;
     this.criarFabButton();
   }
 }

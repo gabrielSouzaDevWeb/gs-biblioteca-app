@@ -13,6 +13,7 @@ import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzModalModule, NzModalRef } from 'ng-zorro-antd/modal';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { GsComponentsModule } from './components/gs-components.module';
 import { MainComponent } from './layouts/main/main.component';
@@ -31,6 +32,7 @@ import { LivroComponent } from './pages/livro/livro.component';
 
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
+    NzModalModule,
     NzFormModule,
     NzDividerModule,
     ReactiveFormsModule,
@@ -48,6 +50,7 @@ import { LivroComponent } from './pages/livro/livro.component';
     IconsProviderModule,
     AppRoutingModule,
   ],
+  providers: [{ provide: NzModalRef, useValue: null }],
   exports: [MainComponent],
 })
 export class ApplicationModule {}

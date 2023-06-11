@@ -1,4 +1,3 @@
-<gs-fab [actions]="actions"></gs-fab>
 <gs-table [displayData]="displayData" [columns]="columns" [hasDetalhe]="true" [pesquisar]="getRegistrys" [title]="title"
   [count]="count" (check)="check($event)" [loading]="loadingTable"></gs-table>
 <nz-drawer #drawerElement [nzBodyStyle]="{ overflow: 'auto' }" [nzMaskClosable]="true" [nzWidth]="720"
@@ -86,7 +85,7 @@
           <nz-form-label nzSpan="24">Unidades</nz-form-label>
           <nz-form-control nzSpan="24">
 
-            <input nz-input placeholder="Unidades do livro na biblioteca" formControlName="unidades" type="text">
+            <input nz-input placeholder="Unidades do livro na biblioteca" formControlName="unidades" type="number">
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -167,3 +166,9 @@
     </div> -->
   </form>
 </nz-drawer>
+
+<div *ngIf="actions.length !== 0"><gs-fab [actions]="actions"></gs-fab></div>
+<div *ngIf="actions.length === 0"><gs-fab [actions]="[]"></gs-fab></div>
+
+<!-- <div style="width: 10em;height: 10em;background-color: red;position: fixed;bottom: 36px;
+right: 36px;"></div> -->

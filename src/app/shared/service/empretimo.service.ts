@@ -18,4 +18,13 @@ export class EmpretimoService extends AbstractService {
   consultarEmprestimos(idAluno: number): Observable<IEmprestimo> {
     return this.http.get(`${this.getUri()}/by-idAluno?idAluno=${idAluno}`);
   }
+
+  criarEmprestimo(
+    idsPrivadosLivros: ReadonlyArray<Number>,
+    idPrivadoAluno: number
+  ): Observable<any> {
+    return this.http.post(`${this.getUri()}/aluno/${idPrivadoAluno}`, {
+      livros: idsPrivadosLivros,
+    });
+  }
 }

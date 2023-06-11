@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NzModalRef } from 'ng-zorro-antd/modal';
 import { ILivro } from 'src/app/shared/interface/livro.interface';
 import { ColumnTypes } from '../../lib/enum/table.enum';
+import { AlunoComponent } from '../aluno/aluno.component';
 import { LivroService } from './../../../shared/service/livro.service';
 import { IGsfabButton } from './../../lib/interface/fab.interface';
 import {
@@ -15,7 +17,7 @@ import {
   templateUrl: './livro.component.html',
   styleUrls: ['./livro.component.scss'],
 })
-export class LivroComponent {
+export class LivroComponent implements OnInit {
   public form!: FormGroup;
   title: string = 'Livros';
   entity: string = 'livro';
@@ -24,6 +26,7 @@ export class LivroComponent {
   displayDataState!: IDisplayDataState<ILivro>;
   actions!: IGsfabButton[];
   loadingTable: boolean = false;
+  @Output() readonly modalOpen!: { from: string; data: any };
 
   public displayData!: ILivro[];
 
@@ -127,7 +130,11 @@ export class LivroComponent {
     //   visible: true,
     // },
   ];
-  constructor(public service: LivroService, private formBuilder: FormBuilder) {
+  constructor(
+    public service: LivroService,
+    private readonly modalRef: NzModalRef<AlunoComponent>,
+    private formBuilder: FormBuilder
+  ) {
     this.criarFormulario();
     this.criarFabButton();
   }
@@ -144,6 +151,11 @@ export class LivroComponent {
       estante: [null],
       unidades: [null],
     });
+  }
+
+  ngOnInit() {
+    this.criarFormulario();
+    this.criarFabButton();
   }
 
   getRegistrys = (filters?: any) => {
@@ -213,6 +225,13 @@ export class LivroComponent {
         // func: this.eye,
       },
       {
+        label: 'Selecionar livro!',
+        icon: 'select',
+        changeContext: true,
+        condition: !!this.modalOpen,
+        func: this.select,
+      },
+      {
         label: 'Novo cadastro',
         icon: 'plus',
         changeContext: true,
@@ -267,6 +286,13 @@ export class LivroComponent {
       },
     ];
   }
+
+  select = () => {
+    if (this.getchecked()) {
+      const livros: Array<ILivro> = [this.getchecked()] as Array<ILivro>;
+      this.modalRef.close({ livros });
+    }
+  };
 
   criarNovoCadastro = () => {
     this.limparFormulario();

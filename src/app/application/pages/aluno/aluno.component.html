@@ -3,7 +3,8 @@
   [pesquisar]="getRegistrys" [title]="title" [count]="count" (check)="check($event)" [detalheColumnName]="'livros'"
   [loading]="loadingTable" [expand]="expand"></gs-table>
 <nz-drawer #drawerElement [nzBodyStyle]="{ overflow: 'auto' }" [nzMaskClosable]="true" [nzWidth]="720"
-  [nzVisible]="visible" [nzTitle]="drawerTitulo" nzPlacement="right" (nzOnClose)="close()" nzCloseOnNavigation="true">
+  [nzVisible]="drawerVisible" [nzTitle]="drawerTitulo" nzPlacement="right" (nzOnClose)="close()"
+  nzCloseOnNavigation="true">
   <ng-template #drawerTitulo>
     <span nz-icon nzType="user" nzTheme="outline"></span>&nbsp;Cadastrar aluno
   </ng-template>
