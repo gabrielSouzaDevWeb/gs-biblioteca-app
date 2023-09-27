@@ -11,7 +11,7 @@ import en from '@angular/common/locales/en';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
-import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
+import { NZ_I18N, pt_BR } from 'ng-zorro-antd/i18n';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { IconsProviderModule } from './icons-provider.module';
@@ -37,7 +37,7 @@ registerLocaleData(en);
     HttpClientModule,
     IconsProviderModule,
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }, httpInterceptorsProviders],
+  providers: [{ provide: NZ_I18N, useValue: pt_BR }, httpInterceptorsProviders],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

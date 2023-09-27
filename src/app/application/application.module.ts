@@ -4,7 +4,7 @@ import { AppRoutingModule } from './../app-routing.module';
 import { IconsProviderModule } from './../icons-provider.module';
 
 import { CommonModule } from '@angular/common';
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzAffixModule } from 'ng-zorro-antd/affix';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -30,7 +30,7 @@ import { LivroComponent } from './pages/livro/livro.component';
     LivroComponent,
   ],
 
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  // schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     NzModalModule,
     NzFormModule,

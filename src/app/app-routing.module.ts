@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './application/auth/guards/auth.guard';
 import { AlunoComponent } from './application/pages/aluno/aluno.component';
 import { DashboardComponent } from './application/pages/dashboard/dashboard.component';
 import { LivroComponent } from './application/pages/livro/livro.component';
@@ -15,7 +16,7 @@ const routes: Routes = [
   // { path: 'auth', component: AppComponent },
   {
     path: 'session',
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     // component: AppComponent,
 
     children: [

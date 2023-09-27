@@ -13,7 +13,7 @@ export class AuthService extends AbstractService {
     super('auth', http, notification);
   }
 
-  isTokenValid(): boolean | any {
+  isTokenValid(): boolean | unknown {
     return moment(this.getTokenExpiration()).isAfter(new Date());
   }
 
